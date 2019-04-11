@@ -41,6 +41,21 @@
       <artifactId>cdk-smiles</artifactId>
       <version>2.2</version>
     </dependency>
+    <dependency>
+      <groupId>org.openscience.cdk</groupId>
+      <artifactId>cdk-io</artifactId>
+      <version>2.2</version>
+    </dependency>
+    <dependency>
+      <groupId>org.openscience.cdk</groupId>
+      <artifactId>cdk-libiocml</artifactId>
+      <version>2.2</version>
+    </dependency>
+    <dependency>
+      <groupId>org.openscience.cdk</groupId>
+      <artifactId>cdk-inchi</artifactId>
+      <version>2.2</version>
+    </dependency>
   </dependencies>
 
 </project>

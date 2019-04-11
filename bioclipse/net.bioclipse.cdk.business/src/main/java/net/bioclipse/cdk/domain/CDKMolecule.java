@@ -18,36 +18,29 @@ import java.util.BitSet;
 import java.util.List;
 import java.util.Properties;
 
-import net.bioclipse.cdk.business.Activator;
-import net.bioclipse.cdk.business.preferences.PreferenceConstants;
-import net.bioclipse.core.business.BioclipseException;
-import net.bioclipse.core.domain.BioObject;
-import net.bioclipse.core.domain.IMolecule;
-import net.bioclipse.inchi.InChI;
-import net.bioclipse.inchi.business.IInChIManager;
-import nu.xom.Element;
-
-import org.eclipse.core.runtime.Preferences;
-import org.eclipse.swt.graphics.Image;
-import org.eclipse.ui.views.properties.IPropertySource;
 import org.openscience.cdk.CDKConstants;
 import org.openscience.cdk.atomtype.CDKAtomTypeMatcher;
 import org.openscience.cdk.exception.CDKException;
 import org.openscience.cdk.fingerprint.Fingerprinter;
-import org.openscience.cdk.fingerprint.IBitFingerprint;
 import org.openscience.cdk.geometry.GeometryUtil;
+import org.openscience.cdk.inchi.InChIGenerator;
+import org.openscience.cdk.inchi.InChIGeneratorFactory;
 import org.openscience.cdk.interfaces.IAtom;
 import org.openscience.cdk.interfaces.IAtomContainer;
 import org.openscience.cdk.interfaces.IAtomType;
 import org.openscience.cdk.interfaces.IBond;
 import org.openscience.cdk.io.CMLWriter;
 import org.openscience.cdk.io.listener.PropertiesListener;
-import org.openscience.cdk.libio.cml.Convertor;
 import org.openscience.cdk.libio.cml.ICMLCustomizer;
 import org.openscience.cdk.smiles.SmilesGenerator;
-import org.openscience.cdk.tools.manipulator.AtomContainerManipulator;
 import org.xmlcml.cml.element.CMLAtomType;
-import org.xmlcml.cml.element.CMLMolecule;
+
+import net.bioclipse.core.business.BioclipseException;
+import net.bioclipse.core.domain.BioObject;
+import net.bioclipse.core.domain.IMolecule;
+import net.bioclipse.inchi.InChI;
+import net.sf.jniinchi.INCHI_RET;
+import nu.xom.Element;
 
 /**
  * The CKMolecule wraps an IAtomContainer and is able to cache SMILES
@@ -63,17 +56,14 @@ public class CDKMolecule extends BioObject implements ICDKMolecule {
     // cached properties
     public static final String FINGERPRINT_KEY = "net.bioclipse.fingerprint";
     public static final String INCHI_OBJECT = "net.bioclipse.InChI";
-
-    private static Preferences prefs;
+    
+    private InChI cachedInChI = null;
 
     /*
      * Needed by Spring
      */
     CDKMolecule() {
         super();
-        if (prefs == null && Activator.getDefault() != null) {
-            prefs = Activator.getDefault().getPluginPreferences();
-        }
     }
     
     public CDKMolecule(IAtomContainer atomContainer) {
@@ -151,8 +141,7 @@ public class CDKMolecule extends BioObject implements ICDKMolecule {
                           atomContainer.getProperty(CDKConstants.TITLE);
         }
         if ( returnValue == null ) {
-            returnValue = Activator.getDefault().getJavaCDKManager()
-                                                .molecularFormula(this);
+            returnValue = "FIXME";
         }
         return returnValue;
     }
@@ -171,7 +160,6 @@ public class CDKMolecule extends BioObject implements ICDKMolecule {
         if (getAtomContainer()==null) 
             throw new BioclipseException("No molecule to get CML from!");
 
-        if (prefs != null && prefs.getBoolean(PreferenceConstants.PRETTY_CML)) {
             ByteArrayOutputStream bo=new ByteArrayOutputStream();
 
             CMLWriter writer=new CMLWriter(bo);
@@ -208,12 +196,6 @@ public class CDKMolecule extends BioObject implements ICDKMolecule {
                               + e.getMessage());
             }
             return bo.toString();
-        }
-
-        Convertor convertor = new Convertor(true, null);
-        CMLMolecule cmlMol 
-            = convertor.cdkAtomContainerToCMLMolecule(getAtomContainer());
-        return cmlMol.toXML();
     }
 
     /**
@@ -224,9 +206,6 @@ public class CDKMolecule extends BioObject implements ICDKMolecule {
      */
     public BitSet getFingerprint(IMolecule.Property urgency) 
                   throws BioclipseException {
-        Object val = getProperty( FINGERPRINT_KEY, urgency );
-        if(val instanceof BitSet) return (BitSet) val;
-        
         Fingerprinter fp=new Fingerprinter();
         try {
             BitSet fingerprint = fp.getBitFingerprint( getAtomContainer() ).asBitSet();
@@ -255,10 +234,6 @@ public class CDKMolecule extends BioObject implements ICDKMolecule {
             return this.getAtomContainer();
         }
         
-        if (adapter.isAssignableFrom(IPropertySource.class)) {
-            return new CDKMoleculePropertySource(this);
-        }
-        
         // TODO Auto-generated method stub
         return super.getAdapter( adapter );
     }
@@ -274,58 +249,36 @@ public class CDKMolecule extends BioObject implements ICDKMolecule {
         if (this.getAtomContainer().getAtomCount() == 0) {
             return getClass().getSimpleName() + ": no atoms";
         }
-        if (Activator.getDefault() == null)
-            return getClass().getSimpleName() + ":" + hashCode();
-
-        return getClass().getSimpleName() + ":" 
-               + Activator.getDefault().getJavaCDKManager()
-                                       .molecularFormula(this);
+        return getClass().getSimpleName() + ":" + hashCode();
     }
 
     public String getInChI(IMolecule.Property urgency) 
                   throws BioclipseException {
-        Object val = getProperty( INCHI_OBJECT, urgency );
-        if(val instanceof InChI) return ((InChI)val).getValue();
-        if(urgency==Property.USE_CACHED) return "";
-
-//        String result = ensureFullAtomTyping(atomContainer);
-//        if (result.length() > 0) return result;
-
-        IInChIManager inchi = net.bioclipse.inchi.business.Activator.
-            getDefault().getJavaInChIManager();
-        if (!inchi.isAvailable())
-        	throw new BioclipseException(
-        		"InChI generation is not available on your platform."
-        	);
-        try {
-            InChI cachedInchi = inchi.generate(this);
-            if(cachedInchi != null)
-                setProperty( INCHI_OBJECT, cachedInchi );
-            return cachedInchi.getValue();
-        } catch (Exception e) {
-            throw new BioclipseException("Could not create InChI: "
+    	try {
+    		InChIGeneratorFactory factory = InChIGeneratorFactory.getInstance();
+    		InChIGenerator generator = factory.getInChIGenerator(this.getAtomContainer());
+    		if (generator.getReturnStatus() == INCHI_RET.OKAY) {
+    			return generator.getInchi();
+    		} else {
+    			throw new BioclipseException("Could not create InChI: " + generator.getMessage() );
+    		}
+    	} catch (CDKException e) {
+            throw new BioclipseException("Could not create InChIKey: "
                     + e.getMessage(), e);
         }
     }
 
     public String getInChIKey(IMolecule.Property urgency) 
                   throws BioclipseException {
-        Object value = getProperty( INCHI_OBJECT, urgency );
-        if(value instanceof InChI) return ((InChI)value).getKey();
-        if( urgency == Property.USE_CACHED) return "";
-        
-        IInChIManager inchi = net.bioclipse.inchi.business.Activator.
-            getDefault().getJavaInChIManager();
-        if (!inchi.isAvailable())
-        	throw new BioclipseException(
-        		"InChI generation is not available on your platform."
-        	);
-        try {
-            InChI cachedInchi = inchi.generate(this);
-            if(cachedInchi != null)
-                setProperty( INCHI_OBJECT, cachedInchi );
-            return cachedInchi.getKey();
-        } catch (Exception e) {
+    	try {
+    		InChIGeneratorFactory factory = InChIGeneratorFactory.getInstance();
+    		InChIGenerator generator = factory.getInChIGenerator(this.getAtomContainer());
+    		if (generator.getReturnStatus() == INCHI_RET.OKAY) {
+    			return generator.getInchiKey();
+    		} else {
+    			throw new BioclipseException("Could not create InChI: " + generator.getMessage() );
+    		}
+    	} catch (CDKException e) {
             throw new BioclipseException("Could not create InChIKey: "
                     + e.getMessage(), e);
         }
