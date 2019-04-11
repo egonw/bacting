@@ -14,11 +14,8 @@ package net.bioclipse.core.domain;
 
 import java.util.UUID;
 
-import net.bioclipse.core.domain.props.BioObjectPropertySource;
-
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.Platform;
-import org.eclipse.ui.views.properties.IPropertySource;
 
 /**
  * Base implementation of the <code>IBioObject</Code> interface which is 
@@ -39,11 +36,6 @@ public abstract class BioObject implements IBioObject {
      */
     protected IResource resource;
 
-    /**
-     * The PropertySource available as adapter
-     */
-    protected IPropertySource propertySource;
-    
     public BioObject() {
         
     }
@@ -78,10 +70,6 @@ public abstract class BioObject implements IBioObject {
     public Object getAdapter(Class adapter) {
         if(adapter.isAssignableFrom(this.getClass()))
             return this;
-        if (adapter == IPropertySource.class){
-            return propertySource!=null 
-                ? propertySource : new BioObjectPropertySource(this);
-        }
         return Platform.getAdapterManager().getAdapter(this, adapter);
 
     }
