@@ -34,6 +34,7 @@ import org.openscience.cdk.io.CMLWriter;
 import org.openscience.cdk.io.listener.PropertiesListener;
 import org.openscience.cdk.libio.cml.ICMLCustomizer;
 import org.openscience.cdk.smiles.SmilesGenerator;
+import org.openscience.cdk.tools.manipulator.MolecularFormulaManipulator;
 import org.xmlcml.cml.element.CMLAtomType;
 
 import net.bioclipse.core.business.BioclipseException;
@@ -140,7 +141,7 @@ public class CDKMolecule extends BioObject implements ICDKMolecule {
                           atomContainer.getProperty(CDKConstants.TITLE);
         }
         if ( returnValue == null ) {
-            returnValue = "FIXME";
+            returnValue = MolecularFormulaManipulator.getMolecularFormula(atomContainer).toString();
         }
         return returnValue;
     }
