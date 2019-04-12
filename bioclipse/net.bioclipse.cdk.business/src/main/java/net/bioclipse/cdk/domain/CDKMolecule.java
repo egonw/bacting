@@ -38,7 +38,7 @@ import org.xmlcml.cml.element.CMLAtomType;
 import net.bioclipse.core.business.BioclipseException;
 import net.bioclipse.core.domain.BioObject;
 import net.bioclipse.core.domain.IMolecule;
-import net.bioclipse.inchi.InChI;
+import net.bioclipse.cdk.domain.ICDKMolecule;
 import net.sf.jniinchi.INCHI_RET;
 import nu.xom.Element;
 
@@ -57,8 +57,6 @@ public class CDKMolecule extends BioObject implements ICDKMolecule {
     public static final String FINGERPRINT_KEY = "net.bioclipse.fingerprint";
     public static final String INCHI_OBJECT = "net.bioclipse.InChI";
     
-    private InChI cachedInChI = null;
-
     /*
      * Needed by Spring
      */
@@ -284,7 +282,7 @@ public class CDKMolecule extends BioObject implements ICDKMolecule {
         }
     }
 
-    public Object getProperty(String propertyKey, Property urgency) {
+    public Object getProperty(String propertyKey, IMolecule.Property urgency) {
         return atomContainer.getProperty( propertyKey );
     }
 
