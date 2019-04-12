@@ -1,6 +1,8 @@
 # bacting
 Bacting := acting as the Bioclipse TNG
 
+If you use this software, please cite the [Bioclipse 2 paper](https://bmcbioinformatics.biomedcentral.com/articles/10.1186/1471-2105-10-397).
+
 ## Install
 
 ```shell
