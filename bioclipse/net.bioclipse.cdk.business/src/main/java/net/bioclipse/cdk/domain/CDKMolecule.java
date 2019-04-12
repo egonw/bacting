@@ -141,7 +141,9 @@ public class CDKMolecule extends BioObject implements ICDKMolecule {
                           atomContainer.getProperty(CDKConstants.TITLE);
         }
         if ( returnValue == null ) {
-            returnValue = MolecularFormulaManipulator.getMolecularFormula(atomContainer).toString();
+            returnValue = MolecularFormulaManipulator.getString(
+                MolecularFormulaManipulator.getMolecularFormula(atomContainer)
+            );
         }
         return returnValue;
     }
