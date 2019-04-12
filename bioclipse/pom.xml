@@ -14,6 +14,8 @@
         <module>net.bioclipse.core</module>
         <module>net.bioclipse.cdk.business</module>
         <module>net.bioclipse.inchi</module>
+        <module>net.bioclipse.rdf</module>
+        <module>net.bioclipse.rdf.core</module>
     </modules>
 
     <build>

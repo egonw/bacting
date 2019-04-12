@@ -15,6 +15,7 @@
         <module>bioclipse</module>
         <module>managers-cheminfo</module>
         <module>managers-core</module>
+        <module>managers-rdf</module>
     </modules>
 
     <build>
