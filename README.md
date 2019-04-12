@@ -14,7 +14,12 @@ mvn clean install
 It can be used in Groovy by including the Bacting managers you need:
 
 ```groovy
+@Grab(group='net.bioclipse.managers', module='bioclipse-cdk', version='0.0.1-SNAPSHOT')
 
+workspaceRoot = "."
+def cdk = new net.bioclipse.managers.CDKManager(workspaceRoot);
+
+println cdk.fromSMILES("COC")
 ```
 
 ## License
