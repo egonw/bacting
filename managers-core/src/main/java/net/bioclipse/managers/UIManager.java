@@ -17,6 +17,9 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 
 public class UIManager {
 
@@ -48,5 +51,15 @@ public class UIManager {
     	File file = new File(workspaceRoot + path);
     	file.delete();
     }
-    
+
+    public void append(String path, String toWrite) {
+    	try {
+			Files.write(Paths.get(workspaceRoot + path), toWrite.getBytes(), StandardOpenOption.APPEND);
+    	} catch (Exception exception) {
+    		throw new RuntimeException(
+    			"Error while appending to File", exception
+    		);
+    	}
+    }
+
 }
