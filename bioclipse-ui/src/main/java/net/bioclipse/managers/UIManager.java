@@ -1,5 +1,5 @@
 /* Copyright (c) 2008-2009 The Bioclipse Project and others.
- *                    2018 Egon Willighagen <egonw@users.sf.net>
+ *               2018-2019 Egon Willighagen <egonw@users.sf.net>
  * 
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0

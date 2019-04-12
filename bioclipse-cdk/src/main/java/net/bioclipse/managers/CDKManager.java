@@ -1,7 +1,7 @@
 /* Copyright (c) 2008-2009  Ola Spjuth
  *               2008-2012  Jonathan Alvarsson
  *               2008-2009  Stefan Kuhn
- *               2008-2018  Egon Willighagen <egonw@users.sf.net>
+ *               2008-2019  Egon Willighagen <egonw@users.sf.net>
  *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
