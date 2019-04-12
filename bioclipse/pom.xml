@@ -13,6 +13,7 @@
     <modules>
         <module>net.bioclipse.core</module>
         <module>net.bioclipse.cdk.business</module>
+        <module>net.bioclipse.inchi</module>
     </modules>
 
     <build>
