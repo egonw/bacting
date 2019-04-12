@@ -24,7 +24,20 @@
     </pluginManagement>
   </build>
 
+  <repositories>
+    <repository>
+      <id>spring.io</id>
+      <url>http://repo.spring.io/plugins-release/</url>
+      <name>Spring Plugins Repository</name>
+    </repository>
+  </repositories>
+
   <dependencies>
+    <dependency>
+      <groupId>nu.xom</groupId>
+      <artifactId>com.springsource.nu.xom</artifactId>
+      <version>1.1.0</version>
+    </dependency>
     <dependency>
       <groupId>net.bioclipse</groupId>
       <artifactId>net.bioclipse.core</artifactId>
