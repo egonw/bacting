@@ -15,10 +15,19 @@ package net.bioclipse.managers;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.openscience.cdk.CDKConstants;
+import org.openscience.cdk.atomtype.CDKAtomTypeMatcher;
+import org.openscience.cdk.config.Elements;
+import org.openscience.cdk.exception.CDKException;
 import org.openscience.cdk.exception.InvalidSmilesException;
+import org.openscience.cdk.interfaces.IAtom;
 import org.openscience.cdk.interfaces.IAtomContainer;
+import org.openscience.cdk.interfaces.IAtomType;
+import org.openscience.cdk.interfaces.IIsotope;
+import org.openscience.cdk.interfaces.IMolecularFormula;
 import org.openscience.cdk.silent.SilentChemObjectBuilder;
 import org.openscience.cdk.smiles.SmilesParser;
+import org.openscience.cdk.tools.manipulator.MolecularFormulaManipulator;
 
 import net.bioclipse.cdk.domain.CDKMolecule;
 import net.bioclipse.cdk.domain.ICDKMolecule;
@@ -50,4 +59,56 @@ public class CDKManager {
         return new CDKMolecule(molecule);
     }
 
+    public IMolecularFormula molecularFormulaObject(ICDKMolecule m) {
+        IMolecularFormula mf = MolecularFormulaManipulator.getMolecularFormula(
+            m.getAtomContainer()
+        );
+
+        int missingHCount = 0;
+        for (IAtom atom : m.getAtomContainer().atoms()) {
+            missingHCount += calculateMissingHydrogens( m.getAtomContainer(),
+                                                        atom );
+        }
+        
+        if (missingHCount > 0) {
+            mf.addIsotope( m.getAtomContainer().getBuilder()
+                           .newInstance(IIsotope.class, Elements.HYDROGEN),
+                           missingHCount
+            );
+        }
+        return mf;
+    }
+
+    private int calculateMissingHydrogens( IAtomContainer container,
+    		IAtom atom ) {
+    	CDKAtomTypeMatcher matcher
+    	= CDKAtomTypeMatcher.getInstance(container.getBuilder());
+    	IAtomType type;
+    	try {
+    		type = matcher.findMatchingAtomType(container, atom);
+    		if (type == null || type.getAtomTypeName() == null)
+    			return 0;
+
+    		if ("X".equals(atom.getAtomTypeName())) {
+    			return 0;
+    		}
+
+    		if (type.getFormalNeighbourCount() == CDKConstants.UNSET)
+    			return 0;
+
+    		Integer at = atom.getImplicitHydrogenCount();
+    		at = at != null ? at : 0;
+    		// very simply counting:
+    		// each missing explicit neighbor is a missing hydrogen
+    		return type.getFormalNeighbourCount() - at
+    				- container.getConnectedAtomsCount(atom);
+    	}
+    	catch ( CDKException e ) {
+    		return 0;
+    	}
+    }
+
+    public String molecularFormula( ICDKMolecule m ) {
+        return MolecularFormulaManipulator.getString(molecularFormulaObject(m));
+    }
 }
