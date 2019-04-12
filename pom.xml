@@ -13,8 +13,8 @@
 
     <modules>
         <module>bioclipse</module>
-        <module>bioclipse-cdk</module>
-        <module>bioclipse-ui</module>
+        <module>managers-cheminfo</module>
+        <module>managers-core</module>
     </modules>
 
     <build>
