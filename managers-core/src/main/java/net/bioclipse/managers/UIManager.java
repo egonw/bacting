@@ -54,7 +54,11 @@ public class UIManager {
 
     public void append(String path, String toWrite) {
     	try {
-			Files.write(Paths.get(workspaceRoot + path), toWrite.getBytes(), StandardOpenOption.APPEND);
+    		if (fileExists(path)) {
+    			Files.write(Paths.get(workspaceRoot + path), toWrite.getBytes(), StandardOpenOption.APPEND);
+    		} else {
+    			Files.write(Paths.get(workspaceRoot + path), toWrite.getBytes(), StandardOpenOption.CREATE);
+    		}
     	} catch (Exception exception) {
     		throw new RuntimeException(
     			"Error while appending to File", exception
