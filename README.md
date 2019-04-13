@@ -8,13 +8,16 @@ If you use this software, please cite the [Bioclipse 2 paper](https://bmcbioinfo
 
 ## Install
 
+First, you need a working [Maven installation](https://www.google.nl/search?q=install+maven) and then install this software:
+
 ```shell
 mvn clean install
 ```
 
 ## Usage
 
-It can be used in Groovy by including the Bacting managers you need:
+It can be used in [Groovy](https://en.wikipedia.org/wiki/Apache_Groovy) by including the
+Bacting managers you need:
 
 ```groovy
 @Grab(group='net.bioclipse.managers', module='bioclipse-cdk', version='0.0.1-SNAPSHOT')
@@ -25,8 +28,23 @@ def cdk = new net.bioclipse.managers.CDKManager(workspaceRoot);
 println cdk.fromSMILES("COC")
 ```
 
-For the time being, the API is *incomplete*. You may need to occassionally delete the
-modules cached by Groovy, by doing something like:
+### API Coverage
+
+For the time being, the API is *incomplete*. Particularly, manager functionality around graphical UX
+in the original Bioclipse may never be implemented. Each Bacting release will implement more APIs and
+the release notes will mention which managers and which methods have been added.
+
+For a description of the API, I refer to the book
+[A lot of Bioclipse Scripting Language examples](https://bioclipse.github.io/bioclipse.scripting/) that
+Jonathan and I compiled.
+
+All Bacting scripts will be backwards compatible with Bioclipse. If you want to install Bioclipse
+and see its wonderful UX in actions, [download Bioclipse 2.6.2 here](https://sourceforge.net/projects/bioclipse/files/bioclipse2/bioclipse2.6.2/).
+
+### Using SNAPSHOT versions
+
+You may need to occassionally delete the
+modules cached by Groovy, by doing something like, to remove earlier SNAPSHOT versions:
 
 ```shell
 \rm -Rf ~/.groovy/grapes/net.bioclipse.managers/
