@@ -16,6 +16,14 @@ First, you need a working [Maven installation](https://www.google.nl/search?q=in
 mvn clean install
 ```
 
+## Bumping the version
+
+Use this command to change the version number:
+
+```shell
+mvn versions:set -DgroupId=net.bioclipse.managers* -DartifactId=bioclipse-* -DoldVersion=0.0.1-SNAPSHOT -DnewVersion=0.0.1
+```
+
 # Usage
 
 It can be used in [Groovy](https://en.wikipedia.org/wiki/Apache_Groovy) by including the
