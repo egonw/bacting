@@ -12,6 +12,9 @@
  */
 package net.bioclipse.managers;
 
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,25 +26,138 @@ import org.openscience.cdk.exception.InvalidSmilesException;
 import org.openscience.cdk.interfaces.IAtom;
 import org.openscience.cdk.interfaces.IAtomContainer;
 import org.openscience.cdk.interfaces.IAtomType;
+import org.openscience.cdk.interfaces.IChemFile;
+import org.openscience.cdk.interfaces.IChemObjectBuilder;
 import org.openscience.cdk.interfaces.IIsotope;
 import org.openscience.cdk.interfaces.IMolecularFormula;
+import org.openscience.cdk.io.ISimpleChemObjectReader;
+import org.openscience.cdk.io.ReaderFactory;
+import org.openscience.cdk.io.formats.CMLFormat;
+import org.openscience.cdk.io.formats.IChemFormat;
+import org.openscience.cdk.io.formats.IResourceFormat;
+import org.openscience.cdk.silent.ChemFile;
 import org.openscience.cdk.silent.SilentChemObjectBuilder;
 import org.openscience.cdk.smiles.SmilesParser;
+import org.openscience.cdk.tools.manipulator.ChemFileManipulator;
 import org.openscience.cdk.tools.manipulator.MolecularFormulaManipulator;
 
 import net.bioclipse.cdk.domain.CDKMolecule;
 import net.bioclipse.cdk.domain.ICDKMolecule;
 import net.bioclipse.core.business.BioclipseException;
+import net.bioclipse.core.domain.IMolecule;
 
 public class CDKManager {
 
 	private String workspaceRoot;
 
+	// ReaderFactory used to instantiate IChemObjectReaders
+    private static ReaderFactory readerFactory = new ReaderFactory();
+
 	public CDKManager(String workspaceRoot) {
 		this.workspaceRoot = workspaceRoot;
 	}
 
-	
+	public ICDKMolecule loadMolecule( InputStream instream,
+			IChemFormat format)
+					throws BioclipseException, IOException {
+		ISimpleChemObjectReader reader = readerFactory.createReader(format);
+		if (reader == null) {
+			String message = "Could not create reader in CDK.";
+			if ( format == null ) {
+				message = "Unsupported file format in CDK";
+			}
+			throw new BioclipseException( message );
+		}
+
+		try {
+			reader.setReader(instream);
+		}
+		catch ( CDKException e1 ) {
+			throw new RuntimeException(
+					"Failed to set the reader's inputstream", e1
+					);
+		}
+
+		List<IAtomContainer> atomContainersList =
+				new ArrayList<IAtomContainer>();
+
+		// Read file
+		try {
+			IChemObjectBuilder scob = 
+					SilentChemObjectBuilder.getInstance(); 
+			if (reader.accepts(ChemFile.class)) {
+
+				IChemFile chemFile =
+						(IChemFile) reader.read(scob.newInstance( IChemFile.class ));
+				atomContainersList =
+						ChemFileManipulator.getAllAtomContainers(chemFile);
+			} else if ( reader.accepts( IAtomContainer.class ) ) {
+				atomContainersList.add( reader.read( scob
+						.newInstance( IAtomContainer.class ) ) );
+			} else {
+				throw new RuntimeException("Failed to read file.");
+			}
+		}
+		catch (CDKException e) {
+			throw new RuntimeException("Failed to read file", e);
+		}
+
+		// Store the chemFormat used for the reader
+		IResourceFormat chemFormat = reader.getFormat();
+
+		int nuMols = atomContainersList.size();
+		if (atomContainersList.size() == 0)
+			throw new RuntimeException("File did not contain any molecule");
+
+		IAtomContainer containerToReturn = atomContainersList.get(0);
+		// sanatize the input for certain file formats
+		CDKMolecule retmol = new CDKMolecule(containerToReturn);
+		String molName = (String)containerToReturn
+				.getProperty(CDKConstants.TITLE);
+		if (molName != null && !(molName.length() > 0)) {
+			retmol.setName(molName);
+		}
+
+		return retmol;
+	}
+
+    public ICDKMolecule fromCml(String molstring)
+            throws BioclipseException, IOException {
+
+    	if (molstring == null)
+    		throw new IllegalArgumentException("Input cannot be null");
+
+    	ByteArrayInputStream bais
+    	= new ByteArrayInputStream( molstring.getBytes() );
+
+    	return loadMolecule( (InputStream)bais,
+    			(IChemFormat)CMLFormat.getInstance());
+    }
+
+    public ICDKMolecule asCDKMolecule(IMolecule imol) throws BioclipseException {
+
+        if (imol instanceof ICDKMolecule) {
+            return (ICDKMolecule) imol;
+        }
+
+        // First try to create from CML
+        try {
+            String cmlString = imol.toCML();
+            if (cmlString != null) {
+                return fromCml(cmlString);
+            }
+        }
+        catch (IOException e) {
+            // logger.debug("Could not create mol from CML");
+        }
+        catch (UnsupportedOperationException e) {
+        	// logger.debug("Could not create mol from CML");
+        }
+
+        // Secondly, try to create from SMILES
+        return fromSMILES( imol.toSMILES() );
+    }
+
 	public List<ICDKMolecule> createMoleculeList() {
 		return new ArrayList<ICDKMolecule>();
 	}
