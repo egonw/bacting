@@ -1,6 +1,7 @@
 # bacting
 
 [![License](https://img.shields.io/badge/License-EPL%201.0-red.svg)](https://opensource.org/licenses/EPL-1.0)
+[![DOI](https://zenodo.org/badge/180730168.svg)](https://zenodo.org/badge/latestdoi/180730168)
 
 Bacting := acting as the Bioclipse TNG
 
@@ -30,7 +31,7 @@ It can be used in [Groovy](https://en.wikipedia.org/wiki/Apache_Groovy) by inclu
 Bacting managers you need:
 
 ```groovy
-@Grab(group='net.bioclipse.managers', module='bioclipse-cdk', version='0.0.1-SNAPSHOT')
+@Grab(group='net.bioclipse.managers', module='bioclipse-cdk', version='0.0.1')
 
 workspaceRoot = "."
 def cdk = new net.bioclipse.managers.CDKManager(workspaceRoot);
