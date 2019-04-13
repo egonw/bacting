@@ -1,4 +1,7 @@
 # bacting
+
+[![License](https://img.shields.io/badge/License-EPL%201.0-red.svg)](https://opensource.org/licenses/EPL-1.0)
+
 Bacting := acting as the Bioclipse TNG
 
 If you use this software, please cite the [Bioclipse 2 paper](https://bmcbioinformatics.biomedcentral.com/articles/10.1186/1471-2105-10-397).
@@ -28,7 +31,3 @@ modules cached by Groovy, by doing something like:
 ```shell
 \rm -Rf ~/.groovy/grapes/net.bioclipse.managers/
 ```
-
-## License
-
-Eclipse Public License v1.0 + GPL exception.
