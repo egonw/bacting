@@ -4,7 +4,7 @@
 
   <groupId>net.bioclipse</groupId>
   <artifactId>net.bioclipse.rdf</artifactId>
-  <version>2.8.0-SNAPSHOT</version>
+  <version>2.8.0</version>
 
   <name>net.bioclipse.rdf</name>
 
