@@ -4,7 +4,7 @@
 
   <groupId>net.bioclipse.managers</groupId>
   <artifactId>bioclipse-cdk</artifactId>
-  <version>0.0.2</version>
+  <version>0.0.3-SNAPSHOT</version>
 
   <name>bioclipse-cdk</name>
 
