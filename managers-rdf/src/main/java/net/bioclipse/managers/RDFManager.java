@@ -9,13 +9,19 @@
  */
 package net.bioclipse.managers;
 
+import java.io.ByteArrayInputStream;
+
 import com.hp.hpl.jena.query.Query;
 import com.hp.hpl.jena.query.QueryExecutionFactory;
 import com.hp.hpl.jena.query.QueryFactory;
 import com.hp.hpl.jena.query.ResultSet;
+import com.hp.hpl.jena.query.ResultSetFactory;
 import com.hp.hpl.jena.shared.PrefixMapping;
+import com.hp.hpl.jena.shared.impl.PrefixMappingImpl;
 import com.hp.hpl.jena.sparql.engine.http.QueryEngineHTTP;
 
+import net.bioclipse.core.business.BioclipseException;
+import net.bioclipse.core.domain.IStringMatrix;
 import net.bioclipse.core.domain.StringMatrix;
 import net.bioclipse.rdf.StringMatrixHelper;
 import net.bioclipse.rdf.business.IRDFStore;
@@ -57,4 +63,24 @@ public class RDFManager {
          }
          return table;
      }
+
+    public IStringMatrix processSPARQLXML(byte[] queryResults, String originalQuery)
+            throws BioclipseException {
+    	PrefixMapping prefixMap = null;
+        if (originalQuery != null) {
+       	 try {
+                Query query = QueryFactory.create(originalQuery);
+                prefixMap = query.getPrefixMapping();
+       	 } catch (Exception exception) {
+       		 // could not parse the query for namespaces
+       		 prefixMap = new PrefixMappingImpl();
+       	 }
+        }
+
+        // now the Jena part
+        ResultSet results = ResultSetFactory.fromXML(new ByteArrayInputStream(queryResults));
+        StringMatrix table = StringMatrixHelper.convertIntoTable(prefixMap, results);
+
+        return table;
+    }
 }

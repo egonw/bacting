@@ -66,4 +66,7 @@ public class UIManager {
     	}
     }
 
+    public void open(final Object object) {
+    	System.out.println("Cannot open file on the command line");
+    }
 }
