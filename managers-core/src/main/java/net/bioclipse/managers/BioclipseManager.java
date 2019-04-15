@@ -9,13 +9,21 @@
  */
 package net.bioclipse.managers;
 
+import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -99,5 +107,77 @@ public class BioclipseManager {
                  "Error while processing the SPARQL endpoint feedback: " + exception.getMessage(), exception
              );
          }
+    }
+
+    public String download(String url)
+    		throws BioclipseException {
+    	return download(url, null);
+    }
+
+    public String download(String url, String mimeType) throws BioclipseException {
+    	StringBuffer content = new StringBuffer();
+    	URLConnection rawConn;
+    	try {
+    		rawConn = createURL(url).openConnection();
+    		if (mimeType != null)
+    			rawConn.addRequestProperty("Accept", mimeType);
+    		BufferedReader reader = new BufferedReader(
+    			new InputStreamReader(rawConn.getInputStream())
+    		);
+    		String line = reader.readLine();
+    		while (line != null) {
+    			content.append(line).append('\n');
+    			line = reader.readLine();
+    		}
+    	} catch (IOException exception) {
+    		throw new BioclipseException(
+    			"Error while downloading from URL.", exception
+    		);
+    	}
+    	return content.toString();
+    }
+
+    public String downloadAsFile(String url, String target) throws BioclipseException {
+    	return downloadAsFile(url, null, target);
+    }
+
+    public String downloadAsFile(String url, String mimeType, String target)
+    throws BioclipseException {
+    	return downloadAsFile(url, mimeType, target, null);
+    }
+
+    public String downloadAsFile(String url, String mimeType, String target,
+    		Map<String,String> extraHeaders)
+    				throws BioclipseException {
+    	URLConnection rawConn;
+    	try {
+    		rawConn = createURL(url).openConnection();
+    		if (extraHeaders != null) {
+    			for (String header : extraHeaders.keySet()) {
+    				rawConn.addRequestProperty(header, extraHeaders.get(header));
+    			}
+    		}
+    		if (mimeType != null)
+    			rawConn.addRequestProperty("Accept", mimeType);
+    	    Files.copy(rawConn.getInputStream(), Paths.get(workspaceRoot + target), StandardCopyOption.REPLACE_EXISTING);
+    	} catch (IOException exception) {
+    		if (exception.getMessage().contains("403"))
+    			throw new BioclipseException(
+    				"No access.", exception
+    			);
+    		throw new BioclipseException(
+    			"Error while downloading from URL.", exception
+    		);
+    	}
+    	return target;
+    }
+
+    private URL createURL(String url) throws BioclipseException {
+        try {
+            return new URL(url);
+        } catch (MalformedURLException e) {
+            throw new BioclipseException("Error while opening browser: " +
+                e.getMessage(), e);
+        }
     }
 }
