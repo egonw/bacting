@@ -4,7 +4,7 @@
 
   <groupId>net.bioclipse.bacting</groupId>
   <artifactId>managers-opsin</artifactId>
-  <version>0.0.3-SNAPSHOT</version>
+  <version>0.0.3</version>
   <name>managers-opsin</name>
 
   <properties>
@@ -27,7 +27,7 @@
     <dependency>
       <groupId>net.bioclipse.bacting</groupId>
       <artifactId>managers-cdk</artifactId>
-      <version>0.0.3-SNAPSHOT</version>
+      <version>0.0.3</version>
     </dependency>
     <dependency>
       <groupId>uk.ac.cam.ch.opsin</groupId>
