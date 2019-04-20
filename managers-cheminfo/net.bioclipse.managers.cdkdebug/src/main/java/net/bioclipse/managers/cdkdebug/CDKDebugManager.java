@@ -11,7 +11,7 @@
  *                                             tabs and scripts seemed to have
  *                                             wrecked havoc...
  */
-package net.bioclipse.managers;
+package net.bioclipse.managers.cdkdebug;
 
 import java.lang.reflect.InvocationTargetException;
 
@@ -24,6 +24,7 @@ import org.openscience.cdk.interfaces.IAtomType;
 import net.bioclipse.cdk.domain.ICDKMolecule;
 import net.bioclipse.core.business.BioclipseException;
 import net.bioclipse.core.domain.IMolecule;
+import net.bioclipse.managers.CDKManager;
 
 public class CDKDebugManager {
 
