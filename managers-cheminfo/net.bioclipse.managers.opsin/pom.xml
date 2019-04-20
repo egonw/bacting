@@ -2,11 +2,16 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>net.bioclipse.managers</groupId>
-  <artifactId>bioclipse-opsin</artifactId>
-  <version>0.0.3-SNAPSHOT</version>
-
+  <groupId>net.bioclipse.bacting</groupId>
+  <artifactId>managers-opsin</artifactId>
+  <version>${bacting.version}</version>
   <name>bioclipse-opsin</name>
+
+  <parent>
+    <groupId>net.bioclipse.bacting</groupId>
+    <artifactId>managers-cheminfo</artifactId>
+    <version>${bacting.version}</version>
+  </parent>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -24,19 +29,11 @@
     </pluginManagement>
   </build>
 
-  <repositories>
-    <repository>
-      <id>spring.io</id>
-      <url>http://repo.spring.io/plugins-release/</url>
-      <name>Spring Plugins Repository</name>
-    </repository>
-  </repositories>
-
   <dependencies>
     <dependency>
-      <groupId>net.bioclipse.managers</groupId>
-      <artifactId>bioclipse-cdk</artifactId>
-      <version>0.0.3-SNAPSHOT</version>
+      <groupId>net.bioclipse.bacting</groupId>
+      <artifactId>managers-cdk</artifactId>
+      <version>${bacting.version}</version>
     </dependency>
     <dependency>
       <groupId>uk.ac.cam.ch.opsin</groupId>

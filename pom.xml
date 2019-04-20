@@ -4,12 +4,18 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>net.bioclipse.managers</groupId>
+    <groupId>net.bioclipse.bacting</groupId>
     <artifactId>bacting</artifactId>
     <name>Bacting</name>
     <description>Bacting := acting as the Bioclipse TNG.</description>
-    <version>0.0.3-SNAPSHOT</version>
+    <version>${bacting.version}</version>
     <packaging>pom</packaging>
+
+    <properties>
+        <bacting.version>0.0.3-SNAPSHOT</bacting.version>
+        <bioclipse.version>2.8.0</bioclipse.version>
+        <cdk.version>2.2</cdk.version>
+    </properties>
 
     <modules>
         <module>bioclipse</module>
@@ -17,19 +23,5 @@
         <module>managers-core</module>
         <module>managers-rdf</module>
     </modules>
-
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>2.3.2</version>
-                <configuration>
-                    <source>1.8</source>
-                    <target>1.8</target>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
 
 </project>

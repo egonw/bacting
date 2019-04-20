@@ -2,11 +2,16 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>net.bioclipse.managers</groupId>
-  <artifactId>bioclipse-inchi</artifactId>
-  <version>0.0.3-SNAPSHOT</version>
-
+  <groupId>net.bioclipse.bacting</groupId>
+  <artifactId>managers-inchi</artifactId>
+  <version>${bacting.version}</version>
   <name>bioclipse-inchi</name>
+
+  <parent>
+    <groupId>net.bioclipse.bacting</groupId>
+    <artifactId>managers-cheminfo</artifactId>
+    <version>${bacting.version}</version>
+  </parent>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -39,24 +44,24 @@
       <version>1.1.0</version>
     </dependency>
     <dependency>
-      <groupId>net.bioclipse</groupId>
-      <artifactId>net.bioclipse.core</artifactId>
-      <version>2.8.0</version>
+      <groupId>net.bioclipse.bacting</groupId>
+      <artifactId>bioclipse-core</artifactId>
+      <version>${bioclipse.version}</version>
     </dependency>
     <dependency>
-      <groupId>net.bioclipse</groupId>
-      <artifactId>net.bioclipse.cdk.business</artifactId>
-      <version>2.8.0</version>
+      <groupId>net.bioclipse.bacting</groupId>
+      <artifactId>bioclipse-cdkbusiness</artifactId>
+      <version>${bioclipse.version}</version>
     </dependency>
     <dependency>
-      <groupId>net.bioclipse</groupId>
-      <artifactId>net.bioclipse.inchi</artifactId>
-      <version>2.8.0</version>
+      <groupId>net.bioclipse.bacting</groupId>
+      <artifactId>bioclipse-inchi</artifactId>
+      <version>${bioclipse.version}</version>
     </dependency>
     <dependency>
       <groupId>org.openscience.cdk</groupId>
       <artifactId>cdk-interfaces</artifactId>
-      <version>2.2</version>
+      <version>${cdk.version}</version>
     </dependency>
   </dependencies>
 </project>
