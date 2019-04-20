@@ -4,17 +4,9 @@
 
   <groupId>net.bioclipse.bacting</groupId>
   <artifactId>managers-ui</artifactId>
-  <version>${bacting.version}</version>
+  <version>0.0.3-SNAPSHOT</version>
+  <name>managers-ui</name>
   <packaging>jar</packaging>
-
-  <parent>
-    <groupId>net.bioclipse.bacting</groupId>
-    <artifactId>bacting</artifactId>
-    <version>${bacting.version}</version>
-  </parent>
-
-  <name>bioclipse-ui</name>
-  <url>http://maven.apache.org</url>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

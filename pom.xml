@@ -8,14 +8,8 @@
     <artifactId>bacting</artifactId>
     <name>Bacting</name>
     <description>Bacting := acting as the Bioclipse TNG.</description>
-    <version>${bacting.version}</version>
+    <version>0.0.3-SNAPSHOT</version>
     <packaging>pom</packaging>
-
-    <properties>
-        <bacting.version>0.0.3-SNAPSHOT</bacting.version>
-        <bioclipse.version>2.8.0</bioclipse.version>
-        <cdk.version>2.2</cdk.version>
-    </properties>
 
     <modules>
         <module>bioclipse</module>

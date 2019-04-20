@@ -7,14 +7,8 @@
     <groupId>net.bioclipse.bacting</groupId>
     <artifactId>managers-cheminfo</artifactId>
     <name>Bacting Cheminformatics</name>
-    <version>${bacting.version}</version>
+    <version>0.0.3-SNAPSHOT</version>
     <packaging>pom</packaging>
-
-    <parent>
-        <groupId>net.bioclipse.bacting</groupId>
-        <artifactId>bacting</artifactId>
-        <version>${bacting.version}</version>
-    </parent>
 
     <modules>
         <module>net.bioclipse.managers.cdk</module>

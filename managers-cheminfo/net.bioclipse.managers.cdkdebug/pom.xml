@@ -4,14 +4,8 @@
 
   <groupId>net.bioclipse.bacting</groupId>
   <artifactId>managers-cdkdebug</artifactId>
-  <version>${bacting.version}</version>
+  <version>0.0.3-SNAPSHOT</version>
   <name>managers-cdkdebug</name>
-
-  <parent>
-    <groupId>net.bioclipse.bacting</groupId>
-    <artifactId>managers-cheminfo</artifactId>
-    <version>${bacting.version}</version>
-  </parent>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -33,7 +27,7 @@
     <dependency>
       <groupId>net.bioclipse.bacting</groupId>
       <artifactId>managers-cdk</artifactId>
-      <version>${bacting.version}</version>
+      <version>0.0.3-SNAPSHOT</version>
     </dependency>
   </dependencies>
 </project>

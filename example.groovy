@@ -1,4 +1,4 @@
-@Grab(group='net.bioclipse.managers', module='bioclipse-cdk', version='0.0.1-SNAPSHOT')
+@Grab(group='net.bioclipse.bacting', module='managers-cdk', version='0.0.3-SNAPSHOT')
 
 workspaceRoot = "."
 def cdk = new net.bioclipse.managers.CDKManager(workspaceRoot);

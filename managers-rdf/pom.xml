@@ -4,15 +4,9 @@
 
   <groupId>net.bioclipse.bacting</groupId>
   <artifactId>managers-rdf</artifactId>
-  <version>${bacting.version}</version>
+  <version>0.0.3-SNAPSHOT</version>
   <packaging>jar</packaging>
   <name>managers-rdf</name>
-
-  <parent>
-    <groupId>net.bioclipse.bacting</groupId>
-    <artifactId>bacting</artifactId>
-    <version>${bacting.version}</version>
-  </parent>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
