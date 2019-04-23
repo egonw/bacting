@@ -26,6 +26,7 @@ import net.bioclipse.core.domain.StringMatrix;
 import net.bioclipse.rdf.StringMatrixHelper;
 import net.bioclipse.rdf.business.IRDFStore;
 import net.bioclipse.rdf.business.JenaModel;
+import net.bioclipse.rdf.business.TDBModel;
 
 public class RDFManager {
 
@@ -40,6 +41,10 @@ public class RDFManager {
 
     public IRDFStore createInMemoryStore() {
     	return new JenaModel();
+    }
+
+    public IRDFStore createStore(String tripleStoreDirectoryPath) {
+    	return new TDBModel(tripleStoreDirectoryPath);
     }
 
     public IRDFStore createInMemoryStore(boolean ontologyModel) {
