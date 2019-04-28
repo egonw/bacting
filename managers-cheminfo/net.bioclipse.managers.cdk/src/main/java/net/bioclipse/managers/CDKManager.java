@@ -26,10 +26,13 @@ import org.openscience.cdk.exception.InvalidSmilesException;
 import org.openscience.cdk.interfaces.IAtom;
 import org.openscience.cdk.interfaces.IAtomContainer;
 import org.openscience.cdk.interfaces.IAtomType;
+import org.openscience.cdk.interfaces.IBond;
 import org.openscience.cdk.interfaces.IChemFile;
+import org.openscience.cdk.interfaces.IChemObject;
 import org.openscience.cdk.interfaces.IChemObjectBuilder;
 import org.openscience.cdk.interfaces.IIsotope;
 import org.openscience.cdk.interfaces.IMolecularFormula;
+import org.openscience.cdk.interfaces.IStereoElement;
 import org.openscience.cdk.io.ISimpleChemObjectReader;
 import org.openscience.cdk.io.ReaderFactory;
 import org.openscience.cdk.io.formats.CMLFormat;
@@ -38,8 +41,11 @@ import org.openscience.cdk.io.formats.IResourceFormat;
 import org.openscience.cdk.silent.ChemFile;
 import org.openscience.cdk.silent.SilentChemObjectBuilder;
 import org.openscience.cdk.smiles.SmilesParser;
+import org.openscience.cdk.stereo.Stereocenters;
 import org.openscience.cdk.tools.manipulator.ChemFileManipulator;
 import org.openscience.cdk.tools.manipulator.MolecularFormulaManipulator;
+
+import com.google.common.collect.Lists;
 
 import net.bioclipse.cdk.domain.CDKMolecule;
 import net.bioclipse.cdk.domain.ICDKMolecule;
@@ -226,5 +232,33 @@ public class CDKManager {
 
     public String molecularFormula( ICDKMolecule m ) {
         return MolecularFormulaManipulator.getString(molecularFormulaObject(m));
+    }
+
+    public List<IAtom> getAtomsWithUndefinedStereo(IMolecule molecule) throws BioclipseException {
+    	List<IAtom> atoms = new ArrayList<IAtom>();
+    	ICDKMolecule cdkMol = asCDKMolecule(molecule);
+    	IAtomContainer container = cdkMol.getAtomContainer();
+    	Stereocenters centers =  Stereocenters.of(container);
+    	List<IStereoElement> stereoInfo = Lists.newArrayList(getDefinedStereoCenters(cdkMol));
+    	for (int i = 0; i < container.getAtomCount(); i++)  {
+    		if (centers.isStereocenter(i)) {
+    			IAtom atom = container.getAtom(i);
+    			boolean atomIsDefined = false;
+    			for (IStereoElement elem : stereoInfo) {
+    				IChemObject focus = elem.getFocus();
+    				if (focus instanceof IAtom && focus == atom) {
+    					atomIsDefined = true;
+    				} else if (focus instanceof IBond && ((IBond)focus).contains(atom)) {
+    					atomIsDefined = true;
+    				}
+    			}
+    			if (!atomIsDefined) atoms.add(container.getAtom(i));
+    		}
+    	}
+        return atoms;
+    }
+
+    public Iterable<IStereoElement> getDefinedStereoCenters(IMolecule molecule) throws BioclipseException {
+        return asCDKMolecule(molecule).getAtomContainer().stereoElements();
     }
 }
