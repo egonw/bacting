@@ -22,7 +22,8 @@ mvn clean install
 Use this command to change the version number:
 
 ```shell
-mvn versions:set -DgroupId=net.bioclipse.managers* -DartifactId=bioclipse-* -DoldVersion=0.0.1-SNAPSHOT -DnewVersion=0.0.1
+mvn versions:set -DgroupId=net.bioclipse.bacting -DartifactId=bioclipse-* -DoldVersion=2.8.0 -DnewVersion=2.8.0.1
+mvn versions:set -DgroupId=net.bioclipse.bacting -DartifactId=managers-* -DoldVersion=0.0.4 -DnewVersion=0.0.5-SNAPSHOT
 ```
 
 # Usage
@@ -31,7 +32,7 @@ It can be used in [Groovy](https://en.wikipedia.org/wiki/Apache_Groovy) by inclu
 Bacting managers you need:
 
 ```groovy
-@Grab(group='net.bioclipse.bacting', module='managers-cdk', version='0.0.3')
+@Grab(group='net.bioclipse.bacting', module='managers-cdk', version='0.0.4')
 
 workspaceRoot = "."
 def cdk = new net.bioclipse.managers.CDKManager(workspaceRoot);
