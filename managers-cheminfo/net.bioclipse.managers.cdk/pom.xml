@@ -4,7 +4,7 @@
 
   <groupId>net.bioclipse.bacting</groupId>
   <artifactId>managers-cdk</artifactId>
-  <version>0.0.4</version>
+  <version>0.0.5-SNAPSHOT</version>
   <name>managers-cdk</name>
 
   <properties>
