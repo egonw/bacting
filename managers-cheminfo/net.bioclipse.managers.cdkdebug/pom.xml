@@ -4,7 +4,7 @@
 
   <groupId>net.bioclipse.bacting</groupId>
   <artifactId>managers-cdkdebug</artifactId>
-  <version>0.0.4-SNAPSHOT</version>
+  <version>0.0.4</version>
   <name>managers-cdkdebug</name>
 
   <properties>
@@ -27,7 +27,7 @@
     <dependency>
       <groupId>net.bioclipse.bacting</groupId>
       <artifactId>managers-cdk</artifactId>
-      <version>0.0.4-SNAPSHOT</version>
+      <version>0.0.4</version>
     </dependency>
   </dependencies>
 </project>

@@ -4,7 +4,7 @@
 
   <groupId>net.bioclipse.bacting</groupId>
   <artifactId>managers-pubchem</artifactId>
-  <version>0.0.4-SNAPSHOT</version>
+  <version>0.0.4</version>
   <name>managers-pubchem</name>
 
   <properties>
