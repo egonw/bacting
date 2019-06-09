@@ -10,13 +10,11 @@
 package net.bioclipse.managers;
 
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.Iterator;
 
 import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -34,6 +32,10 @@ public class ExcelManager {
 	}
 
 	public StringMatrix getSheet(String filename, int sheetNumber) throws BioclipseException {
+		return getSheet(filename, sheetNumber, false);
+	}
+
+	public StringMatrix getSheet(String filename, int sheetNumber, boolean hasHeader) throws BioclipseException {
         Workbook workbook;
 		try {
 			FileInputStream excelFile = new FileInputStream(
@@ -53,8 +55,11 @@ public class ExcelManager {
 				while (cellIterator.hasNext()) {
 					col++;
 					Cell currentCell = cellIterator.next();
-					results.set(row, col, currentCell.getStringCellValue());
-					System.out.println("Cell: " + currentCell);
+					if (hasHeader && row == 1) {
+						results.setColumnName(col, currentCell.getStringCellValue());
+					} else {
+						results.set(row, col, currentCell.getStringCellValue());
+					}
 				}
 			}
 			workbook.close();
