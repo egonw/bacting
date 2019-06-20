@@ -10,10 +10,15 @@
 package net.bioclipse.managers;
 
 import java.io.ByteArrayInputStream;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 
+import org.eclipse.core.internal.resources.File;
+import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.CoreException;
 
+import com.hp.hpl.jena.n3.turtle.TurtleParseException;
 import com.hp.hpl.jena.query.Query;
 import com.hp.hpl.jena.query.QueryExecution;
 import com.hp.hpl.jena.query.QueryExecutionFactory;
@@ -21,7 +26,9 @@ import com.hp.hpl.jena.query.QueryFactory;
 import com.hp.hpl.jena.query.ResultSet;
 import com.hp.hpl.jena.query.ResultSetFactory;
 import com.hp.hpl.jena.rdf.model.Model;
+import com.hp.hpl.jena.shared.NoReaderForLangException;
 import com.hp.hpl.jena.shared.PrefixMapping;
+import com.hp.hpl.jena.shared.SyntaxError;
 import com.hp.hpl.jena.shared.impl.PrefixMappingImpl;
 import com.hp.hpl.jena.sparql.engine.http.QueryEngineHTTP;
 
@@ -125,4 +132,49 @@ public class RDFManager {
         return model.size();
     }
 
+    public IRDFStore importFile(IRDFStore store, String rdfFile, String format)
+    throws IOException, BioclipseException, CoreException {
+    	return importFromStream(store, new FileInputStream(workspaceRoot + rdfFile), format);
+    }
+
+    public IRDFStore importFromStream(IRDFStore store, InputStream stream,
+            String format)
+    throws IOException, BioclipseException, CoreException {
+        if (format == null) format = "RDF/XML";
+
+        if (!(store instanceof IJenaStore))
+            throw new RuntimeException(
+                "Can only handle IJenaStore's for now."
+            );
+        
+        Model model = ((IJenaStore)store).getModel();
+        try {
+        	model.read(stream, "", format);
+        } catch (SyntaxError error) {
+        	throw new BioclipseException(
+        		"File format is not correct.",
+        		error
+        	);
+        } catch (NoReaderForLangException exception) {
+        	throw new BioclipseException(
+            	"Unknown file format. Supported are \"RDF/XML\", " +
+            	"\"N-TRIPLE\", \"TURTLE\" and \"N3\".",
+            	exception
+        	);
+        } catch (TurtleParseException exception) {
+        	throw new BioclipseException(
+                "Error while parsing file: " +
+                exception.getMessage(),
+                exception
+        	);
+        }
+        return store;
+    }
+
+    public IRDFStore importFromString(IRDFStore store, String rdfContent,
+            String format)
+    throws IOException, BioclipseException, CoreException {
+    	InputStream input = new ByteArrayInputStream(rdfContent.getBytes());
+    	return importFromStream(store, input, format);
+    }
 }
