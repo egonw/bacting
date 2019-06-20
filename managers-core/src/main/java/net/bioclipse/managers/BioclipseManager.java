@@ -184,7 +184,7 @@ public class BioclipseManager {
     }
 
     public String version() {
-        return System.getProperty( "eclipse.buildId" );
+        return "2.8.0"; // need to get this from the bioclipse-core pom.xml or so
     }
 
     public static class VersionNumberComparator implements Comparator<String> {

@@ -19,7 +19,7 @@ mvn clean install
 
 ## Bumping the version
 
-Use this command to change the version number:
+Use this command to change the version number (and update BioclipseManager.version()):
 
 ```shell
 mvn versions:set -DgroupId=net.bioclipse.bacting -DartifactId=bioclipse-* -DoldVersion=2.8.0 -DnewVersion=2.8.0.1
