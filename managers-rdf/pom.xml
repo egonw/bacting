@@ -4,7 +4,7 @@
 
   <groupId>io.github.egonw.bacting</groupId>
   <artifactId>managers-rdf</artifactId>
-  <version>0.0.5-SNAPSHOT</version>
+  <version>0.0.5</version>
   <packaging>jar</packaging>
   <name>managers-rdf</name>
 

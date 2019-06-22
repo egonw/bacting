@@ -7,7 +7,7 @@
     <groupId>io.github.egonw.bacting</groupId>
     <artifactId>managers-cheminfo</artifactId>
     <name>Bacting Cheminformatics</name>
-    <version>0.0.5-SNAPSHOT</version>
+    <version>0.0.5</version>
     <packaging>pom</packaging>
 
     <modules>
