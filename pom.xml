@@ -7,7 +7,9 @@
     <groupId>net.bioclipse.bacting</groupId>
     <artifactId>bacting</artifactId>
     <name>Bacting</name>
-    <description>Bacting := acting as the Bioclipse TNG.</description>
+    <description>Bacting := acting as the Bioclipse TNG. Bioclipse version that can be used
+       from the command line, e.g. with Groovy.</description>
+    <url>http://www.github.com/egonw/bacting</url>
     <version>0.0.4</version>
     <packaging>pom</packaging>
 
