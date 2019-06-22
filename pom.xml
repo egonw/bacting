@@ -13,6 +13,28 @@
     <version>0.0.4</version>
     <packaging>pom</packaging>
 
+    <licenses>
+      <license>
+        <name>Eclipse Public License v1.0 + GPL Exception</name>
+        <url>https://github.com/egonw/bacting/blob/master/LICENSE.md</url>
+      </license>
+    </licenses>
+
+    <developers>
+      <developer>
+        <name>Egon Willighagen</name>
+        <email>egon.willighagen@maastrichtuniversity.nl</email>
+        <organization>Maastricht University</organization>
+        <organizationUrl>http://www.bigcat.unimaas.nl/</organizationUrl>
+      </developer>
+    </developers>
+
+    <scm>
+      <connection>scm:git:git://github.com/egonw/bacting.git</connection>
+      <developerConnection>scm:git:ssh://github.com:egonw/bacting.git</developerConnection>
+      <url>http://github.com/egonw/bacting/tree/master</url>
+    </scm>
+
     <modules>
         <module>bioclipse</module>
         <module>managers-cheminfo</module>
