@@ -2,9 +2,13 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>io.github.egonw.bacting</groupId>
+  <parent>
+    <artifactId>bioclipse</artifactId>
+    <groupId>io.github.egonw.bacting</groupId>
+    <version>2.8.0.2</version>
+  </parent>
+
   <artifactId>bioclipse-rdf</artifactId>
-  <version>2.8.0.2</version>
   <name>net.bioclipse.rdf</name>
 
   <properties>

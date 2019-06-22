@@ -4,10 +4,16 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>io.github.egonw.bacting</groupId>
+    <parent>
+        <artifactId>bacting</artifactId>
+        <groupId>io.github.egonw.bacting</groupId>
+        <version>0.0.5</version>
+    </parent>
+
     <artifactId>bioclipse</artifactId>
     <name>Bioclipse</name>
     <version>2.8.0.2</version>
+
     <packaging>pom</packaging>
 
     <modules>
