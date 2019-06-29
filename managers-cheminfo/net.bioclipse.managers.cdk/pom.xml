@@ -5,7 +5,7 @@
   <parent>
     <artifactId>managers-cheminfo</artifactId>
     <groupId>io.github.egonw.bacting</groupId>
-    <version>0.0.5</version>
+    <version>0.0.6-SNAPSHOT</version>
   </parent>
 
   <artifactId>managers-cdk</artifactId>
