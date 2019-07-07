@@ -10,19 +10,12 @@
         <version>0.0.6-SNAPSHOT</version>
     </parent>
 
-    <artifactId>bioclipse</artifactId>
-    <name>Bioclipse</name>
-    <version>2.8.0.2</version>
-
+    <artifactId>managers-bioinfo</artifactId>
+    <name>Bacting Bioinformatics</name>
     <packaging>pom</packaging>
 
     <modules>
-        <module>net.bioclipse.bridgedb</module>
-        <module>net.bioclipse.core</module>
-        <module>net.bioclipse.cdk.business</module>
-        <module>net.bioclipse.inchi</module>
-        <module>net.bioclipse.rdf.core</module>
-        <module>net.bioclipse.rdf</module>
+        <module>net.bioclipse.managers.bridgedb</module>
     </modules>
 
 </project>

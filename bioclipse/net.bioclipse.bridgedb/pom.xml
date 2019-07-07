@@ -1,0 +1,45 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <artifactId>bioclipse</artifactId>
+    <groupId>io.github.egonw.bacting</groupId>
+    <version>2.8.0.2</version>
+  </parent>
+
+  <artifactId>bioclipse-bridgedb</artifactId>
+  <name>net.bioclipse.bridgedb</name>
+
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  </properties>
+
+  <repositories>
+    <repository>
+        <id>swt-repo</id>
+        <url>https://raw.githubusercontent.com/maven-eclipse/swt-repo/master/</url>
+    </repository>
+  </repositories>
+
+  <build>
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-compiler-plugin</artifactId>
+          <version>3.8.0</version>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+  </build>
+
+
+  <dependencies>
+  	<dependency>
+  		<groupId>org.bridgedb</groupId>
+  		<artifactId>org.bridgedb</artifactId>
+  		<version>2.3.3</version>
+  	</dependency>
+  </dependencies>
+</project>
