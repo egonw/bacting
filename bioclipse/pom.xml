@@ -23,6 +23,7 @@
         <module>net.bioclipse.inchi</module>
         <module>net.bioclipse.rdf.core</module>
         <module>net.bioclipse.rdf</module>
+        <module>net.bioclipse.report</module>
     </modules>
 
 </project>
