@@ -62,7 +62,6 @@ public class PubChemManager {
         String esearch = EUTILS_URL_BASE + "/esearch.fcgi?" +
             "db=" + db + "&retmax=" + max + "&usehistory=y&tool=" + TOOL + "&term=" + query;
 
-        System.out.println("URL: " + esearch);
         URL queryURL = new URL(esearch);
         URLConnection connection = queryURL.openConnection();
 
@@ -72,7 +71,7 @@ public class PubChemManager {
             doc = parser.build(connection.getInputStream());
             Nodes countNodes = doc.query("/eSearchResult/Count");
             if (countNodes.size() > 0) {
-                System.out.println(countNodes.get(0).toString());
+                // System.out.println(countNodes.get(0).toString());
             } else {
                 return results;
             }
