@@ -35,7 +35,6 @@
   </scm>
 
     <modules>
-        <module>bioclipse</module>
         <module>managers-bioinfo</module>
         <module>managers-cheminfo</module>
         <module>managers-core</module>
