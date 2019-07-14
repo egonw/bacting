@@ -1,7 +1,7 @@
 # bacting
 
 [![License](https://img.shields.io/badge/License-EPL%201.0-red.svg)](https://opensource.org/licenses/EPL-1.0)
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.2654990.svg)](https://doi.org/10.5281/zenodo.2654990)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.3334372.svg)](https://doi.org/10.5281/zenodo.3334372)
 
 Bacting := acting as the Bioclipse TNG
 
