@@ -1,0 +1,42 @@
+cff-version: 1.0.3
+message: If you use this software, please cite it as below.
+authors:
+  - family-names: Willighagen
+    given-names: Egon
+    orcid: https://orcid.org/0000-0001-7542-0286
+title: Bacting
+version: 0.0.7
+doi: 10.5281/zenodo.3334372
+date-released: 2019-07-13
+references:
+  - type: article
+    authors:
+      - family-names: Spjuth
+        given-names: Ola
+      - family-names: Alvarsson
+        given-names: Jonathan
+      - family-names: Berg
+        given-names: Arvid
+      - family-names: Eklund
+        given-names: Martin
+      - family-names: Kuhn
+        given-names: Stefan
+      - family-names: Mäsak
+        given-names: Carl
+      - family-names: Torrance
+        given-names: Gilleain
+      - family-names: Wagener
+        given-names: Johannes
+      - family-names: Willighagen
+        given-names: Egon L.
+      - family-names: Steinbeck
+        given-names: Christoph
+      - family-names: Wikberg
+        given-names: Jarl E.S.
+    title: "Bioclipse 2: A scriptable integration platform for the life sciences"
+    year: 2009
+    journal: BMC Bioinformatics
+    volume: 10
+    issue: 397
+    doi: 10.1186/1471-2105-10-397
+    url: https://doi.org/10.1186/1471-2105-10-397
