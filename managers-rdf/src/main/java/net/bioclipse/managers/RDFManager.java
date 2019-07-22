@@ -10,12 +10,15 @@
 package net.bioclipse.managers;
 
 import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URL;
+import java.net.URLConnection;
+import java.net.UnknownHostException;
+import java.util.Map;
 
-import org.eclipse.core.internal.resources.File;
-import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.CoreException;
 
 import com.hp.hpl.jena.n3.turtle.TurtleParseException;
@@ -177,4 +180,67 @@ public class RDFManager {
     	InputStream input = new ByteArrayInputStream(rdfContent.getBytes());
     	return importFromStream(store, input, format);
     }
+
+    public IRDFStore importURL(IRDFStore store, String url)
+            throws IOException, BioclipseException, CoreException {
+    	return importURL(store, url, null);
+    }
+
+    public IRDFStore importURL(IRDFStore store, String url,
+    		Map<String, String> extraHeaders)
+        throws IOException, BioclipseException, CoreException {
+        	URL realURL = new URL(url);
+        URLConnection connection = realURL.openConnection();
+        connection.setConnectTimeout(CONNECT_TIME_OUT);
+        connection.setReadTimeout(READ_TIME_OUT);
+        connection.setRequestProperty(
+            "Accept",
+            "application/xml, application/rdf+xml"
+        );
+        // set the extra headers
+        if (extraHeaders != null) {
+        	for (String key : extraHeaders.keySet()) {
+        		connection.setRequestProperty(key, extraHeaders.get(key));
+        	}
+        }
+        try {
+            InputStream stream = connection.getInputStream();
+            importFromStream(store, stream, null);
+            stream.close();
+        } catch (UnknownHostException exception) {
+            throw new BioclipseException(
+                "Unknown or unresponsive host: " + realURL.getHost(), exception
+            );
+        }
+        return store;
+    }
+
+    public String asRDFN3(IRDFStore store)
+    throws BioclipseException {
+    	return asRDF(store, "N3");
+    }
+
+    public String asTurtle(IRDFStore store)
+    throws BioclipseException {
+    	return asRDF(store, "TURTLE");
+    }
+
+    private String asRDF(IRDFStore store, String type)
+    throws BioclipseException {
+    	try {
+    		ByteArrayOutputStream output = new ByteArrayOutputStream();
+    		if (store instanceof IJenaStore) {
+    			Model model = ((IJenaStore)store).getModel();
+    			model.write(output, type);
+    			output.close();
+    			String result = new String(output.toByteArray());
+    	    	return result;
+    		} else {
+    			throw new BioclipseException("Only supporting IJenaStore!");
+    		}
+    	} catch (IOException e) {
+    		throw new BioclipseException("Error while writing RDF.", e);
+    	}
+    }
+
 }
