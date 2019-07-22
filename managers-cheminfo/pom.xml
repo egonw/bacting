@@ -17,6 +17,7 @@
         <module>net.bioclipse.managers.cdkdebug</module>
         <module>net.bioclipse.managers.chemspider</module>
         <module>net.bioclipse.managers.inchi</module>
+        <module>net.bioclipse.managers.opentox</module>
         <module>net.bioclipse.managers.opsin</module>
         <module>net.bioclipse.managers.pubchem</module>
     </modules>
