@@ -5,9 +5,9 @@ authors:
     given-names: Egon
     orcid: https://orcid.org/0000-0001-7542-0286
 title: Bacting
-version: 0.0.7
-doi: 10.5281/zenodo.3334372
-date-released: 2019-07-13
+version: 0.0.8
+doi: 10.5281/zenodo.3365333
+date-released: 2019-08-10
 references:
   - type: article
     authors:
