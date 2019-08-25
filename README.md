@@ -2,6 +2,7 @@
 
 [![License](https://img.shields.io/badge/License-EPL%201.0-red.svg)](https://opensource.org/licenses/EPL-1.0)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.3365333.svg)](https://doi.org/10.5281/zenodo.3365333)
+[![Build Status](https://travis-ci.org/egonw/bacting.svg?branch=master)](https://travis-ci.org/egonw/bacting)
 [![Maven Central](https://img.shields.io/maven-central/v/io.github.egonw.bacting/bacting.svg?label=Maven%20Central)](https://search.maven.org/search?q=g:%22io.github.egonw.bacting%22%20AND%20a:%22bacting%22)
 
 Bacting := acting as the Bioclipse TNG
