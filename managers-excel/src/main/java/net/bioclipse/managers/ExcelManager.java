@@ -15,6 +15,7 @@ import java.nio.file.Paths;
 import java.util.Iterator;
 
 import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -58,7 +59,11 @@ public class ExcelManager {
 					if (hasHeader && row == 1) {
 						results.setColumnName(col, currentCell.getStringCellValue());
 					} else {
-						results.set(row, col, currentCell.getStringCellValue());
+						if (currentCell.getCellTypeEnum() == CellType.STRING) {
+							results.set(row, col, currentCell.getStringCellValue());
+						} else if (currentCell.getCellTypeEnum() == CellType.NUMERIC) {
+							results.set(row, col, "" + currentCell.getNumericCellValue());
+						}
 					}
 				}
 			}
