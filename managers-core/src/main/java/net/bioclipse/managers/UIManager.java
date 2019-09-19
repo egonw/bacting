@@ -37,6 +37,12 @@ public class UIManager {
     	return newFile(path, "");
     }
 
+	public String renewFile(String file) throws IOException {
+		if (fileExists(file)) remove(file);
+		newFile(file);
+		return file;
+	}
+
     public String newFile(String path, String content) throws IOException {
     	File file = new File(workspaceRoot + path);
     	file.getParentFile().mkdirs(); 
