@@ -35,6 +35,7 @@
   </scm>
 
     <modules>
+        <module>bacting-core</module>
         <module>managers-core</module>
         <module>managers-semweb</module>
         <module>managers-bioinfo</module>
