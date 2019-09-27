@@ -14,13 +14,22 @@
 package net.bioclipse.managers;
 
 import java.io.ByteArrayInputStream;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.StringWriter;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.eclipse.core.filesystem.EFS;
+import org.eclipse.core.resources.IFile;
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.openscience.cdk.CDKConstants;
 import org.openscience.cdk.atomtype.CDKAtomTypeMatcher;
 import org.openscience.cdk.config.Elements;
@@ -41,6 +50,7 @@ import org.openscience.cdk.interfaces.IRingSet;
 import org.openscience.cdk.interfaces.IStereoElement;
 import org.openscience.cdk.io.ISimpleChemObjectReader;
 import org.openscience.cdk.io.ReaderFactory;
+import org.openscience.cdk.io.SDFWriter;
 import org.openscience.cdk.io.formats.CMLFormat;
 import org.openscience.cdk.io.formats.IChemFormat;
 import org.openscience.cdk.io.formats.IResourceFormat;
@@ -286,4 +296,25 @@ public class CDKManager {
     	return stereoAtoms;
     }
 
+    public void appendToSDF(String sdFile, ICDKMolecule molecule ) throws BioclipseException {
+    	StringWriter strWrite = new StringWriter();
+    	SDFWriter writer = new SDFWriter(strWrite);
+    	try {
+    		writer.write( molecule.getAtomContainer() );
+    		writer.close();
+    		String toWrite = strWrite.toString();
+    		if (new File(workspaceRoot + sdFile).exists()) {
+    			Files.write(Paths.get(workspaceRoot + sdFile), toWrite.getBytes(), StandardOpenOption.APPEND);
+    		} else {
+    			Files.write(Paths.get(workspaceRoot + sdFile), toWrite.getBytes(), StandardOpenOption.CREATE);
+    		}
+    	} catch ( CDKException e ) {
+    		throw new BioclipseException(
+    				"Failed in writing molecule to file", e );
+    	} catch ( IOException e ) {
+    		throw new BioclipseException(
+    				"Failed in writing molecule to file", e );
+    	}
+    }
+    
 }
