@@ -26,10 +26,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.eclipse.core.filesystem.EFS;
-import org.eclipse.core.resources.IFile;
-import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.NullProgressMonitor;
 import org.openscience.cdk.CDKConstants;
 import org.openscience.cdk.atomtype.CDKAtomTypeMatcher;
 import org.openscience.cdk.config.Elements;
@@ -58,19 +54,19 @@ import org.openscience.cdk.silent.ChemFile;
 import org.openscience.cdk.silent.SilentChemObjectBuilder;
 import org.openscience.cdk.smiles.SmilesParser;
 import org.openscience.cdk.stereo.Stereocenters;
-import org.openscience.cdk.stereo.Stereocenters.Stereocenter;
 import org.openscience.cdk.stereo.Stereocenters.Type;
 import org.openscience.cdk.tools.manipulator.ChemFileManipulator;
 import org.openscience.cdk.tools.manipulator.MolecularFormulaManipulator;
 
 import com.google.common.collect.Lists;
 
+import io.github.egonw.bacting.IBactingManager;
 import net.bioclipse.cdk.domain.CDKMolecule;
 import net.bioclipse.cdk.domain.ICDKMolecule;
 import net.bioclipse.core.business.BioclipseException;
 import net.bioclipse.core.domain.IMolecule;
 
-public class CDKManager {
+public class CDKManager implements IBactingManager {
 
 	private String workspaceRoot;
 
@@ -316,5 +312,19 @@ public class CDKManager {
     				"Failed in writing molecule to file", e );
     	}
     }
+
+	@Override
+	public String getManagerName() {
+		return "cdk";
+	}
+
+	@Override
+	public List<String> doi() {
+		List<String> dois = new ArrayList<String>();
+		dois.add("10.1021/ci025584y");
+		dois.add("10.2174/138161206777585274");
+		dois.add("10.1186/s13321-017-0220-4");
+		return dois;
+	}
     
 }
