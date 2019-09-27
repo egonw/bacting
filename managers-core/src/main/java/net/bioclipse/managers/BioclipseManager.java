@@ -37,9 +37,10 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.message.BasicNameValuePair;
 
+import io.github.egonw.bacting.IBactingManager;
 import net.bioclipse.core.business.BioclipseException;
 
-public class BioclipseManager {
+public class BioclipseManager implements IBactingManager {
 
 	private String workspaceRoot;
 
@@ -259,5 +260,18 @@ public class BioclipseManager {
             throw new BioclipseException(e.getMessage(), e);
         }
     }
+
+	@Override
+	public String getManagerName() {
+		return "bioclipse";
+	}
+
+	@Override
+	public List<String> doi() {
+		List<String> dois = new ArrayList<String>();
+		dois.add("10.1186/1471-2105-8-59");
+		dois.add("10.1186/1471-2105-10-397");
+		return dois;
+	}
 
 }

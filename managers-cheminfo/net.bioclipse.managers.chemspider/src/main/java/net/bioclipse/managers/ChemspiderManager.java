@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -22,9 +23,10 @@ import java.util.regex.Pattern;
 
 import org.eclipse.core.runtime.CoreException;
 
+import io.github.egonw.bacting.IBactingManager;
 import net.bioclipse.core.business.BioclipseException;
 
-public class ChemspiderManager {
+public class ChemspiderManager implements IBactingManager {
 
     private String workspaceRoot;
 
@@ -58,5 +60,15 @@ public class ChemspiderManager {
 		List<Integer> uniqueResults = new ArrayList<Integer>();
 		uniqueResults.addAll(results);
 		return uniqueResults;
+	}
+
+	@Override
+	public String getManagerName() {
+		return "chemspider";
+	}
+
+	@Override
+	public List<String> doi() {
+		return Collections.emptyList();
 	}
 }

@@ -13,10 +13,12 @@ import java.io.IOException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.eclipse.core.runtime.CoreException;
 
+import io.github.egonw.bacting.IBactingManager;
 import net.bioclipse.core.business.BioclipseException;
 import nu.xom.Builder;
 import nu.xom.Document;
@@ -24,7 +26,7 @@ import nu.xom.Nodes;
 import nu.xom.ParsingException;
 import nu.xom.ValidityException;
 
-public class PubChemManager {
+public class PubChemManager implements IBactingManager {
 
     private final static String EUTILS_URL_BASE = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils";
     private final static String PUBCHEM_URL_BASE = "https://pubchem.ncbi.nlm.nih.gov/";
@@ -91,4 +93,14 @@ public class PubChemManager {
 
         return results;
     }
+
+	@Override
+	public String getManagerName() {
+		return "inchi";
+	}
+
+	@Override
+	public List<String> doi() {
+		return Collections.emptyList();
+	}
 }

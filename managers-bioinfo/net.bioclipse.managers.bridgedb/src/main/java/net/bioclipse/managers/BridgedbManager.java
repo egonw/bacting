@@ -25,9 +25,10 @@ import org.bridgedb.IDMapperException;
 import org.bridgedb.Xref;
 import org.bridgedb.bio.Organism;
 
+import io.github.egonw.bacting.IBactingManager;
 import net.bioclipse.core.business.BioclipseException;
 
-public class BridgedbManager {
+public class BridgedbManager implements IBactingManager {
 
 	private String workspaceRoot;
 
@@ -171,4 +172,15 @@ public class BridgedbManager {
 		}
 	}
 
+	@Override
+	public String getManagerName() {
+		return "excel";
+	}
+
+	@Override
+	public List<String> doi() {
+		List<String> dois = new ArrayList<String>();
+		dois.add("10.1186/1471-2105-11-5");
+		return dois;
+	}
 }

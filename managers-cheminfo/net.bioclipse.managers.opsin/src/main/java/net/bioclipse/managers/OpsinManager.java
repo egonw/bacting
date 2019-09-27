@@ -9,6 +9,11 @@
  */
 package net.bioclipse.managers;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+import io.github.egonw.bacting.IBactingManager;
 import net.bioclipse.cdk.domain.ICDKMolecule;
 import net.bioclipse.core.business.BioclipseException;
 import uk.ac.cam.ch.wwmm.opsin.NameToStructure;
@@ -16,7 +21,7 @@ import uk.ac.cam.ch.wwmm.opsin.NameToStructureException;
 import uk.ac.cam.ch.wwmm.opsin.OpsinResult;
 import uk.ac.cam.ch.wwmm.opsin.OpsinResult.OPSIN_RESULT_STATUS;
 
-public class OpsinManager {
+public class OpsinManager implements IBactingManager {
 
 	private CDKManager cdk;
 
@@ -71,4 +76,15 @@ public class OpsinManager {
         );
     }
 
+	@Override
+	public String getManagerName() {
+		return "opsin";
+	}
+
+	@Override
+	public List<String> doi() {
+		List<String> dois = new ArrayList<String>();
+		dois.add("10.1021/ci100384d");
+		return dois;
+	}
 }

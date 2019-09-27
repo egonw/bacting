@@ -12,7 +12,9 @@ package net.bioclipse.managers;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.nio.file.Paths;
+import java.util.Collections;
 import java.util.Iterator;
+import java.util.List;
 
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellType;
@@ -21,10 +23,11 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
+import io.github.egonw.bacting.IBactingManager;
 import net.bioclipse.core.business.BioclipseException;
 import net.bioclipse.core.domain.StringMatrix;
 
-public class ExcelManager {
+public class ExcelManager implements IBactingManager {
 
 	private String workspaceRoot;
 
@@ -72,5 +75,15 @@ public class ExcelManager {
 		} catch (IOException exception) {
 			throw new BioclipseException("Could not open file: " + exception.getMessage(), exception);
 		}
+	}
+
+	@Override
+	public String getManagerName() {
+		return "excel";
+	}
+
+	@Override
+	public List<String> doi() {
+		return Collections.emptyList();
 	}
 }

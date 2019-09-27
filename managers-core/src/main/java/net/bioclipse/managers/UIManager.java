@@ -20,8 +20,12 @@ import java.io.PrintWriter;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
+import java.util.ArrayList;
+import java.util.List;
 
-public class UIManager {
+import io.github.egonw.bacting.IBactingManager;
+
+public class UIManager implements IBactingManager {
 
 	private String workspaceRoot;
 
@@ -75,4 +79,18 @@ public class UIManager {
     public void open(final Object object) {
     	System.out.println("Cannot open file on the command line");
     }
+
+	@Override
+	public String getManagerName() {
+		return "ui";
+	}
+
+	@Override
+	public List<String> doi() {
+		List<String> dois = new ArrayList<String>();
+		dois.add("10.1186/1471-2105-8-59");
+		dois.add("10.1186/1471-2105-10-397");
+		return dois;
+	}
+
 }

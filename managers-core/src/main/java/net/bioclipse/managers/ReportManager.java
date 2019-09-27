@@ -10,10 +10,15 @@
 package net.bioclipse.managers;
 
 import net.bioclipse.report.data.Report;
+
+import java.util.Collections;
+import java.util.List;
+
+import io.github.egonw.bacting.IBactingManager;
 import net.bioclipse.report.data.IReport;
 import net.bioclipse.report.serializer.HTMLSerializer;
 
-public class ReportManager {
+public class ReportManager implements IBactingManager {
 
 	private String workspaceRoot;
 
@@ -36,5 +41,10 @@ public class ReportManager {
     public String asHTML(IReport report) {
     	return new HTMLSerializer().serialize(report);
     }
+
+	@Override
+	public List<String> doi() {
+		return Collections.emptyList();
+	}
 
 }

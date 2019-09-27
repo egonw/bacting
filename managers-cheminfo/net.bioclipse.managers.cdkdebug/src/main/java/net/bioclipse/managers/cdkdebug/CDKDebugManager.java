@@ -14,6 +14,8 @@
 package net.bioclipse.managers.cdkdebug;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.openscience.cdk.atomtype.CDKAtomTypeMatcher;
 import org.openscience.cdk.exception.CDKException;
@@ -21,12 +23,13 @@ import org.openscience.cdk.interfaces.IAtom;
 import org.openscience.cdk.interfaces.IAtomContainer;
 import org.openscience.cdk.interfaces.IAtomType;
 
+import io.github.egonw.bacting.IBactingManager;
 import net.bioclipse.cdk.domain.ICDKMolecule;
 import net.bioclipse.core.business.BioclipseException;
 import net.bioclipse.core.domain.IMolecule;
 import net.bioclipse.managers.CDKManager;
 
-public class CDKDebugManager {
+public class CDKDebugManager implements IBactingManager {
 
 	private String workspaceRoot;
 
@@ -70,4 +73,19 @@ public class CDKDebugManager {
 		}
 		return result.toString();
 	}
+
+	@Override
+	public String getManagerName() {
+		return "cdk";
+	}
+
+	@Override
+	public List<String> doi() {
+		List<String> dois = new ArrayList<String>();
+		dois.add("10.1021/ci025584y");
+		dois.add("10.2174/138161206777585274");
+		dois.add("10.1186/s13321-017-0220-4");
+		return dois;
+	}
+
 }

@@ -11,6 +11,8 @@
 package net.bioclipse.managers;
 
 import java.security.InvalidParameterException;
+import java.util.Collections;
+import java.util.List;
 
 import org.openscience.cdk.CDKConstants;
 import org.openscience.cdk.inchi.InChIGenerator;
@@ -19,6 +21,7 @@ import org.openscience.cdk.interfaces.IAtom;
 import org.openscience.cdk.interfaces.IAtomContainer;
 import org.openscience.cdk.interfaces.IBond;
 
+import io.github.egonw.bacting.IBactingManager;
 import net.bioclipse.core.business.BioclipseException;
 import net.bioclipse.core.domain.IMolecule;
 import net.bioclipse.inchi.InChI;
@@ -28,7 +31,7 @@ import net.sf.jniinchi.INCHI_STATUS;
 import net.sf.jniinchi.JniInchiException;
 import net.sf.jniinchi.JniInchiWrapper;
 
-public class InChIManager {
+public class InChIManager implements IBactingManager {
 
 	private String workspaceRoot;
 
@@ -143,4 +146,14 @@ public class InChIManager {
     	load();
     	return (factory != null);
     }
+
+	@Override
+	public String getManagerName() {
+		return "inchi";
+	}
+
+	@Override
+	public List<String> doi() {
+		return Collections.emptyList();
+	}
 }
