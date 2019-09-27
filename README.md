@@ -61,7 +61,7 @@ You may need to occassionally delete the
 modules cached by Groovy, by doing something like, to remove earlier SNAPSHOT versions:
 
 ```shell
-\rm -Rf ~/.groovy/grapes/net.bioclipse.managers/
+\rm -Rf ~/.groovy/grapes/io.github.egonw.bacting/
 ```
 
 # Copyright and authors
