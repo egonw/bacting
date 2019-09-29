@@ -4,7 +4,7 @@
   <parent>
     <artifactId>bacting</artifactId>
     <groupId>io.github.egonw.bacting</groupId>
-    <version>0.0.9-SNAPSHOT</version>
+    <version>0.0.9</version>
   </parent>
 
   <artifactId>managers-excel</artifactId>
@@ -31,7 +31,7 @@
     <dependency>
       <groupId>io.github.egonw.bacting</groupId>
       <artifactId>bacting-core</artifactId>
-      <version>0.0.9-SNAPSHOT</version>
+      <version>0.0.9</version>
     </dependency>
     <dependency>
       <groupId>org.apache.poi</groupId>
