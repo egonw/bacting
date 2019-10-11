@@ -4,7 +4,7 @@
   <parent>
     <artifactId>bacting</artifactId>
     <groupId>io.github.egonw.bacting</groupId>
-    <version>0.0.10-SNAPSHOT</version>
+    <version>0.0.10</version>
   </parent>
 
   <artifactId>bacting-core</artifactId>
