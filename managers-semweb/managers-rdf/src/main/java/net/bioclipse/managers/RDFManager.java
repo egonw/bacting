@@ -29,6 +29,8 @@ import com.hp.hpl.jena.query.QueryFactory;
 import com.hp.hpl.jena.query.ResultSet;
 import com.hp.hpl.jena.query.ResultSetFactory;
 import com.hp.hpl.jena.rdf.model.Model;
+import com.hp.hpl.jena.rdf.model.Property;
+import com.hp.hpl.jena.rdf.model.Resource;
 import com.hp.hpl.jena.shared.NoReaderForLangException;
 import com.hp.hpl.jena.shared.PrefixMapping;
 import com.hp.hpl.jena.shared.SyntaxError;
@@ -72,6 +74,60 @@ public class RDFManager {
         if (!(store instanceof IJenaStore))
             throw new BioclipseException("Only supporting IJenaStore.");
         ((IJenaStore)store).getModel().setNsPrefix(prefix, namespace);
+    }
+
+    public void addObjectProperty(IRDFStore store,
+        String subject, String property, String object)
+    throws BioclipseException {
+        if (!(store instanceof IJenaStore))
+            throw new RuntimeException(
+                "Can only handle IJenaStore's for now."
+            );
+        Model model = ((IJenaStore)store).getModel();
+        Resource subjectRes = model.createResource(subject);
+        Property propertyRes = model.createProperty(property);
+        Resource objectRes = model.createResource(object);
+        model.add(subjectRes, propertyRes, objectRes);
+    }
+
+    public void addDataProperty(IRDFStore store, String subject,
+        String property, String value) throws BioclipseException {
+        if (!(store instanceof IJenaStore))
+            throw new RuntimeException(
+                "Can only handle IJenaStore's for now."
+            );
+        Model model = ((IJenaStore)store).getModel();
+        Resource subjectRes = model.createResource(subject);
+        Property propertyRes = model.createProperty(property);
+        model.add(subjectRes, propertyRes, value);
+    }
+
+    public void addTypedDataProperty(IRDFStore store,
+        String subject, String property, String value,
+        String dataType)
+    throws BioclipseException {
+        if (!(store instanceof IJenaStore))
+            throw new RuntimeException(
+                "Can only handle IJenaStore's for now."
+            );
+        Model model = ((IJenaStore)store).getModel();
+        Resource subjectRes = model.createResource(subject);
+        Property propertyRes = model.createProperty(property);
+        model.add(subjectRes, propertyRes, model.createTypedLiteral(value, dataType));
+    }
+
+    public void addPropertyInLanguage(IRDFStore store,
+        String subject, String property, String value,
+        String language)
+    throws BioclipseException {
+        if (!(store instanceof IJenaStore))
+            throw new RuntimeException(
+                "Can only handle IJenaStore's for now."
+            );
+        Model model = ((IJenaStore)store).getModel();
+        Resource subjectRes = model.createResource(subject);
+        Property propertyRes = model.createProperty(property);
+        model.add(subjectRes, propertyRes, value, language);
     }
 
     public StringMatrix sparqlRemote(
