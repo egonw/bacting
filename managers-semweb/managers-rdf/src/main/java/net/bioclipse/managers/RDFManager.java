@@ -67,6 +67,13 @@ public class RDFManager {
     	return new JenaModel(ontologyModel);
     }
 
+    public void addPrefix(IRDFStore store, String prefix, String namespace)
+        throws BioclipseException {
+        if (!(store instanceof IJenaStore))
+            throw new BioclipseException("Only supporting IJenaStore.");
+        ((IJenaStore)store).getModel().setNsPrefix(prefix, namespace);
+    }
+
     public StringMatrix sparqlRemote(
             String serviceURL,
             String sparqlQueryString) {
