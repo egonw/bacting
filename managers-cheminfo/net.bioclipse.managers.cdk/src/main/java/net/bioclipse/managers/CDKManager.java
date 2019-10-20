@@ -17,6 +17,7 @@ import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.StringReader;
 import java.io.StringWriter;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -26,6 +27,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.openscience.cdk.CDKConstants;
 import org.openscience.cdk.atomtype.CDKAtomTypeMatcher;
 import org.openscience.cdk.config.Elements;
@@ -44,6 +46,7 @@ import org.openscience.cdk.interfaces.IIsotope;
 import org.openscience.cdk.interfaces.IMolecularFormula;
 import org.openscience.cdk.interfaces.IRingSet;
 import org.openscience.cdk.interfaces.IStereoElement;
+import org.openscience.cdk.io.FormatFactory;
 import org.openscience.cdk.io.ISimpleChemObjectReader;
 import org.openscience.cdk.io.ReaderFactory;
 import org.openscience.cdk.io.SDFWriter;
@@ -72,6 +75,9 @@ public class CDKManager implements IBactingManager {
 
 	// ReaderFactory used to instantiate IChemObjectReaders
     private static ReaderFactory readerFactory = new ReaderFactory();
+
+    // ReaderFactory used solely to determine chemical file formats
+    private static FormatFactory formatsFactory = new FormatFactory();
 
 	public CDKManager(String workspaceRoot) {
 		this.workspaceRoot = workspaceRoot;
@@ -193,6 +199,32 @@ public class CDKManager implements IBactingManager {
             throw new BioclipseException( message + e.getMessage(), e );
         }
         return new CDKMolecule(molecule);
+    }
+
+    public IChemFormat determineIChemFormatOfString(String fileContent)
+        throws IOException {
+    	return formatsFactory.guessFormat(
+    		new StringReader(fileContent)
+    	);
+    }
+
+    public ICDKMolecule fromString(String molstring)
+        throws BioclipseException, IOException {
+    	if (molstring == null)
+    		throw new BioclipseException("Input cannot be null.");
+    	if (molstring.length() == 0)
+    		throw new BioclipseException("Input cannot be empty.");
+
+    	IChemFormat format = determineIChemFormatOfString(molstring);
+    	if (format == null)
+    		throw new BioclipseException(
+    			"Could not identify format for the input string."
+    		);
+
+    	return loadMolecule(
+    		new ByteArrayInputStream(molstring.getBytes()),
+    		format
+    	);
     }
 
     public IMolecularFormula molecularFormulaObject(ICDKMolecule m) {
