@@ -37,7 +37,7 @@
   <dependencies>
     <dependency>
       <groupId>io.github.egonw.bacting</groupId>
-      <artifactId>bacting-core</artifactId>
+      <artifactId>managers-cdk</artifactId>
       <version>0.0.11-SNAPSHOT</version>
     </dependency>
   </dependencies>

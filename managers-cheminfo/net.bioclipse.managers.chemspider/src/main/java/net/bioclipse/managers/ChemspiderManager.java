@@ -12,6 +12,7 @@ package net.bioclipse.managers;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -20,18 +21,26 @@ import java.util.List;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.regex.PatternSyntaxException;
 
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.NullProgressMonitor;
 
 import io.github.egonw.bacting.IBactingManager;
+import net.bioclipse.cdk.domain.ICDKMolecule;
 import net.bioclipse.core.business.BioclipseException;
+import net.bioclipse.core.domain.IMolecule;
 
 public class ChemspiderManager implements IBactingManager {
 
     private String workspaceRoot;
 
+	private CDKManager cdk;
+
 	public ChemspiderManager(String workspaceRoot) {
 		this.workspaceRoot = workspaceRoot;
+		this.cdk = new CDKManager(workspaceRoot);
 	}
 
 	public List<Integer> resolve(String inchiKey)
@@ -60,6 +69,40 @@ public class ChemspiderManager implements IBactingManager {
 		List<Integer> uniqueResults = new ArrayList<Integer>();
 		uniqueResults.addAll(results);
 		return uniqueResults;
+	}
+
+	public String downloadAsString(Integer csid)
+	throws IOException, BioclipseException, CoreException {
+		StringBuffer fileContent = new StringBuffer(); 
+		try {                
+			URL url = new URL("http://www.chemspider.com/mol/" + csid);
+			BufferedReader reader = new BufferedReader(
+					new InputStreamReader(
+							url.openConnection().getInputStream()
+					)
+			);
+			String line = reader.readLine();
+			while (line != null) {
+				fileContent.append(line).append('\n');
+				line = reader.readLine();
+			}
+			reader.close();
+		} catch (PatternSyntaxException exception) {
+			exception.printStackTrace();
+			throw new BioclipseException("Invalid Pattern.", exception);
+		} catch (MalformedURLException exception) {
+			exception.printStackTrace();
+			throw new BioclipseException("Invalid URL.", exception);
+		}
+		return fileContent.toString();
+	}
+
+	public IMolecule download(Integer csid)
+	throws IOException, BioclipseException, CoreException {
+		String molstring = downloadAsString(csid);
+
+		ICDKMolecule molecule = cdk.fromString(molstring);
+		return molecule;
 	}
 
 	@Override
