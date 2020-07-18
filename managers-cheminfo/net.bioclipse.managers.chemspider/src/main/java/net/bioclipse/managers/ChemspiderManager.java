@@ -38,11 +38,25 @@ public class ChemspiderManager implements IBactingManager {
 
 	private CDKManager cdk;
 
-	public ChemspiderManager(String workspaceRoot) {
+    /**
+     * Creates a new {@link ChemspiderManager}.
+     *
+     * @param workspaceRoot location of the workspace, e.g. "."
+     */
+    public ChemspiderManager(String workspaceRoot) {
 		this.workspaceRoot = workspaceRoot;
 		this.cdk = new CDKManager(workspaceRoot);
 	}
 
+    /**
+     * Looks up ChemSpider identifiers for the given InChIKey.
+     * 
+     * @param inchiKey  InChIKey to resolve
+     * @return          a Java {@link List} with ChemSpider identifiers
+     * @throws IOException
+     * @throws BioclipseException
+     * @throws CoreException
+     */
 	public List<Integer> resolve(String inchiKey)
 	throws IOException, BioclipseException, CoreException {
 
@@ -71,6 +85,16 @@ public class ChemspiderManager implements IBactingManager {
 		return uniqueResults;
 	}
 
+	/**
+	 * Downloads the molecular for the given ChemSpider identifier as an
+	 * SD file.
+	 *
+	 * @param csid  the ChemSpider identifiers
+	 * @return      the molecule as {@link String}
+	 * @throws IOException
+	 * @throws BioclipseException
+	 * @throws CoreException
+	 */
 	public String downloadAsString(Integer csid)
 	throws IOException, BioclipseException, CoreException {
 		StringBuffer fileContent = new StringBuffer(); 
@@ -97,6 +121,16 @@ public class ChemspiderManager implements IBactingManager {
 		return fileContent.toString();
 	}
 
+	/**
+	 * Downloads the molecular for the given ChemSpider identifier as
+	 * a {@link IMolecule} object.
+	 *
+	 * @param csid  the ChemSpider identifiers
+	 * @return      the molecule as {@link IMolecule}
+	 * @throws IOException
+	 * @throws BioclipseException
+	 * @throws CoreException
+	 */
 	public IMolecule download(Integer csid)
 	throws IOException, BioclipseException, CoreException {
 		String molstring = downloadAsString(csid);

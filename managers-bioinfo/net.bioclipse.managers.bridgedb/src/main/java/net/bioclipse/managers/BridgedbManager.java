@@ -32,18 +32,42 @@ public class BridgedbManager implements IBactingManager {
 
 	private String workspaceRoot;
 
+    /**
+     * Creates a new {@link BridgedbManager}.
+     *
+     * @param workspaceRoot location of the workspace, e.g. "."
+     */
 	public BridgedbManager(String workspaceRoot) {
 		this.workspaceRoot = workspaceRoot;
 	}
 
+	/**
+	 * Looks up the {@link DataSource} for the given system code.
+	 *
+	 * @param source  the system code
+	 * @return        the matching {@link DataSource}
+	 * @throws BioclipseException
+	 */
     public DataSource getSource(String source) throws BioclipseException {
     	return DataSource.getBySystemCode(source);
     }
     
+	/**
+	 * Looks up the {@link DataSource} for the given full name.
+	 *
+	 * @param source  the full name
+	 * @return        the matching {@link DataSource}
+	 * @throws BioclipseException
+	 */
     public DataSource getSourceFromName(String name) throws BioclipseException {
     	return DataSource.getByFullName(name);
     }
 
+    /**
+     * Returns all known sources as a Java {@link List}.
+     *
+     * @return a Java {@link List}
+     */
     public List<String> listAllSources() {
     	List<String> sourceCodes = new ArrayList<String>();
     	for (DataSource source : DataSource.getDataSources()) {
@@ -53,12 +77,26 @@ public class BridgedbManager implements IBactingManager {
     	return sourceCodes;
     }
 
+    /**
+     * Returns all known organisms as a Java {@link List}.
+     *
+     * @return a Java {@link List}
+     */
     public List<Organism> listAllOrganisms() {
     	List<Organism> organisms = new ArrayList<Organism>();
     	for (Organism organism : Organism.values()) organisms.add(organism);
     	return organisms;
     }
 
+    /**
+     * Searches in the given database for hits, with a given maximum.
+     * 
+     * @param database  the BridgeDb {@link IDMapper} to search in
+     * @param query     the content to search for
+     * @param limit     the maximum number of hits
+     * @return          the search results as a Java {@link List}
+     * @throws BioclipseException
+     */
     public List<String> search(IDMapper database, String query, int limit) throws BioclipseException {
 		try {
 			return extractIdentifierStrings(database.freeSearch(query, limit));
@@ -67,6 +105,13 @@ public class BridgedbManager implements IBactingManager {
 		}
     }
 
+    /**
+     * Based on the given identifier, tries to guess what database that identifier comes from.
+     * 
+     * @param identifier the identifier to guess 
+     * @return a Java {@link List} is possible data sources
+     * @throws BioclipseException
+     */
     public List<DataSource> guessIdentifierType(String identifier) throws BioclipseException {
     	Map<DataSource, Pattern> patterns = DataSourcePatterns.getPatterns();
 
@@ -78,14 +123,43 @@ public class BridgedbManager implements IBactingManager {
     	return sources;
     }
 
+    /**
+     * Using the given connection string, it returns mappings for the given identifier.
+     *
+     * @param restService the connection string
+     * @param identifier  the identifier to return mappings for
+     * @param source      the data source of the identifier to return mappings for
+     * @return            a Java {@link List} of mapped identifiers
+     * @throws BioclipseException
+     */
     public List<String> map(String restService, String identifier, String source) throws BioclipseException {
     	return map(restService, identifier, source, null);
     }
 
+    /**
+     * Using the given {@link IDMapper} string, it returns mappings for the given identifier.
+     *
+     * @param database    the {@link IDMapper} to get the mappings from
+     * @param identifier  the identifier to return mappings for
+     * @param source      the data source of the identifier to return mappings for
+     * @return            a Java {@link List} of mapped identifiers
+     * @throws BioclipseException
+     */
     public List<String> map(IDMapper database, String identifier, String source) throws BioclipseException {
     	return map(database, identifier, source, null);
     }
 
+    /**
+     * Using the given connection string, it returns mappings for the given identifier, but only for the
+     * given target data source.
+     *
+     * @param restService the connection string
+     * @param identifier  the identifier to return mappings for
+     * @param source      the data source of the identifier to return mappings for
+     * @param target      the data source for which to return mappings
+     * @return            a Java {@link List} of mapped identifiers
+     * @throws BioclipseException
+     */
     public List<String> map(String restService, String identifier, String source, String target) throws BioclipseException {
     	// now we connect to the driver and create a IDMapper instance.
     	IDMapper mapper;
@@ -98,6 +172,17 @@ public class BridgedbManager implements IBactingManager {
 		return map(mapper, identifier, source, target);
     }
 
+    /**
+     * Using the given {@link IDMapper} string, it returns mappings for the given identifier, but only for the
+     * given target data source.
+     *
+     * @param database    the {@link IDMapper} to get the mappings from
+     * @param identifier  the identifier to return mappings for
+     * @param source      the data source of the identifier to return mappings for
+     * @param target      the data source for which to return mappings
+     * @return            a Java {@link List} of mapped identifiers
+     * @throws BioclipseException
+     */
     public List<String> map(IDMapper database, String identifier, String source, String target) throws BioclipseException {
     	// We create an Xref instance for the identifier that we want to look up.
     	DataSource sourceObj = getSource(source);
@@ -108,10 +193,28 @@ public class BridgedbManager implements IBactingManager {
     	return extractIdentifierStrings(dests);
     }
 
+    /**
+     * Using the given {@link IDMapper} string, it returns mappings for the given identifier.
+     *
+     * @param database    the {@link IDMapper} to get the mappings from
+     * @param source      the identifier to return mappings for
+     * @return            a Java {@link List} of mapped identifiers
+     * @throws BioclipseException
+     */
     public Set<Xref> map(IDMapper database, Xref source) throws BioclipseException {
     	return map(database, source, null);
     }
 
+    /**
+     * Using the given {@link IDMapper} string, it returns mappings for the given identifier, but only for the
+     * given target data source.
+     *
+     * @param database    the {@link IDMapper} to get the mappings from
+     * @param source      the identifier to return mappings for
+     * @param target      the data source for which to return mappings
+     * @return            a Java {@link List} of mapped identifiers
+     * @throws BioclipseException
+     */
     public Set<Xref> map(IDMapper database, Xref source, String target) throws BioclipseException {
     	Set<Xref> dests;
 
@@ -146,6 +249,13 @@ public class BridgedbManager implements IBactingManager {
 		return results;
 	}
 
+    /**
+     * Creates a {@link Xref} object for the given identifier.
+     *
+     * @param sourcedIdentifier  the identifier
+     * @return                   an {@link Xref} object
+     * @throws BioclipseException
+     */
 	public Xref xref(String sourcedIdentifier) throws BioclipseException {
 		int index = sourcedIdentifier.indexOf(':'); 
 		if (index < 0) throw new BioclipseException("Unexpected format. Use something like \"Wi:Aspirin\".");
@@ -155,10 +265,25 @@ public class BridgedbManager implements IBactingManager {
 		return new Xref(identifier, getSource(source));
 	}
 
+    /**
+     * Creates a {@link Xref} object for the given identifier.
+     * 
+     * @param identifier  the identifier to return mappings for
+     * @param source      the data source of the identifier to return mappings for
+     * @return            an {@link Xref} object
+     * @throws BioclipseException
+     */
 	public Xref xref(String identifier, String source) throws BioclipseException {
 		return new Xref(identifier, getSource(source));
 	}
 
+	/**
+	 * Creates a BridgeDb {@link IDMapper} for the given Derby database location.
+	 *
+	 * @param location  the location of the Derby file
+	 * @return          the {@link IDMapper} object
+	 * @throws BioclipseException
+	 */
 	public IDMapper loadRelationalDatabase(String location) throws BioclipseException {
 		try {
 			Class.forName ("org.bridgedb.rdb.IDMapperRdb");

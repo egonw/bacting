@@ -13,6 +13,7 @@ import org.bridgedb.DataSource;
 import org.bridgedb.Xref;
 import org.bridgedb.bio.Organism;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import net.bioclipse.core.business.BioclipseException;
@@ -77,6 +78,7 @@ public class BridgedbManagerTest {
 	}
 
 	@Test
+	@Disabled("Wrong connection link")
 	public void testMapREST() throws BioclipseException {
 		List<String> map = bridgedb.map(
 			"http://webservice.bridgedb.org/",
