@@ -63,7 +63,7 @@ public class BridgedbManager implements IBactingManager {
 		try {
 			return extractIdentifierStrings(database.freeSearch(query, limit));
 		} catch (IDMapperException exception) {
-			throw new BioclipseException("Could not search in the IDMapper: " + exception);
+			throw new BioclipseException("Could not search in the IDMapper: " + exception, exception);
 		}
     }
 
@@ -92,7 +92,7 @@ public class BridgedbManager implements IBactingManager {
 		try {
 			mapper = BridgeDb.connect(restService);
 		} catch (IDMapperException exception) {
-			throw new BioclipseException("Could not connect to the REST service at: " + restService);
+			throw new BioclipseException("Could not connect to the REST service at: " + restService, exception);
 		}
 		
 		return map(mapper, identifier, source, target);
