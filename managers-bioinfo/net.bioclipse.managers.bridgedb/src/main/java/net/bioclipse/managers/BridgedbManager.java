@@ -174,7 +174,7 @@ public class BridgedbManager implements IBactingManager {
 
 	@Override
 	public String getManagerName() {
-		return "excel";
+		return "bridgedb";
 	}
 
 	@Override
