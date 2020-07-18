@@ -24,8 +24,6 @@ import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.core.runtime.NullProgressMonitor;
 
 import io.github.egonw.bacting.IBactingManager;
 import net.bioclipse.cdk.domain.ICDKMolecule;
