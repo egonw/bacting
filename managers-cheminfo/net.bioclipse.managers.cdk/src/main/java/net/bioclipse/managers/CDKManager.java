@@ -79,10 +79,28 @@ public class CDKManager implements IBactingManager {
     // ReaderFactory used solely to determine chemical file formats
     private static FormatFactory formatsFactory = new FormatFactory();
 
+    /**
+     * Creates a new {@link CDKManager}.
+     *
+     * @param workspaceRoot location of the workspace, e.g. "."
+     */
 	public CDKManager(String workspaceRoot) {
 		this.workspaceRoot = workspaceRoot;
 	}
 
+	/**
+	 * Creates a new {@link ICDKMolecule} from the content of the given
+	 * {@link InputStream}, assuming it is in the format as given by
+	 * the {@link IChemFormat}.
+	 *
+	 * @param instream  the stream with content in the given format
+	 * @param format    format of the content of the stream
+	 *
+	 * @return a data object for the given input
+	 *
+	 * @throws BioclipseException
+	 * @throws IOException
+	 */
 	public ICDKMolecule loadMolecule( InputStream instream,
 			IChemFormat format)
 					throws BioclipseException, IOException {
@@ -147,6 +165,17 @@ public class CDKManager implements IBactingManager {
 		return retmol;
 	}
 
+	/**
+	 * Creates a new {@link ICDKMolecule} from CML in the given
+	 * {@link String}.
+	 *
+	 * @param molstring the molecule in CML format
+	 *
+	 * @return a data object for the given input
+	 *
+	 * @throws BioclipseException
+	 * @throws IOException
+	 */
     public ICDKMolecule fromCml(String molstring)
             throws BioclipseException, IOException {
 
@@ -160,6 +189,15 @@ public class CDKManager implements IBactingManager {
     			(IChemFormat)CMLFormat.getInstance());
     }
 
+    /**
+     * Helper function that casts or converts the input {@link IMolecule} to an
+     * {@link ICDKMolecule}.
+     *
+     * @param imol the input {@link IMolecule} that needs casting or converting
+     *
+     * @return the molecule as {@link ICDKMolecule}
+     * @throws BioclipseException
+     */
     public ICDKMolecule asCDKMolecule(IMolecule imol) throws BioclipseException {
 
         if (imol instanceof ICDKMolecule) {
@@ -184,11 +222,27 @@ public class CDKManager implements IBactingManager {
         return fromSMILES( imol.toSMILES() );
     }
 
+    /**
+     * Create a new Java {@link List} for storing {@link ICDKMolecule}.
+     *
+     * @return the created list
+     */
 	public List<ICDKMolecule> createMoleculeList() {
 		return new ArrayList<ICDKMolecule>();
 	}
 
-    public ICDKMolecule fromSMILES(String smilesDescription)
+	/**
+	 * Creates a new {@link ICDKMolecule} from the SMILES in the given
+	 * {@link String}.
+	 *
+	 * @param smilesDescription the molecule in CML format
+	 *
+	 * @return a data object for the given input
+	 *
+	 * @throws BioclipseException
+	 * @throws IOException
+	 */
+	public ICDKMolecule fromSMILES(String smilesDescription)
             throws BioclipseException {
         SmilesParser parser = new SmilesParser( SilentChemObjectBuilder.getInstance() );
         IAtomContainer molecule;
@@ -201,6 +255,14 @@ public class CDKManager implements IBactingManager {
         return new CDKMolecule(molecule);
     }
 
+	/**
+	 * Determines the file format of the given input.
+	 *
+	 * @param fileContent {@link String} with the chemical file
+	 * 
+	 * @return an {@link IChemFormat} representing the format
+	 * @throws IOException
+	 */
     public IChemFormat determineIChemFormatOfString(String fileContent)
         throws IOException {
     	return formatsFactory.guessFormat(
@@ -208,6 +270,17 @@ public class CDKManager implements IBactingManager {
     	);
     }
 
+    /**
+	 * Creates a new {@link ICDKMolecule} from the content of the given
+	 * {@link String}, but guesses the format the input is in.
+	 *
+	 * @param molstring  the stream with content in the given format
+	 *
+	 * @return a data object for the given input
+	 *
+	 * @throws BioclipseException
+	 * @throws IOException
+	 */
     public ICDKMolecule fromString(String molstring)
         throws BioclipseException, IOException {
     	if (molstring == null)
@@ -227,6 +300,12 @@ public class CDKManager implements IBactingManager {
     	);
     }
 
+    /**
+     * Calculates the molecular formula for the given molecule.
+     *
+     * @param m  the molecule as {@link ICDKMolecule}
+     * @return a {@link IMolecularFormula} object
+     */
     public IMolecularFormula molecularFormulaObject(ICDKMolecule m) {
         IMolecularFormula mf = MolecularFormulaManipulator.getMolecularFormula(
             m.getAtomContainer()
@@ -276,10 +355,23 @@ public class CDKManager implements IBactingManager {
     	}
     }
 
+    /**
+     * Calculates the molecular formula for the given molecule.
+     *
+     * @param m  the molecule as {@link ICDKMolecule}
+     * @return   the molecular formula as {@link String} 
+     */
     public String molecularFormula( ICDKMolecule m ) {
         return MolecularFormulaManipulator.getString(molecularFormulaObject(m));
     }
 
+    /**
+     * Determine the atoms for which the stereochemistry is not fully defined.
+     *
+     * @param   molecule to test the atoms of
+     * @return  a Java {@link Set} with that atoms without fully defined stereochemistry
+     * @throws BioclipseException
+     */
     public Set<IAtom> getAtomsWithUndefinedStereo(IMolecule molecule) throws BioclipseException {
     	Set<IAtom> defined = getAtomsWithDefinedStereo(molecule); 
 
@@ -309,6 +401,13 @@ public class CDKManager implements IBactingManager {
         return potential;
     }
 
+    /**
+     * Determine the atoms for which the stereochemistry is defined.
+     *
+     * @param   molecule to test the atoms of
+     * @return  a Java {@link Set} with that atoms with defined stereochemistry
+     * @throws BioclipseException
+     */
     public Set<IAtom> getAtomsWithDefinedStereo(IMolecule molecule) throws BioclipseException {
     	Set<IAtom> stereoAtoms = new HashSet<IAtom>();
     	IAtomContainer container = asCDKMolecule(molecule).getAtomContainer();
@@ -324,6 +423,13 @@ public class CDKManager implements IBactingManager {
     	return stereoAtoms;
     }
 
+    /**
+     * Extends the given SD file with an molfile entry for the given {@link ICDKMolecule}.
+     *
+     * @param  sdFile   the file to add the molecule too
+     * @param  molecule the molecule to add to the file
+     * @throws BioclipseException
+     */
     public void appendToSDF(String sdFile, ICDKMolecule molecule ) throws BioclipseException {
     	StringWriter strWrite = new StringWriter();
     	SDFWriter writer = new SDFWriter(strWrite);
