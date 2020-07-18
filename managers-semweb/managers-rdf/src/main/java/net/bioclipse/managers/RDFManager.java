@@ -53,22 +53,50 @@ public class RDFManager {
 
 	private String workspaceRoot;
 
-	public RDFManager(String workspaceRoot) {
+	/**
+     * Creates a new {@link RDFManager}.
+     *
+     * @param workspaceRoot location of the workspace, e.g. "."
+     */
+    public RDFManager(String workspaceRoot) {
 		this.workspaceRoot = workspaceRoot;
 	}
 
+    /**
+     * Creates a triple store that is fully stored in memory.
+     *
+     * @return a triple store as {@link IRDFStore} object
+     */
     public IRDFStore createInMemoryStore() {
     	return new JenaModel();
     }
 
+    /**
+     * Creates a triple store that is fully stored on disk.
+     *
+     * @return a triple store as {@link IRDFStore} object
+     */
     public IRDFStore createStore(String tripleStoreDirectoryPath) {
     	return new TDBModel(tripleStoreDirectoryPath);
     }
 
+    /**
+     * Creates an ontology triple store that is fully stored in memory.
+     *
+     * @return a triple store as {@link IRDFStore} object
+     */
     public IRDFStore createInMemoryStore(boolean ontologyModel) {
     	return new JenaModel(ontologyModel);
     }
 
+    /**
+     * Adds a prefix definition to the given triple store.
+     *
+     * @param store     an {@link IRDFStore} object
+     * @param prefix    the prefix
+     * @param namespace the RDF namespace
+     * @throws BioclipseException
+     */
     public void addPrefix(IRDFStore store, String prefix, String namespace)
         throws BioclipseException {
         if (!(store instanceof IJenaStore))
@@ -76,6 +104,15 @@ public class RDFManager {
         ((IJenaStore)store).getModel().setNsPrefix(prefix, namespace);
     }
 
+    /**
+     * Creates a new RDF object triple in the given triple store.
+     *
+     * @param store    the {@link IRDFStore} store where the triple is added
+     * @param subject  the RDF Subject of the triple
+     * @param property the RDF Predicate of the triple
+     * @param object   the RDF Object of the triple
+     * @throws BioclipseException
+     */
     public void addObjectProperty(IRDFStore store,
         String subject, String property, String object)
     throws BioclipseException {
@@ -90,6 +127,15 @@ public class RDFManager {
         model.add(subjectRes, propertyRes, objectRes);
     }
 
+    /**
+     * Creates a new RDF data triple in the given triple store.
+     *
+     * @param store    the {@link IRDFStore} store where the triple is added
+     * @param subject  the RDF Subject of the triple
+     * @param property the RDF Predicate of the triple
+     * @param value    the RDF Literal string
+     * @throws BioclipseException
+     */
     public void addDataProperty(IRDFStore store, String subject,
         String property, String value) throws BioclipseException {
         if (!(store instanceof IJenaStore))
@@ -102,6 +148,16 @@ public class RDFManager {
         model.add(subjectRes, propertyRes, value);
     }
 
+    /**
+     * Creates a new RDF data triple in the given triple store.
+     *
+     * @param store    the {@link IRDFStore} store where the triple is added
+     * @param subject  the RDF Subject of the triple
+     * @param property the RDF Predicate of the triple
+     * @param value    the RDF Literal string
+     * @param dataType the data type of the RDF Literal
+     * @throws BioclipseException
+     */
     public void addTypedDataProperty(IRDFStore store,
         String subject, String property, String value,
         String dataType)
@@ -116,7 +172,17 @@ public class RDFManager {
         model.add(subjectRes, propertyRes, model.createTypedLiteral(value, dataType));
     }
 
-    public void addPropertyInLanguage(IRDFStore store,
+    /**
+     * Creates a new RDF data triple in the given triple store.
+     *
+     * @param store    the {@link IRDFStore} store where the triple is added
+     * @param subject  the RDF Subject of the triple
+     * @param property the RDF Predicate of the triple
+     * @param value    the RDF Literal string
+     * @param language the language of the RDF Literal
+     * @throws BioclipseException
+     */
+   public void addPropertyInLanguage(IRDFStore store,
         String subject, String property, String value,
         String language)
     throws BioclipseException {
@@ -130,6 +196,13 @@ public class RDFManager {
         model.add(subjectRes, propertyRes, value, language);
     }
 
+   /**
+    * Queries a remote SPARQL end point.
+    * 
+    * @param serviceURL        the URL of the SPARQL end point
+    * @param sparqlQueryString the SPARQL query
+    * @return                  an {@link StringMatrix} object with results
+    */
     public StringMatrix sparqlRemote(
             String serviceURL,
             String sparqlQueryString) {
@@ -148,6 +221,14 @@ public class RDFManager {
          return table;
      }
 
+    /**
+     * Processes XML returned by a remote SPARQL end point.
+     *
+     * @param queryResults   the search results as a byte array of the returned XML
+     * @param originalQuery  the original SPARQL query that gave the results
+     * @return
+     * @throws BioclipseException
+     */
     public IStringMatrix processSPARQLXML(byte[] queryResults, String originalQuery)
             throws BioclipseException {
     	PrefixMapping prefixMap = null;
@@ -168,6 +249,13 @@ public class RDFManager {
         return table;
     }
 
+    /**
+     * Queries a local RDF triple store.
+     * 
+     * @param store             the RDF triples store to query
+     * @param sparqlQueryString the SPARQL query
+     * @return                  an {@link StringMatrix} object with results
+     */
     public StringMatrix sparql(IRDFStore store, String queryString) throws IOException, BioclipseException,
     CoreException {
         if (!(store instanceof IJenaStore))
@@ -189,6 +277,13 @@ public class RDFManager {
         return table;
     }
 
+    /**
+     * Returns the number of RDF triples in the triple store.
+     *  
+     * @param store an {@link IRDFStore} object
+     * @return      the number of triples
+     * @throws BioclipseException
+     */
     public long size(IRDFStore store) throws BioclipseException {
         if (!(store instanceof IJenaStore))
             throw new RuntimeException(
@@ -198,11 +293,35 @@ public class RDFManager {
         return model.size();
     }
 
+    /**
+     * Reads a RDF file in the given format from the workspace and stores
+     * the triples in the given triple store.
+     *
+     * @param store   {@link IRDFStore} to put the triples in
+     * @param rdfFile location of the RDF file
+     * @param format  format of the RDF file (e.g. "RDF/XML", "TURTLE", or "N3")
+     * @return
+     * @throws IOException
+     * @throws BioclipseException
+     * @throws CoreException
+     */
     public IRDFStore importFile(IRDFStore store, String rdfFile, String format)
     throws IOException, BioclipseException, CoreException {
     	return importFromStream(store, new FileInputStream(workspaceRoot + rdfFile), format);
     }
 
+    /**
+     * Reads RDF triples from an {@link InputStream} in the given format and stores
+     * the triples in the given triple store.
+     *
+     * @param store   {@link IRDFStore} to put the triples in
+     * @param stream  the {@link InputStream} from which the triples are read
+     * @param format  format of the RDF file (e.g. "RDF/XML", "TURTLE", or "N3")
+     * @return
+     * @throws IOException
+     * @throws BioclipseException
+     * @throws CoreException
+     */
     public IRDFStore importFromStream(IRDFStore store, InputStream stream,
             String format)
     throws IOException, BioclipseException, CoreException {
@@ -237,6 +356,18 @@ public class RDFManager {
         return store;
     }
 
+    /**
+     * Reads RDF triples from an {@link String} in the given format and stores
+     * the triples in the given triple store.
+     *
+     * @param store      {@link IRDFStore} to put the triples in
+     * @param rdfContent the {@link String} from which the triples are read
+     * @param format     format of the RDF file (e.g. "RDF/XML", "TURTLE", or "N3")
+     * @return
+     * @throws IOException
+     * @throws BioclipseException
+     * @throws CoreException
+     */
     public IRDFStore importFromString(IRDFStore store, String rdfContent,
             String format)
     throws IOException, BioclipseException, CoreException {
@@ -244,12 +375,34 @@ public class RDFManager {
     	return importFromStream(store, input, format);
     }
 
+    /**
+     * Reads RDF triples from a URL and stores
+     * the triples in the given triple store.
+     *
+     * @param store      {@link IRDFStore} to put the triples in
+     * @param url        the URL from which the triples are read
+     * @return
+     * @throws IOException
+     * @throws BioclipseException
+     * @throws CoreException
+     */
     public IRDFStore importURL(IRDFStore store, String url)
             throws IOException, BioclipseException, CoreException {
     	return importURL(store, url, null);
     }
 
-    public IRDFStore importURL(IRDFStore store, String url,
+    /**
+     * Reads RDF triples from a URL and stores the triples in the given
+     * triple store, with additional HTTP headers.
+     *
+     * @param store        {@link IRDFStore} to put the triples in
+     * @param url          the URL from which the triples are read
+     * @param extraHeaders the extra HTTP headers
+     * @return
+     * @throws IOException
+     * @throws BioclipseException
+     * @throws CoreException
+     */public IRDFStore importURL(IRDFStore store, String url,
     		Map<String, String> extraHeaders)
         throws IOException, BioclipseException, CoreException {
         	URL realURL = new URL(url);
@@ -278,11 +431,25 @@ public class RDFManager {
         return store;
     }
 
+    /**
+     * Serializes the triples in the triple store as Notation3.
+     *
+     * @param store the {@link IRDFStore}
+     * @return      a {@link String} with Notation3-formatted triples
+     * @throws BioclipseException
+     */
     public String asRDFN3(IRDFStore store)
     throws BioclipseException {
     	return asRDF(store, "N3");
     }
 
+    /**
+     * Serializes the triples in the triple store as Turtle.
+     *
+     * @param store the {@link IRDFStore}
+     * @return      a {@link String} with Turtle-formatted triples
+     * @throws BioclipseException
+     */
     public String asTurtle(IRDFStore store)
     throws BioclipseException {
     	return asRDF(store, "TURTLE");

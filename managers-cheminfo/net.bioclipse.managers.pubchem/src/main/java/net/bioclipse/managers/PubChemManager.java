@@ -36,7 +36,12 @@ public class PubChemManager implements IBactingManager {
 
     private String workspaceRoot;
 
-	public PubChemManager(String workspaceRoot) {
+	/**
+     * Creates a new {@link PubChemManager}.
+     *
+     * @param workspaceRoot location of the workspace, e.g. "."
+     */
+    public PubChemManager(String workspaceRoot) {
 		this.workspaceRoot = workspaceRoot;
 	}
 
@@ -52,6 +57,15 @@ public class PubChemManager implements IBactingManager {
         return result.toString();
     }
 
+    /**
+     * Searches PubChem for compounds using the given query.
+     *
+     * @param query  the string to search in PubChem
+     * @return       a Java {@link List} of PubChem compound identifiers
+     * @throws IOException
+     * @throws BioclipseException
+     * @throws CoreException
+     */
     public List<Integer> search(String query)
             throws IOException, BioclipseException, CoreException {
         int max = 50;

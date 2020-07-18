@@ -35,7 +35,12 @@ public class InChIManager implements IBactingManager {
 
 	private String workspaceRoot;
 
-	public InChIManager(String workspaceRoot) {
+	/**
+     * Creates a new {@link InChIManager}.
+     *
+     * @param workspaceRoot location of the workspace, e.g. "."
+     */
+    public InChIManager(String workspaceRoot) {
 		this.workspaceRoot = workspaceRoot;
 	}
 
@@ -46,6 +51,11 @@ public class InChIManager implements IBactingManager {
 	private boolean loadingFailed = false;
 	private boolean isLoaded = false;
 
+	/**
+	 * Loads the InChI library.
+	 *
+	 * @return a {@link String} that reflects the success of loading
+	 */
     public String load() {
         if (factory == null) {
             try {
@@ -62,6 +72,13 @@ public class InChIManager implements IBactingManager {
         return LOADING_SUCCESS;
     }
 
+    /**
+     * Generates an InChI for the given {@link IMolecule}.
+     *
+     * @param molecule the {@link IMolecule} to create the InChI for
+     * @return         an {@link InChI} object
+     * @throws Exception
+     */
 	public InChI generate(IMolecule molecule) throws Exception {
 		if (!isAvailable()) {
     		return InChI.FAILED_TO_CALCULATE;
@@ -97,10 +114,22 @@ public class InChIManager implements IBactingManager {
         }
 	}
 
+	/**
+	 * Returns true if the InChI library was properly loaded.
+	 *
+	 * @return true if the InChI library was properly loaded.
+	 */
     public boolean isLoaded() {
     	return isLoaded;
     }
 
+    /**
+     * Checks the validity of the InChIkey.
+     *
+     * @param inchikey  the InChIKey to test
+     * @return          true if the key is valid
+     * @throws BioclipseException
+     */
     public boolean checkKey(String inchikey) throws BioclipseException {
     	INCHI_KEY_STATUS status;
 		try {
@@ -114,6 +143,13 @@ public class InChIManager implements IBactingManager {
     	return false;
     }
 
+    /**
+     * Checks the validity of the InChI.
+     *
+     * @param inchikey  the InChI to test
+     * @return          true if the InChI is valid
+     * @throws BioclipseException
+     */
     public boolean check(String inchi) throws BioclipseException {
     	INCHI_STATUS status;
 		try {
@@ -127,6 +163,13 @@ public class InChIManager implements IBactingManager {
     	return false;
     }
 
+    /**
+     * Checks the validity of the InChI using more strict rules.
+     *
+     * @param inchikey  the InChI to test
+     * @return          true if the InChI is valid
+     * @throws BioclipseException
+     */
     public boolean checkStrict(String inchi) throws BioclipseException {
     	INCHI_STATUS status;
 		try {
@@ -140,6 +183,11 @@ public class InChIManager implements IBactingManager {
     	return false;
     }
 
+    /**
+	 * Returns true if the InChI library can be used.
+	 *
+	 * @return true if the InChI library can be used.
+	 */
     public boolean isAvailable() {
     	if (!isLoaded && loadingFailed) return false;
     	if (!loadingFailed && isLoaded) return true;

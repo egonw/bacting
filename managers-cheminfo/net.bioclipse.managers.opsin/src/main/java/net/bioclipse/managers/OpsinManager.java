@@ -10,7 +10,6 @@
 package net.bioclipse.managers;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import io.github.egonw.bacting.IBactingManager;
@@ -25,15 +24,34 @@ public class OpsinManager implements IBactingManager {
 
 	private CDKManager cdk;
 
+	/**
+     * Creates a new {@link OpsinManager}.
+     *
+     * @param workspaceRoot location of the workspace, e.g. "."
+     */
 	public OpsinManager(String workspaceRoot) {
 		this.cdk = new CDKManager(workspaceRoot);
 	}
 
+	/**
+	 * Parses a IUPAC name into a molecule.
+	 *
+	 * @param iupacName the IUPAC name
+	 * @return          the molecule as {@link ICDKMolecule}
+	 * @throws BioclipseException
+	 */
 	public ICDKMolecule parseIUPACName(String iupacName) 
 	                    throws BioclipseException {
 		return cdk.fromSMILES(parseIUPACNameAsSMILES(iupacName));
 	}
 
+	/**
+	 * Parses a IUPAC name into a molecule.
+	 *
+	 * @param iupacName the IUPAC name
+	 * @return          the molecule as CML string
+	 * @throws BioclipseException
+	 */
 	public String parseIUPACNameAsCML(String iupacName) 
 	              throws BioclipseException {
 		NameToStructure nameToStructure;
@@ -55,6 +73,13 @@ public class OpsinManager implements IBactingManager {
         );
 	}
 
+	/**
+	 * Parses a IUPAC name into a molecule.
+	 *
+	 * @param iupacName the IUPAC name
+	 * @return          the molecule as SMILES string
+	 * @throws BioclipseException
+	 */
     public String parseIUPACNameAsSMILES(String iupacName) 
                   throws BioclipseException {
     	NameToStructure nameToStructure;
