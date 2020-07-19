@@ -40,11 +40,23 @@ public class CDKDebugManager implements IBactingManager {
 
 	private CDKManager cdk;
 
+	/**
+     * Creates a new {@link CDKDebugManager}.
+     *
+     * @param workspaceRoot location of the workspace, e.g. "."
+     */
 	public CDKDebugManager(String workspaceRoot) {
 		this.workspaceRoot = workspaceRoot;
 		this.cdk = new CDKManager(workspaceRoot);
 	}
 
+	/**
+	 * Returns a string of atom types as recognized by the CDK.
+	 *
+	 * @param mol  molecule for which the atoms are typed
+	 * @return     a {@link String} with the results
+	 * @throws InvocationTargetException
+	 */
 	public String perceiveCDKAtomTypes(IMolecule mol)
 			throws InvocationTargetException {
 

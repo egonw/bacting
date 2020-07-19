@@ -33,24 +33,58 @@ public class UIManager implements IBactingManager {
 
 	private String workspaceRoot;
 
+    /**
+     * Creates a new {@link UIManager}.
+     *
+     * @param workspaceRoot location of the workspace, e.g. "."
+     */
 	public UIManager(String workspaceRoot) {
 		this.workspaceRoot = workspaceRoot;
 	}
 
+	/**
+	 * Determines if the given file exists in the Bioclipse workspace.
+	 *
+	 * @param file the location of the file in the Bioclipse workspace
+	 * @return     true, if the file exists
+	 */
 	public boolean fileExists(String file) {
         return new File(workspaceRoot + file).exists();
     }
 
+	/**
+	 * Creates a new file in the Bioclipse workspace.
+	 *
+	 * @param path the location of the file in the Bioclipse workspace
+	 * @return     the location of the file in the Bioclipse workspace
+	 * @throws IOException
+	 */
 	public String newFile(String path) throws IOException {
     	return newFile(path, "");
     }
 
+	/**
+	 * Creates a new empty file in the Bioclipse workspace or empties the
+	 * existing file.
+	 *
+	 * @param path the location of the file in the Bioclipse workspace
+	 * @return     the location of the file in the Bioclipse workspace
+	 * @throws IOException
+	 */
 	public String renewFile(String file) throws IOException {
 		if (fileExists(file)) remove(file);
 		newFile(file);
 		return file;
 	}
 
+	/**
+	 * Creates a new file in the Bioclipse workspace with the given content
+	 *
+	 * @param path    the location of the file in the Bioclipse workspace
+	 * @param content the content of the new file
+	 * @return        the location of the file in the Bioclipse workspace
+	 * @throws IOException
+	 */
     public String newFile(String path, String content) throws IOException {
     	File file = new File(workspaceRoot + path);
     	file.getParentFile().mkdirs(); 
@@ -61,11 +95,24 @@ public class UIManager implements IBactingManager {
         return file.getPath().replace(workspaceRoot, "");
     }
 
+	/**
+	 * Deletes the file in the Bioclipse workspace.
+	 *
+	 * @param path the location of the file in the Bioclipse workspace
+	 * @throws IOException
+	 */
     public void remove(String path) {
     	File file = new File(workspaceRoot + path);
     	file.delete();
     }
 
+	/**
+	 * Appends the new content to write to a new or existing file in the Bioclipse workspace.
+	 *
+	 * @param path    the location of the file in the Bioclipse workspace
+	 * @param toWrite the content to append to the new file
+	 * @throws IOException
+	 */
     public void append(String path, String toWrite) {
     	try {
     		if (fileExists(path)) {
@@ -80,10 +127,22 @@ public class UIManager implements IBactingManager {
     	}
     }
 
+    /**
+     * Not currently implemented.
+     *
+     * @param object
+     */
     public void open(final Object object) {
     	System.out.println("Cannot open file on the command line");
     }
 
+	/**
+	 * Creates a new project in the Bioclipse workspace.
+	 *
+	 * @param path the location of the project in the Bioclipse workspace
+	 * @return     the location of the project in the Bioclipse workspace
+	 * @throws IOException
+	 */
     public String newProject(String name) throws IOException {
         if (fileExists(name)) return name;
         Files.createDirectory(Paths.get(workspaceRoot + name));

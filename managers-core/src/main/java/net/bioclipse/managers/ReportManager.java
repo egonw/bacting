@@ -26,6 +26,11 @@ public class ReportManager implements IBactingManager {
 
 	private String workspaceRoot;
 
+    /**
+     * Creates a new {@link ReportManager}.
+     *
+     * @param workspaceRoot location of the workspace, e.g. "."
+     */
 	public ReportManager(String workspaceRoot) {
 		this.workspaceRoot = workspaceRoot;
 	}
@@ -38,10 +43,21 @@ public class ReportManager implements IBactingManager {
         return "report";
     }
 
+    /**
+     * Creates a new {@link IReport} object.
+     * 
+     * @return an empty {@link IReport}
+     */
     public IReport createReport() {
     	return new Report();
     }
 
+    /**
+     * Serializes the content of the given report into HTML.
+     *
+     * @param report an {@link IReport}
+     * @return       a HTML document as {@link String}
+     */
     public String asHTML(IReport report) {
     	return new HTMLSerializer().serialize(report);
     }

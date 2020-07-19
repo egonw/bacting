@@ -39,6 +39,7 @@ import org.apache.http.message.BasicNameValuePair;
 
 import io.github.egonw.bacting.IBactingManager;
 import net.bioclipse.core.business.BioclipseException;
+import net.bioclipse.core.domain.StringMatrix;
 
 /**
  * Bioclipse manager providing core functionality. It is similar to the
@@ -49,10 +50,21 @@ public class BioclipseManager implements IBactingManager {
 
 	private String workspaceRoot;
 
+	/**
+     * Creates a new {@link BioclipseManager}.
+     *
+     * @param workspaceRoot location of the workspace, e.g. "."
+     */
 	public BioclipseManager(String workspaceRoot) {
 		this.workspaceRoot = workspaceRoot;
 	}
 
+	/**
+	 * Determines if online websites can be reached, reflecting access to
+	 * the internet.
+	 *
+	 * @return  true, if the machine has an active internet connection
+	 */
     public boolean isOnline() {
     	// if both fail, we do not have internet
     	String[] sites = new String[]{
@@ -70,6 +82,12 @@ public class BioclipseManager implements IBactingManager {
     	return false;
     }
 
+    /**
+     * Tests if there is an active internet connection and throws an
+     * {@link BioclipseException} if not.
+     *
+     * @throws BioclipseException
+     */
     public void assumeOnline() throws BioclipseException {
     	if (!isOnline())
     		throw new BioclipseException(
@@ -77,10 +95,27 @@ public class BioclipseManager implements IBactingManager {
     		);
     }
 
+    /**
+     * Converts a Bioclipse workspace path for the given file to an
+     * operating system level absolute path. This method is needed if
+     * you want to have access to the file using regular Java, Groovy,
+     * etc programming languages.
+     *
+     * @param file  Bioclipse file path to convert
+     * @return      an absolute file path on the local machine
+     */
     public String fullPath( String file ) {
     	return workspaceRoot + file;
     }
 
+    /**
+     * Queries a remote SPARQL end point without Apache Jena.
+     *
+     * @param serviceURL        the URL of the SPARQL end point
+     * @param sparqlQueryString the SPARQL query
+     * @return                  an {@link StringMatrix} object with results
+     * @throws BioclipseException
+     */
     public byte[] sparqlRemote(String serviceURL, String sparqlQueryString)
     throws BioclipseException {
 
@@ -117,11 +152,28 @@ public class BioclipseManager implements IBactingManager {
          }
     }
 
+    /**
+     * Downloads the content of the page located by the given URL string as
+     * a Java {@link String}.
+     *
+     * @param url {@link String} version of the URL of the document to download
+     * @return    a {@link String} with the content of the webpage
+     * @throws BioclipseException
+     */
     public String download(String url)
     		throws BioclipseException {
     	return download(url, null);
     }
 
+    /**
+     * Downloads the content of the page located by the given URL string as
+     * a Java {@link String} in the given mimetype (if provided by the webserver).
+     *
+     * @param url      {@link String} version of the URL of the document to download
+     * @param mimeType the mimetype in which the content should be returned, e.g. text/n3
+     * @return         a {@link String} with the content of the webpage
+     * @throws BioclipseException
+     */
     public String download(String url, String mimeType) throws BioclipseException {
     	StringBuffer content = new StringBuffer();
     	URLConnection rawConn;
@@ -145,15 +197,48 @@ public class BioclipseManager implements IBactingManager {
     	return content.toString();
     }
 
+    /**
+     * Downloads the content of the page located by the given URL string as
+     * a file in the Bioclipse workspace and return the path as {@link String}.
+     *
+     * @param url    {@link String} version of the URL of the document to download
+     * @param target path in the Bioclipse workspace where the content should be stored
+     * @return       a {@link String} with the content of the webpage
+     * @throws BioclipseException
+     */
     public String downloadAsFile(String url, String target) throws BioclipseException {
     	return downloadAsFile(url, null, target);
     }
 
+    /**
+     * Downloads the content of the page located by the given URL string as
+     * a file in the given mimetype (if provided by the webserver)
+     * in the Bioclipse workspace and return the path as {@link String}.
+     *
+     * @param url      {@link String} version of the URL of the document to download
+     * @param mimeType the mimetype in which the content should be returned, e.g. text/n3
+     * @param target   path in the Bioclipse workspace where the content should be stored
+     * @return         a {@link String} with the content of the webpage
+     * @throws BioclipseException
+     */
     public String downloadAsFile(String url, String mimeType, String target)
     throws BioclipseException {
     	return downloadAsFile(url, mimeType, target, null);
     }
 
+    /**
+     * Downloads the content of the page located by the given URL string as
+     * a file in the given mimetype (if provided by the webserver)
+     * in the Bioclipse workspace and return the path as {@link String}.
+     * This version allows setting additional HTTP headers.
+     *
+     * @param url          {@link String} version of the URL of the document to download
+     * @param mimeType     the mimetype in which the content should be returned, e.g. text/n3
+     * @param target       path in the Bioclipse workspace where the content should be stored
+     * @param extraHeaders additional HTTP headers, e.g. useful if authentication is needed
+     * @return             a {@link String} with the content of the webpage
+     * @throws BioclipseException
+     */
     public String downloadAsFile(String url, String mimeType, String target,
     		Map<String,String> extraHeaders)
     				throws BioclipseException {
@@ -180,6 +265,13 @@ public class BioclipseManager implements IBactingManager {
     	return target;
     }
 
+    /**
+     * Creates an {@link URL} object for the given url.
+     *
+     * @param url  {@link String} representation of the URL to return
+     * @return     a {@link URL} object
+     * @throws BioclipseException
+     */
     private URL createURL(String url) throws BioclipseException {
         try {
             return new URL(url);
@@ -189,6 +281,11 @@ public class BioclipseManager implements IBactingManager {
         }
     }
 
+    /**
+     * Returns the version of the current Bioclipse libraries.
+     *
+     * @return a String with the version
+     */
     public String version() {
         return "2.8.0"; // need to get this from the bioclipse-core pom.xml or so
     }
@@ -253,6 +350,13 @@ public class BioclipseManager implements IBactingManager {
         }
     }
 
+    /**
+     * Method to check if Bioclipse has the right version that can be used to 
+     * ensure it is new enough.
+     *
+     * @param version the minimum required Bioclipse version
+     * @throws BioclipseException
+     */
     public void requireVersion( String version ) throws BioclipseException {
         try {
             if (!(VersionNumberComparator.INSTANCE
