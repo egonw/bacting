@@ -1,4 +1,4 @@
-# bacting
+# Bacting
 
 [![License](https://img.shields.io/badge/License-EPL%201.0-red.svg)](https://opensource.org/licenses/EPL-1.0)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.3464456.svg)](https://doi.org/10.5281/zenodo.3464456)
@@ -28,13 +28,15 @@ mvn versions:set -DgroupId=io.github.egonw.bacting -DartifactId=bioclipse-* -Dol
 mvn versions:set -DgroupId=io.github.egonw.bacting -DartifactId=managers-* -DoldVersion=0.0.4 -DnewVersion=0.0.5-SNAPSHOT
 ```
 
+But it is also done as part of uploading to Maven Central.
+
 # Usage
 
 It can be used in [Groovy](https://en.wikipedia.org/wiki/Apache_Groovy) by including the
 Bacting managers you need:
 
 ```groovy
-@Grab(group='io.github.egonw.bacting', module='managers-cdk', version='0.0.9')
+@Grab(group='io.github.egonw.bacting', module='managers-cdk', version='0.0.12')
 
 workspaceRoot = "."
 def cdk = new net.bioclipse.managers.CDKManager(workspaceRoot);
@@ -44,7 +46,8 @@ println cdk.fromSMILES("COC")
 
 ## API Coverage
 
-For the time being, the API is *incomplete*. Particularly, manager functionality around graphical UX
+For the time being, the coverage of the original API is *incomplete*.
+Particularly, manager functionality around graphical UX
 in the original Bioclipse may never be implemented. Each Bacting release will implement more APIs and
 the release notes will mention which managers and which methods have been added.
 
