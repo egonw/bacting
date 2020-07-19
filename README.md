@@ -53,7 +53,7 @@ the release notes will mention which managers and which methods have been added.
 
 For a description of the API, I refer to the book
 [A lot of Bioclipse Scripting Language examples](https://bioclipse.github.io/bioclipse.scripting/) that
-Jonathan and I compiled.
+Jonathan and I compiled. However, a [JavaDoc API](https://egonw.github.io/bacting-api/) is also available.
 
 All Bacting scripts will be backwards compatible with Bioclipse. If you want to install Bioclipse
 and see its wonderful UX in actions, [download Bioclipse 2.6.2 here](https://sourceforge.net/projects/bioclipse/files/bioclipse2/bioclipse2.6.2/).
