@@ -80,6 +80,12 @@ public class UIManager implements IBactingManager {
     	System.out.println("Cannot open file on the command line");
     }
 
+    public String newProject(String name) throws IOException {
+        if (fileExists(name)) return name;
+        Files.createDirectory(Paths.get(workspaceRoot + name));
+        return name;
+    }
+
 	@Override
 	public String getManagerName() {
 		return "ui";
