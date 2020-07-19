@@ -54,7 +54,7 @@ public class UIManager implements IBactingManager {
     	PrintWriter out = new PrintWriter(new FileWriter(file));
     	out.print(content);
     	out.close();
-        return file.getPath();
+        return file.getPath().replace(workspaceRoot, "");
     }
 
     public void remove(String path) {
