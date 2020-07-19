@@ -1,4 +1,4 @@
-/* Copyright (c) 2015  Egon Willighagen <egon.willighagen@gmail.com>
+/* Copyright (c) 2015,2020  Egon Willighagen <egon.willighagen@gmail.com>
  *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
@@ -18,6 +18,10 @@ import io.github.egonw.bacting.IBactingManager;
 import net.bioclipse.report.data.IReport;
 import net.bioclipse.report.serializer.HTMLSerializer;
 
+/**
+ * Bioclipse manager providing reporting functionality. Reports are
+ * created as {@link IReport} which can be serialized as HTML. 
+ */
 public class ReportManager implements IBactingManager {
 
 	private String workspaceRoot;

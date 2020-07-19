@@ -1,7 +1,7 @@
 /* Copyright (c) 2008-2009  Ola Spjuth
  *               2008-2012  Jonathan Alvarsson
  *               2008-2009  Stefan Kuhn
- *               2008-2019  Egon Willighagen <egonw@users.sf.net>
+ *               2008-2020  Egon Willighagen <egonw@users.sf.net>
  *               2013       John May <jwmay@users.sf.net>
  *
  * All rights reserved. This program and the accompanying materials
@@ -68,6 +68,10 @@ import net.bioclipse.cdk.domain.ICDKMolecule;
 import net.bioclipse.core.business.BioclipseException;
 import net.bioclipse.core.domain.IMolecule;
 
+/**
+ * Bioclipse manager that provides cheminformatics functionality using the
+ * Chemistry Development Kit database.
+ */
 public class CDKManager implements IBactingManager {
 
 	private String workspaceRoot;

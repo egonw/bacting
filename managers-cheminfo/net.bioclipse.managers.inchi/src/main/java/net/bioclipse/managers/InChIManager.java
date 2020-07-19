@@ -1,5 +1,5 @@
 /* Copyright (c) 2007-2009  Jonathan Alvarsson
- *               2008-2019  Egon Willighagen <egonw@users.sf.net>
+ *               2008-2020  Egon Willighagen <egonw@users.sf.net>
  *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
@@ -31,6 +31,10 @@ import net.sf.jniinchi.INCHI_STATUS;
 import net.sf.jniinchi.JniInchiException;
 import net.sf.jniinchi.JniInchiWrapper;
 
+/**
+ * Bioclipse manager that provides functionality to create and
+ * validate InChI and InChIKeys.
+ */
 public class InChIManager implements IBactingManager {
 
 	private String workspaceRoot;

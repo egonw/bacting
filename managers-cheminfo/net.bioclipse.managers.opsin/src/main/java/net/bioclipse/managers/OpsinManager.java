@@ -1,4 +1,4 @@
-/* Copyright (c) 2010,2019  Egon Willighagen <egon.willighagen@gmail.com>
+/* Copyright (c) 2010,2020  Egon Willighagen <egon.willighagen@gmail.com>
  *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
@@ -20,6 +20,10 @@ import uk.ac.cam.ch.wwmm.opsin.NameToStructureException;
 import uk.ac.cam.ch.wwmm.opsin.OpsinResult;
 import uk.ac.cam.ch.wwmm.opsin.OpsinResult.OPSIN_RESULT_STATUS;
 
+/**
+ * Bioclipse manager that wraps OPSIN functionality for processing
+ * IUPAC names.
+ */
 public class OpsinManager implements IBactingManager {
 
 	private CDKManager cdk;

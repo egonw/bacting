@@ -1,4 +1,4 @@
-/* Copyright (c) 2008 The Bioclipse Project and others.
+/* Copyright (c) 2008-2020 The Bioclipse Project and others.
  *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
@@ -29,6 +29,11 @@ import net.bioclipse.core.business.BioclipseException;
 import net.bioclipse.core.domain.IMolecule;
 import net.bioclipse.managers.CDKManager;
 
+/**
+ * Bioclipse manager that provides functionality by the Chemistry
+ * Development Kit that give access to less used functionality
+ * and exposes more details of the underlying data model.
+ */
 public class CDKDebugManager implements IBactingManager {
 
 	private String workspaceRoot;

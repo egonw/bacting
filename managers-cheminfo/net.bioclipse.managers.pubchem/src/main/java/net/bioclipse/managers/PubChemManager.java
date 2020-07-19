@@ -1,4 +1,4 @@
-/* Copyright (c) 2006-2019  Egon Willighagen <egonw@users.sf.net>
+/* Copyright (c) 2006-2020  Egon Willighagen <egonw@users.sf.net>
  *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
@@ -26,6 +26,10 @@ import nu.xom.Nodes;
 import nu.xom.ParsingException;
 import nu.xom.ValidityException;
 
+/**
+ * Bioclipse manager that provides functionality to interact with the
+ * PubChem database.
+ */
 public class PubChemManager implements IBactingManager {
 
     private final static String EUTILS_URL_BASE = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils";

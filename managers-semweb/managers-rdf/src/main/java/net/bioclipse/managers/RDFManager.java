@@ -1,4 +1,4 @@
-/* Copyright (c) 2009-2019  Egon Willighagen <egonw@users.sf.net>
+/* Copyright (c) 2009-2020  Egon Willighagen <egonw@users.sf.net>
  *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
@@ -46,6 +46,11 @@ import net.bioclipse.rdf.business.IRDFStore;
 import net.bioclipse.rdf.business.JenaModel;
 import net.bioclipse.rdf.business.TDBModel;
 
+/**
+ * Bioclipse manager that provides functionality around the Resource
+ * Description Framework standard. It allows creating in memory and
+ * on disk triple stores, creating on content, and IO functionality.
+ */
 public class RDFManager {
 
     public static final Integer CONNECT_TIME_OUT = 5000; 

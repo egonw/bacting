@@ -1,4 +1,4 @@
-/* Copyright (c) 2006-2019  Egon Willighagen <egonw@users.sf.net>
+/* Copyright (c) 2006-2020  Egon Willighagen <egonw@users.sf.net>
  *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
@@ -30,6 +30,10 @@ import net.bioclipse.cdk.domain.ICDKMolecule;
 import net.bioclipse.core.business.BioclipseException;
 import net.bioclipse.core.domain.IMolecule;
 
+/**
+ * Bioclipse manager that provides functionality to interact with the
+ * ChemSpider database.
+ */
 public class ChemspiderManager implements IBactingManager {
 
     private String workspaceRoot;

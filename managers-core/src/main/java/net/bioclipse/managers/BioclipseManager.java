@@ -1,4 +1,4 @@
-/* Copyright (c) 2009-2019  Egon Willighagen <egonw@users.sf.net>
+/* Copyright (c) 2009-2020  Egon Willighagen <egonw@users.sf.net>
  *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
@@ -40,6 +40,11 @@ import org.apache.http.message.BasicNameValuePair;
 import io.github.egonw.bacting.IBactingManager;
 import net.bioclipse.core.business.BioclipseException;
 
+/**
+ * Bioclipse manager providing core functionality. It is similar to the
+ * {@link UIManager} with similar functionality but this manager
+ * is less related to the Bioclipse workspace and user interface interaction.
+ */
 public class BioclipseManager implements IBactingManager {
 
 	private String workspaceRoot;
