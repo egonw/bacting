@@ -15,6 +15,7 @@ import java.util.Collections;
 import java.util.List;
 
 import io.github.egonw.bacting.IBactingManager;
+import net.bioclipse.managers.report.serializer.MarkdownSerializer;
 import net.bioclipse.report.data.IReport;
 import net.bioclipse.report.serializer.HTMLSerializer;
 
@@ -60,6 +61,16 @@ public class ReportManager implements IBactingManager {
      */
     public String asHTML(IReport report) {
     	return new HTMLSerializer().serialize(report);
+    }
+
+    /**
+     * Serializes the content of the given report into Markdown.
+     *
+     * @param report an {@link IReport}
+     * @return       a Markdown document as {@link String}
+     */
+    public String asMarkdown(IReport report) {
+        return new MarkdownSerializer().serialize(report);
     }
 
 	@Override
