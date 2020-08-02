@@ -14,6 +14,7 @@
 
     <modules>
         <module>managers-rdf</module>
+        <module>managers-xml</module>
     </modules>
 
 </project>
