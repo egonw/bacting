@@ -11,6 +11,10 @@ Bacting := acting as the Bioclipse TNG
 
 If you use this software, please cite the [Bioclipse 2 paper](https://bmcbioinformatics.biomedcentral.com/articles/10.1186/1471-2105-10-397).
 
+A paper about Bacting has been writing and available from [paper/paper.md](paper/paper.md).
+
+[![status](https://joss.theoj.org/papers/c306d8f50a6390d21b43633c99cbe4c3/status.svg)](https://joss.theoj.org/papers/c306d8f50a6390d21b43633c99cbe4c3)
+
 # Install
 
 First, you need a working [Maven installation](https://www.google.nl/search?q=install+maven) and then install this software:
