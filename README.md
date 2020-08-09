@@ -23,17 +23,6 @@ First, you need a working [Maven installation](https://www.google.nl/search?q=in
 mvn clean install
 ```
 
-## Bumping the version
-
-Use this command to change the version number (and update BioclipseManager.version()):
-
-```shell
-mvn versions:set -DgroupId=io.github.egonw.bacting -DartifactId=bioclipse-* -DoldVersion=2.8.0 -DnewVersion=2.8.0.1
-mvn versions:set -DgroupId=io.github.egonw.bacting -DartifactId=managers-* -DoldVersion=0.0.4 -DnewVersion=0.0.5-SNAPSHOT
-```
-
-But it is also done as part of uploading to Maven Central.
-
 # Usage
 
 It can be used in [Groovy](https://en.wikipedia.org/wiki/Apache_Groovy) by including the
