@@ -29,7 +29,7 @@ It can be used in [Groovy](https://en.wikipedia.org/wiki/Apache_Groovy) by inclu
 Bacting managers you need:
 
 ```groovy
-@Grab(group='io.github.egonw.bacting', module='managers-cdk', version='0.0.12')
+@Grab(group='io.github.egonw.bacting', module='managers-cdk', version='0.0.13')
 
 workspaceRoot = "."
 def cdk = new net.bioclipse.managers.CDKManager(workspaceRoot);
