@@ -42,6 +42,24 @@
       <artifactId>xom</artifactId>
       <version>1.2.5</version>
     </dependency>
+    <dependency>
+        <groupId>org.junit.jupiter</groupId>
+        <artifactId>junit-jupiter</artifactId>
+        <scope>test</scope>
+        <version>5.6.2</version>
+    </dependency>
+    <dependency>
+        <groupId>org.junit.jupiter</groupId>
+        <artifactId>junit-jupiter-engine</artifactId>
+        <scope>test</scope>
+        <version>5.6.2</version>
+    </dependency>
+    <dependency>
+        <groupId>io.github.egonw.bacting</groupId>
+        <artifactId>managers-ui</artifactId>
+        <scope>test</scope>
+        <version>0.0.13-SNAPSHOT</version>
+    </dependency>
   </dependencies>
 
 </project>
