@@ -20,7 +20,7 @@ A paper about Bacting has been writing and available from [paper/paper.md](paper
 First, you need a working [Maven installation](https://www.google.nl/search?q=install+maven) and then install this software:
 
 ```shell
-mvn clean install
+mvn clean install -Dgpg.skip
 ```
 
 # Usage
