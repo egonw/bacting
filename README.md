@@ -5,7 +5,7 @@
 [![Build Status](https://travis-ci.org/egonw/bacting.svg?branch=master)](https://travis-ci.org/egonw/bacting)
 [![Maven Central](https://img.shields.io/maven-central/v/io.github.egonw.bacting/bacting.svg?label=Maven%20Central)](https://search.maven.org/search?q=g:%22io.github.egonw.bacting%22%20AND%20a:%22bacting%22)
 
-Bacting := acting as the Bioclipse TNG
+Bacting := acting as the Bioclipse TNG (The Next Generation)
 
 Bacting is a Java-based, open-source platform for chemo- and bioinformatics based on [Bioclipse](https://scholia.toolforge.org/topic/Q1769726)
 that defines a number of common domain objects and wraps common functionality, providing a toolkit independent, scriptable solution to
