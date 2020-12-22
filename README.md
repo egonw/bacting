@@ -48,6 +48,14 @@ def cdk = new net.bioclipse.managers.CDKManager(workspaceRoot);
 println cdk.fromSMILES("COC")
 ```
 
+Full examples:
+
+* Open Notebooks for Wikidata, including:
+  * [script that compares a SMILES string with Wikidata, and creates QuickStatements for missing information](https://github.com/egonw/ons-wikidata/blob/master/Wikidata/createWDitemsFromSMILES.groovy)
+  * [script that reads melting points from an Excel spreadsheet to enter into Wikidata](https://github.com/egonw/ons-wikidata/blob/master/MeltingPoints/createQuickStatements.groovy)
+* Open Notebooks for WikiPathays:
+  * [script to recognize IUPAC names in WikiPathways](https://github.com/egonw/ons-wikipathways/blob/master/WikiPathways/getLabelsWithIUPACNames.groovy)
+
 ## API Coverage
 
 For the time being, the coverage of the original API is *incomplete*.
