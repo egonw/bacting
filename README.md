@@ -7,9 +7,12 @@
 
 Bacting := acting as the Bioclipse TNG (The Next Generation)
 
-Bacting is a Java-based, open-source platform for chemo- and bioinformatics based on [Bioclipse](https://scholia.toolforge.org/topic/Q1769726)
+Bacting is an open-source platform for chemo- and bioinformatics based on [Bioclipse](https://scholia.toolforge.org/topic/Q1769726)
 that defines a number of common domain objects and wraps common functionality, providing a toolkit independent, scriptable solution to
-handle data from the life sciences.
+handle data from the life sciences. Like Bioclipse, Bacting is written in the Java language, making use in Java-derived
+languages like [Groovy](https://en.wikipedia.org/wiki/Apache_Groovy). Deposition of the Bacting package on
+[Maven Central](https://search.maven.org/search?q=g:%22io.github.egonw.bacting%22%20AND%20a:%22bacting%22) allows it
+to be easily used in Groovy scripts with `@Grab` instructions.
 
 ## How to cite
 
