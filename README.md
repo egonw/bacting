@@ -13,7 +13,7 @@ handle data from the life sciences.
 
 ## How to cite
 
-If you use this software, please cite the [Bioclipse 2 paper](https://bmcbioinformatics.biomedcentral.com/articles/10.1186/1471-2105-10-397).
+Pending a Bacting publication (under review), if you use this software, please cite the most recent [Bioclipse paper](https://bmcbioinformatics.biomedcentral.com/articles/10.1186/1471-2105-10-397).
 
 A paper about Bacting has been writing and available from [paper/paper.md](paper/paper.md).
 
