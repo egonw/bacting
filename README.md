@@ -34,7 +34,10 @@ mvn clean install -Dgpg.skip
 # Usage
 
 It can be used in [Groovy](https://en.wikipedia.org/wiki/Apache_Groovy) by including the
-Bacting managers you need:
+Bacting managers you need. The following example tells Groovy to download the `CDKManager`
+and instantiate it for the given workspace location (as it if was running in Bioclipse
+itself), and then converts a [SMILES](https://en.wikipedia.org/wiki/Simplified_molecular-input_line-entry_system)
+string to a Bioclipse `IMolecule` data object:
 
 ```groovy
 @Grab(group='io.github.egonw.bacting', module='managers-cdk', version='0.0.13')
