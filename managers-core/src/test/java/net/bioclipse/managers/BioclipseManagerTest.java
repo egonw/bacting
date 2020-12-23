@@ -13,6 +13,7 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNotSame;
 import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.IOException;
@@ -74,6 +75,24 @@ public class BioclipseManagerTest {
 	}
 
 	@Test
+	public void testRequireVersion() throws Exception {
+		bioclipse.requireVersion("2.8.0");
+	}
+
+	@Test()
+	public void testRequireVersion_TooNew() {
+		String futureVersion = "3.0.0";
+		Exception exception = assertThrows(
+			BioclipseException.class, () ->
+			{
+			    bioclipse.requireVersion(futureVersion);
+			}
+		);
+		assertTrue(exception.getMessage().contains("requires at least version"));
+		assertTrue(exception.getMessage().contains(futureVersion));
+	}
+
+	@Test
 	public void testSparqlRemote() throws BioclipseException {
 		byte[] results = bioclipse.sparqlRemote(
 			"http://sparql.wikipathways.org/sparql",
@@ -88,6 +107,17 @@ public class BioclipseManagerTest {
 			"https://wikipathways.org"
 		);
 		assertTrue(results.contains("WikiPathways"));
+	}
+
+	@Test
+	public void testDownload_BadURL() {
+		Exception exception = assertThrows(
+			BioclipseException.class, () ->
+			{
+				bioclipse.download("xxx://wikipathways.org");
+			}
+		);
+		assertTrue(exception.getMessage().contains("Error while opening browser"));
 	}
 
 	@Test
