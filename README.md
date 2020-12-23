@@ -28,7 +28,7 @@ First, you need a working [Maven installation](https://www.google.nl/search?q=in
 Java 8, 11, and 14, and can be installed with:
 
 ```shell
-mvn clean install -Dgpg.skip
+mvn clean install -Dgpg.skip -Dmaven.javadoc.skip=true
 ```
 
 # Usage
