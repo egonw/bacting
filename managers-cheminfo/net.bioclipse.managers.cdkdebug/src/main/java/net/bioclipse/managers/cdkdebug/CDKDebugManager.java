@@ -93,7 +93,7 @@ public class CDKDebugManager implements IBactingManager {
 
 	@Override
 	public String getManagerName() {
-		return "cdk";
+		return "cdx";
 	}
 
 	@Override

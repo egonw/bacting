@@ -114,7 +114,7 @@ public class PubChemManager implements IBactingManager {
 
 	@Override
 	public String getManagerName() {
-		return "inchi";
+		return "pubchem";
 	}
 
 	@Override
