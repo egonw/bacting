@@ -74,6 +74,7 @@ For the time being, the coverage of the original API is *incomplete*.
 Particularly, manager functionality around graphical UX
 in the original Bioclipse may never be implemented. Each Bacting release will implement more APIs and
 the release notes will mention which managers and which methods have been added.
+An overview of the supports APIs can be found in [this overview](https://github.com/egonw/bacting/projects/2).
 
 For a description of the API, I refer to the book
 [A lot of Bioclipse Scripting Language examples](https://bioclipse.github.io/bioclipse.scripting/) that
