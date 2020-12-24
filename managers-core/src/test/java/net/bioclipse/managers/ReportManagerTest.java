@@ -66,4 +66,44 @@ public class ReportManagerTest {
 		assertNotNull(markdown);
 		assertTrue(markdown.contains("**Title**"));
 	}
+
+	@Test
+	public void testMarkdown_Sections() {
+		IReport someReport = report.createReport();
+		someReport.startSection("Level 1");
+		someReport.startSubSection("Level 2");
+		someReport.startSubSubSection("Level 3");
+		String markdown = report.asMarkdown(someReport);
+		assertNotNull(markdown);
+		assertTrue(markdown.contains("# "));
+		assertTrue(markdown.contains("## "));
+		assertTrue(markdown.contains("### "));
+	}
+
+	@Test
+	public void testMarkdown_Hyperlink() {
+		IReport someReport = report.createReport();
+		someReport.addLink("https://github.com/egonw/bacting", "Bacting repository");
+		String markdown = report.asMarkdown(someReport);
+		assertNotNull(markdown);
+		assertTrue(markdown.contains("]("));
+	}
+
+
+	@Test
+	public void testMarkdown_Various() {
+		IReport someReport = report.createReport();
+		someReport.forceNewLine();
+		someReport.startParagraph();
+		someReport.endParagraph();
+		someReport.startIndent();
+		someReport.endIndent();
+		String markdown = report.asMarkdown(someReport);
+		assertNotNull(markdown);
+		assertTrue(markdown.contains("<br"));
+		assertTrue(markdown.contains("<p"));
+		assertTrue(markdown.contains("</p"));
+		assertTrue(markdown.contains("<ul"));
+		assertTrue(markdown.contains("</ul"));
+	}
 }
