@@ -57,4 +57,13 @@ public class ReportManagerTest {
 		assertNotNull(html);
 		assertTrue(html.contains("<html>"));
 	}
+
+	@Test
+	public void testAsMarkdown() {
+		IReport someReport = report.createReport();
+		someReport.createTitle("Title");
+		String markdown = report.asMarkdown(someReport);
+		assertNotNull(markdown);
+		assertTrue(markdown.contains("**Title**"));
+	}
 }

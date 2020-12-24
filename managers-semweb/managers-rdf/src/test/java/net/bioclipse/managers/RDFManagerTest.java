@@ -9,7 +9,10 @@
  */
 package net.bioclipse.managers;
 
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNotSame;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.nio.file.Files;
 
@@ -35,4 +38,78 @@ public class RDFManagerTest {
 		assertNotNull(store);
 	}
 
+	@Test
+	public void testCreateInMemoryStore_Ontology() {
+		IRDFStore store = rdf.createInMemoryStore(true);
+		assertNotNull(store);
+	}
+
+	@Test
+	public void testAsTurtle() throws Exception {
+		IRDFStore store = rdf.createInMemoryStore(true);
+		assertNotNull(store);
+		String turtle = rdf.asTurtle(store);
+		assertTrue(turtle.contains("prefix"));
+	}
+
+	@Test
+	public void testAsRDFN3() throws Exception {
+		IRDFStore store = rdf.createInMemoryStore(true);
+		assertNotNull(store);
+		String n3 = rdf.asRDFN3(store);
+		assertTrue(n3.contains("<"));
+	}
+
+	@Test
+	public void testSize() throws Exception {
+		IRDFStore store = rdf.createInMemoryStore(true);
+		assertNotNull(store);
+		long size = rdf.size(store);
+		assertNotSame((long)0, size);
+	}
+
+	@Test
+	public void testAddObjectProperty() throws Exception {
+		IRDFStore store = rdf.createInMemoryStore(true);
+		assertNotNull(store);
+		rdf.addObjectProperty(store,
+			"https://example.org/subject",
+			"https://example.org/predicate",
+			"https://example.org/object"
+		);
+		String turtle = rdf.asTurtle(store);
+		assertTrue(turtle.contains("prefix"));
+		assertTrue(turtle.contains("example.org"));
+	}
+
+	@Test
+	public void testAddPrefix() throws Exception {
+		IRDFStore store = rdf.createInMemoryStore(true);
+		assertNotNull(store);
+		rdf.addObjectProperty(store,
+			"https://example.org/subject",
+			"https://example.org/predicate",
+			"https://example.org/object"
+		);
+		rdf.addPrefix(store, "ex", "https://example.org/");
+		String turtle = rdf.asTurtle(store);
+		assertTrue(turtle.contains("prefix ex:"));
+		assertTrue(turtle.contains("ex:subject"));
+	}
+
+	@Test
+	public void testAddDataProperty() throws Exception {
+		IRDFStore store = rdf.createInMemoryStore(true);
+		assertNotNull(store);
+		rdf.addDataProperty(store,
+			"https://example.org/subject",
+			"https://example.org/predicate",
+			"Object"
+		);
+		rdf.addPrefix(store, "ex", "https://example.org/");
+		String turtle = rdf.asTurtle(store);
+		assertTrue(turtle.contains("prefix ex:"));
+		assertTrue(turtle.contains("\"Object\""));
+		assertFalse(turtle.contains("ex:Object"));
+	}
 }
