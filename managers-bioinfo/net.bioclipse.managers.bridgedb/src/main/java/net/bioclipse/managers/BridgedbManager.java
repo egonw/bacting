@@ -137,6 +137,11 @@ public class BridgedbManager implements IBactingManager {
      * @throws BioclipseException
      */
     public List<String> map(String restService, String identifier, String source) throws BioclipseException {
+    	try {
+			Class.forName ("org.bridgedb.webservice.bridgerest.BridgeRest");
+		} catch (ClassNotFoundException e) {
+			throw new BioclipseException("Could not load the BridgeDb REST client: " + e.getMessage(), e);
+		}
     	return map(restService, identifier, source, null);
     }
 
@@ -166,14 +171,12 @@ public class BridgedbManager implements IBactingManager {
      */
     public List<String> map(String restService, String identifier, String source, String target) throws BioclipseException {
     	// now we connect to the driver and create a IDMapper instance.
-    	IDMapper mapper;
 		try {
-			mapper = BridgeDb.connect(restService);
+			IDMapper mapper = BridgeDb.connect("idmapper-bridgerest:" + restService);
+			return map(mapper, identifier, source, target);
 		} catch (IDMapperException exception) {
 			throw new BioclipseException("Could not connect to the REST service at: " + restService, exception);
-		}
-		
-		return map(mapper, identifier, source, target);
+		}		
     }
 
     /**

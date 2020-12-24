@@ -87,10 +87,9 @@ public class BridgedbManagerTest {
 	}
 
 	@Test
-	@Disabled("Wrong connection link")
 	public void testMapREST() throws BioclipseException {
 		List<String> map = bridgedb.map(
-			"http://webservice.bridgedb.org/",
+			"https://webservice.bridgedb.org/Human",
 			"1234", "L"
 		);
 		assertNotNull(map);
