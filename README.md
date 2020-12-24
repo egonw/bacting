@@ -32,6 +32,17 @@ Java 8, 11, and 14, and can be installed with:
 mvn clean install -Dgpg.skip -Dmaven.javadoc.skip=true
 ```
 
+## Making releases
+
+Releases are created by the release manager and requires permission to submit the release to Maven Central
+(using an approved Sonatype ([oss.sonatype.org](http://oss.sonatype.org/)) account).
+If these requirements are fulfilled then the following two commands to the job:
+
+```shell
+mvn release:prepare
+mvn release:perform
+```
+
 # Usage
 
 It can be used in [Groovy](https://en.wikipedia.org/wiki/Apache_Groovy) by including the
