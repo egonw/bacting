@@ -10,6 +10,7 @@
 package net.bioclipse.managers;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNotSame;
 import static org.junit.jupiter.api.Assertions.assertSame;
 
 import java.nio.file.Files;
@@ -30,9 +31,22 @@ public class PubChemManagerTest {
 	}
 
 	@Test
+	public void testManagerName() {
+		assertSame("pubchem", pubchem.getManagerName());
+	}
+
+	@Test
 	public void testDOIs() {
 		List<String> dois = pubchem.doi();
 		assertNotNull(dois);
 		assertSame(0, dois.size());
 	}
+
+	@Test
+	public void testSearch() throws Exception {
+		List<Integer> results = pubchem.search("methane");
+		assertNotNull(results);
+		assertNotSame(0, results.size());
+	}
+
 }

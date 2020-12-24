@@ -12,6 +12,7 @@ package net.bioclipse.managers;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.ByteArrayInputStream;
@@ -71,6 +72,17 @@ public class CDKManagerTest {
 	}
 
 	@Test
+	public void testFromCml_Null() {
+		Exception exception = assertThrows(
+			IllegalArgumentException.class, () ->
+			{
+				cdk.fromCml(null);
+			}
+		);
+		assertTrue(exception.getMessage().contains("cannot be null"));
+	}
+	
+	@Test
 	public void testAsCDKMolecule() throws BioclipseException, IOException {
 		ICDKMolecule mol = cdk.fromCml("<molecule/>");
 		ICDKMolecule mol2 = cdk.asCDKMolecule(mol); 
@@ -88,6 +100,17 @@ public class CDKManagerTest {
 		ICDKMolecule mol = cdk.fromSMILES("CCC");
 		assertNotNull(mol);
 		assertSame(3, mol.getAtomContainer().getAtomCount());
+	}
+
+	@Test
+	public void testFromSMILES_Bad() {
+		Exception exception = assertThrows(
+			BioclipseException.class, () ->
+			{
+				cdk.fromSMILES("ANY");
+			}
+		);
+		assertTrue(exception.getMessage().contains("invalid"));
 	}
 
 	@Test

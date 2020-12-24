@@ -11,6 +11,7 @@ package net.bioclipse.managers;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.nio.file.Files;
 import java.util.List;
@@ -18,23 +19,40 @@ import java.util.List;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
+import net.bioclipse.core.domain.IMolecule;
 import net.bioclipse.managers.cdkdebug.CDKDebugManager;
 
 public class CDKDebugManagerTest {
 
-	static CDKDebugManager cdkdebug;
+	static CDKManager cdk;
+	static CDKDebugManager cdx;
 	static String workspaceRoot;
 
 	@BeforeAll
 	static void setupManager() throws Exception {
-		workspaceRoot = Files.createTempDirectory("cdkdebugtestws").toString();
-		cdkdebug = new CDKDebugManager(workspaceRoot);
+		workspaceRoot = Files.createTempDirectory("cdxtestws").toString();
+		cdx = new CDKDebugManager(workspaceRoot);
+		cdk = new CDKManager(workspaceRoot);
 	}
 
 	@Test
 	public void testDOIs() {
-		List<String> dois = cdkdebug.doi();
+		List<String> dois = cdx.doi();
 		assertNotNull(dois);
 		assertSame(3, dois.size());
 	}
+
+	@Test
+	public void testManagerName() {
+		assertSame("cdx", cdx.getManagerName());
+	}
+
+	@Test
+	public void testPerceiveCDKAtomTypes() throws Exception {
+		IMolecule mol = cdk.fromSMILES("COC");
+		String types = cdx.perceiveCDKAtomTypes(mol);
+		assertNotNull(types);
+		assertTrue(types.contains("C.sp3"));
+	}
+
 }

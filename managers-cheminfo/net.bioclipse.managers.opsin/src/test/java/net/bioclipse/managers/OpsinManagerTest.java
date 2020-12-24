@@ -11,6 +11,8 @@ package net.bioclipse.managers;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.nio.file.Files;
 import java.util.List;
@@ -18,6 +20,7 @@ import java.util.List;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
+import net.bioclipse.core.business.BioclipseException;
 import net.bioclipse.core.domain.IMolecule;
 
 public class OpsinManagerTest {
@@ -32,9 +35,20 @@ public class OpsinManagerTest {
 	}
 
 	@Test
-	public void testCreateInMemoryStore() throws Exception {
+	public void testParseIUPACName() throws Exception {
 		IMolecule molecule = opsin.parseIUPACName("methane");
 		assertNotNull(molecule);
+	}
+
+	@Test
+	public void testParseIUPACName_Bad() throws Exception {
+		Exception exception = assertThrows(
+			BioclipseException.class, () ->
+			{
+				opsin.parseIUPACName("brexit");
+			}
+		);
+		assertTrue(exception.getMessage().contains("Could not parse"));
 	}
 
 	@Test
@@ -43,4 +57,10 @@ public class OpsinManagerTest {
 		assertNotNull(dois);
 		assertSame(1, dois.size());
 	}
+
+	@Test
+	public void testManagerName() {
+		assertSame("opsin", opsin.getManagerName());
+	}
+
 }
