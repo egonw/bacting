@@ -30,14 +30,6 @@
     </pluginManagement>
   </build>
 
-  <repositories>
-    <repository>
-      <id>spring.io</id>
-      <url>http://repo.spring.io/plugins-release/</url>
-      <name>Spring Plugins Repository</name>
-    </repository>
-  </repositories>
-
   <dependencies>
     <dependency>
       <groupId>io.github.egonw.bacting</groupId>
