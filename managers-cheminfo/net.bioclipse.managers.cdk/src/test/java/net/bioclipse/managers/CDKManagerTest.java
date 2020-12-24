@@ -127,6 +127,39 @@ public class CDKManagerTest {
 	}
 
 	@Test
+	public void testFromString_Null() throws BioclipseException, IOException {
+		Exception exception = assertThrows(
+			BioclipseException.class, () ->
+			{
+				cdk.fromString(null);
+			}
+		);
+		assertTrue(exception.getMessage().contains("cannot be null"));
+	}
+
+	@Test
+	public void testFromString_Empty() throws BioclipseException, IOException {
+		Exception exception = assertThrows(
+			BioclipseException.class, () ->
+			{
+				cdk.fromString("");
+			}
+		);
+		assertTrue(exception.getMessage().contains("cannot be empty"));
+	}
+
+	@Test
+	public void testFromString_UnknownFormat() throws BioclipseException, IOException {
+		Exception exception = assertThrows(
+			BioclipseException.class, () ->
+			{
+				cdk.fromString("element:C coordXYZ:0,0,0");
+			}
+		);
+		assertTrue(exception.getMessage().contains("Could not identify format"));
+	}
+
+	@Test
 	public void testMolecularFormulaObject() throws BioclipseException, IOException {
 		IMolecularFormula mf = cdk.molecularFormulaObject(
 			cdk.fromSMILES("COC")
@@ -147,6 +180,10 @@ public class CDKManagerTest {
 			"/appendTest.sdf",
 			cdk.fromSMILES("COC")
 		);
+		cdk.appendToSDF(
+			"/appendTest.sdf",
+			cdk.fromSMILES("COCC")
+		);
 	}
 
 	@Test
@@ -155,6 +192,10 @@ public class CDKManagerTest {
 		Set<IAtom> set = cdk.getAtomsWithUndefinedStereo(mol);
 		assertNotNull(set);
 		assertSame(0, set.size());
+		mol = cdk.fromSMILES("ClC(Br)(F)I");
+		set = cdk.getAtomsWithUndefinedStereo(mol);
+		assertNotNull(set);
+		assertSame(1, set.size());
 	}
 
 	@Test
@@ -163,6 +204,10 @@ public class CDKManagerTest {
 		Set<IAtom> set = cdk.getAtomsWithDefinedStereo(mol);
 		assertNotNull(set);
 		assertSame(0, set.size());
+		mol = cdk.fromSMILES("Cl[C@](Br)(F)I");
+		set = cdk.getAtomsWithDefinedStereo(mol);
+		assertNotNull(set);
+		assertSame(1, set.size());
 	}
 
 }
