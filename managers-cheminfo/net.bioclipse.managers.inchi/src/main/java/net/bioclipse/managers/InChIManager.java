@@ -150,7 +150,7 @@ public class InChIManager implements IBactingManager {
     /**
      * Checks the validity of the InChI.
      *
-     * @param inchikey  the InChI to test
+     * @param inchi     the InChI to test
      * @return          true if the InChI is valid
      * @throws BioclipseException
      */
@@ -170,7 +170,7 @@ public class InChIManager implements IBactingManager {
     /**
      * Checks the validity of the InChI using more strict rules.
      *
-     * @param inchikey  the InChI to test
+     * @param inchi     the InChI to test
      * @return          true if the InChI is valid
      * @throws BioclipseException
      */
