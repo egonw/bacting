@@ -11,6 +11,7 @@
 package net.bioclipse.managers;
 
 import java.security.InvalidParameterException;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -26,6 +27,7 @@ import net.bioclipse.core.business.BioclipseException;
 import net.bioclipse.core.domain.IMolecule;
 import net.bioclipse.inchi.InChI;
 import net.sf.jniinchi.INCHI_KEY_STATUS;
+import net.sf.jniinchi.INCHI_OPTION;
 import net.sf.jniinchi.INCHI_RET;
 import net.sf.jniinchi.INCHI_STATUS;
 import net.sf.jniinchi.JniInchiException;
@@ -75,6 +77,57 @@ public class InChIManager implements IBactingManager {
         isLoaded = true;
         return LOADING_SUCCESS;
     }
+
+    public List<String> options() {
+    	List<String> options = new ArrayList<String>();
+    	for (INCHI_OPTION option : INCHI_OPTION.values()) {
+    		options.add("" + option);
+    	}
+    	return options;
+    }
+
+    /**
+     * Generates an InChI for the given {@link IMolecule}, using the given options.
+     * This options String consists of one or more, space-delimited options, such as FixedH.
+     *
+     * @param molecule the {@link IMolecule} to create the InChI for
+     * @return         an {@link InChI} object
+     * @throws Exception
+     */
+	public InChI generate(IMolecule molecule, String options) throws Exception {
+		if (!isAvailable()) {
+    		return InChI.FAILED_TO_CALCULATE;
+    	}
+
+		Object adapted = molecule.getAdapter(IAtomContainer.class);
+        if (adapted != null) {
+            IAtomContainer container = (IAtomContainer)adapted;
+            IAtomContainer clone = (IAtomContainer)container.clone();
+            // remove aromaticity flags
+            for (IAtom atom : clone.atoms())
+                atom.setFlag(CDKConstants.ISAROMATIC, false);
+            for (IBond bond : clone.bonds())
+                bond.setFlag(CDKConstants.ISAROMATIC, false);
+            InChIGenerator gen = factory.getInChIGenerator(clone, options);
+            INCHI_RET status = gen.getReturnStatus();
+            if (status == INCHI_RET.OKAY ||
+            		status == INCHI_RET.WARNING) {
+            	InChI inchi = new InChI();
+            	inchi.setValue(gen.getInchi());
+            	inchi.setKey(gen.getInchiKey());
+            	return inchi;
+            } else {
+            	throw new InvalidParameterException(
+            			"Error while generating InChI (" + status + "): " +
+            			gen.getMessage()
+            	);
+            }
+        } else {
+            throw new InvalidParameterException(
+                "Given molecule must be a CDKMolecule"
+            );
+        }
+	}
 
     /**
      * Generates an InChI for the given {@link IMolecule}.
