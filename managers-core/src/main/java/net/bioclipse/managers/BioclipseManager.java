@@ -60,6 +60,14 @@ public class BioclipseManager implements IBactingManager {
 	}
 
 	/**
+	 * Returns the location of the current logfile.
+	 */
+	public String logfileLocation() {
+		// no logging functionality at this moment. Not clear how this can be shared among all managers
+		return "";
+	}
+
+	/**
 	 * Determines if online websites can be reached, reflecting access to
 	 * the internet.
 	 *
