@@ -41,6 +41,13 @@ public class OpsinManagerTest {
 	}
 
 	@Test
+	public void testParseIUPACNameAsCML() throws Exception {
+		String cmlMolecule = opsin.parseIUPACNameAsCML("methane");
+		assertNotNull(cmlMolecule);
+		assertTrue(cmlMolecule.contains("cml"));
+	}
+
+	@Test
 	public void testParseIUPACName_Bad() throws Exception {
 		Exception exception = assertThrows(
 			BioclipseException.class, () ->
