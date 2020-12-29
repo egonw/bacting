@@ -34,6 +34,9 @@ public class InChIManagerTest {
 		workspaceRoot = Files.createTempDirectory("inchitestws").toString();
 		inchi = new InChIManager(workspaceRoot);
 		cdk = new CDKManager(workspaceRoot);
+		String result = inchi.load();
+		assertTrue(inchi.isLoaded());
+		assertTrue(inchi.isAvailable());
 	}
 
 	@Test
@@ -53,7 +56,15 @@ public class InChIManagerTest {
 		IMolecule mol = cdk.fromSMILES("CC");
 		InChI someInChI = inchi.generate(mol);
 		assertNotNull(someInChI);
-		assertTrue(someInChI.getValue().contains("InChI="));
+		assertTrue(someInChI.getValue().contains("InChI=1S/"));
+	}
+
+	@Test
+	public void testGenerateFixedH() throws Exception {
+		IMolecule mol = cdk.fromSMILES("C=CO");
+		InChI someInChI = inchi.generate(mol, "FixedH");
+		assertNotNull(someInChI);
+		assertTrue(someInChI.getValue().contains("InChI=1/"));
 	}
 
 	@Test
@@ -62,6 +73,18 @@ public class InChIManagerTest {
 		assertTrue(inchi.check("InChI=1S/CH4/h1H4"));
 	}
 	
+	@Test
+	public void testOptions() throws Exception {
+		List<String> options = inchi.options();
+		assertNotNull(options);
+		assertTrue(options.contains("FixedH"));
+	}
+
+	@Test
+	public void testCheckStrict() throws Exception {
+		assertFalse(inchi.checkStrict("InChI="));
+	}
+
 	@Test
 	public void testCheckKey() throws Exception {
 		assertFalse(inchi.checkKey("VNWKTOKETHGBQD-UHFFFAOYSA-3"));
