@@ -12,6 +12,7 @@ package net.bioclipse.managers;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNotSame;
 import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.nio.file.Files;
 import java.util.List;
@@ -47,6 +48,13 @@ public class PubChemManagerTest {
 		List<Integer> results = pubchem.search("methane");
 		assertNotNull(results);
 		assertNotSame(0, results.size());
+	}
+
+	@Test
+	public void downloadAsString() throws Exception {
+		String xml = pubchem.downloadAsString(71583);
+		assertNotNull(xml);
+		assertTrue(xml.contains("PC-Compounds"));
 	}
 
 }

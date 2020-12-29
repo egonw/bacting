@@ -9,13 +9,22 @@
  */
 package net.bioclipse.managers;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.regex.PatternSyntaxException;
 
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.StatusLine;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.HttpClientBuilder;
 import org.eclipse.core.runtime.CoreException;
 
 import io.github.egonw.bacting.IBactingManager;
@@ -121,4 +130,49 @@ public class PubChemManager implements IBactingManager {
 	public List<String> doi() {
 		return Collections.emptyList();
 	}
+
+    public String downloadAsString(Integer cid)
+        throws IOException, BioclipseException, CoreException {
+        return downloadAsString(cid, "DisplayXML");
+    }
+
+    private String downloadAsString(Integer cid, String type)
+            throws IOException, BioclipseException, CoreException {
+        String efetch = PUBCHEM_URL_BASE + "summary/summary.cgi?cid=" +
+            cid + "&disopt=" + type;
+        return downloadAsString(efetch, null);
+    }
+
+    private String downloadAsString(String URL, String accepts)
+            throws IOException, BioclipseException, CoreException {
+        HttpClient client = HttpClientBuilder.create().build();
+        String fileContent = "";
+        try {
+            HttpGet method = new HttpGet(URL);
+			if (accepts != null) {
+				method.addHeader("Accept", accepts);
+				method.addHeader("Content-Type", accepts);
+			}
+			HttpResponse response = client.execute(method);
+			StatusLine statusLine = response.getStatusLine();
+			int statusCode = statusLine.getStatusCode();
+			if (statusCode != 200) throw new BioclipseException(
+					"Expected HTTP 200, but got a " + statusCode + ": " + statusLine.getReasonPhrase()
+					);
+
+			HttpEntity responseEntity = response.getEntity();
+			ByteArrayOutputStream buffer = new ByteArrayOutputStream();
+			responseEntity.writeTo(buffer);
+			buffer.flush();
+			fileContent = new String(buffer.toByteArray());
+        } catch (PatternSyntaxException exception) {
+            exception.printStackTrace();
+            throw new BioclipseException("Invalid Pattern.", exception);
+        } catch (MalformedURLException exception) {
+            exception.printStackTrace();
+            throw new BioclipseException("Invalid URL.", exception);
+        }
+        return fileContent;
+    }
+
 }
