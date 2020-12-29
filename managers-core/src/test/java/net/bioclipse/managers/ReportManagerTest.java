@@ -20,7 +20,9 @@ import java.util.List;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
+import net.bioclipse.core.domain.StringMatrix;
 import net.bioclipse.report.data.IReport;
+import net.bioclipse.report.data.Text;
 
 public class ReportManagerTest {
 
@@ -89,7 +91,6 @@ public class ReportManagerTest {
 		assertTrue(markdown.contains("]("));
 	}
 
-
 	@Test
 	public void testMarkdown_Various() {
 		IReport someReport = report.createReport();
@@ -106,4 +107,37 @@ public class ReportManagerTest {
 		assertTrue(markdown.contains("<ul"));
 		assertTrue(markdown.contains("</ul"));
 	}
+
+	@Test
+	public void testTextBold() {
+		IReport someReport = report.createReport();
+		someReport.addText("bold Text", "BOLD");
+		String markdown = report.asMarkdown(someReport);
+		assertNotNull(markdown);
+		assertTrue(markdown.contains("**bold Text**"));
+	}
+
+	@Test
+	public void testTextItalic() {
+		IReport someReport = report.createReport();
+		someReport.addText("italic Text", "ITALIC");
+		String markdown = report.asMarkdown(someReport);
+		assertNotNull(markdown);
+		assertTrue(markdown.contains("_italic Text_"));
+	}
+
+	@Test
+	public void testTable() {
+		IReport someReport = report.createReport();
+		StringMatrix table = new StringMatrix();
+		table.set(1, 1, "value");
+		someReport.addTable(table, "Some table.");
+		String markdown = report.asMarkdown(someReport);
+		System.out.println(markdown);
+		assertNotNull(markdown);
+		assertTrue(markdown.contains("<table>"));
+		assertTrue(markdown.contains("Some table."));
+		assertTrue(markdown.contains("value"));
+	}
+
 }
