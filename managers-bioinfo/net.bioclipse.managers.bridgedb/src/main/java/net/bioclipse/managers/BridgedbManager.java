@@ -44,6 +44,7 @@ public class BridgedbManager implements IBactingManager {
      */
 	public BridgedbManager(String workspaceRoot) {
 		this.workspaceRoot = workspaceRoot;
+		DataSourceTxt.init();
 	}
 
 	/**
@@ -118,8 +119,7 @@ public class BridgedbManager implements IBactingManager {
      * @throws BioclipseException
      */
     public List<DataSource> guessIdentifierType(String identifier) throws BioclipseException {
-        DataSourceTxt.init();
-    	Map<DataSource, Pattern> patterns = DataSourcePatterns.getPatterns();
+        Map<DataSource, Pattern> patterns = DataSourcePatterns.getPatterns();
 
     	List<DataSource> sources = new ArrayList<DataSource>();
     	for (DataSource source : patterns.keySet()) {
