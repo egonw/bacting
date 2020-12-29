@@ -55,7 +55,7 @@ public class BridgedbManager implements IBactingManager {
 	 * @throws BioclipseException
 	 */
     public DataSource getSource(String source) throws BioclipseException {
-    	return DataSource.getBySystemCode(source);
+        return DataSource.getExistingBySystemCode(source);
     }
     
 	/**
@@ -66,7 +66,7 @@ public class BridgedbManager implements IBactingManager {
 	 * @throws BioclipseException
 	 */
     public DataSource getSourceFromName(String name) throws BioclipseException {
-    	return DataSource.getByFullName(name);
+        return DataSource.getExistingByFullName(name);
     }
 
     /**
