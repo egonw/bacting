@@ -12,17 +12,22 @@ package net.bioclipse.managers;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNotSame;
+import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.nio.file.Files;
+import java.util.HashMap;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
+import net.bioclipse.core.domain.IStringMatrix;
+import net.bioclipse.core.domain.StringMatrix;
 import net.bioclipse.rdf.business.IRDFStore;
 
 public class RDFManagerTest {
 
+	static BioclipseManager bioclipse;
 	static UIManager ui;
 	static RDFManager rdf;
 	static String workspaceRoot;
@@ -31,6 +36,7 @@ public class RDFManagerTest {
 	static void setupManager() throws Exception {
 		workspaceRoot = Files.createTempDirectory("rdftestws").toString();
 		rdf = new RDFManager(workspaceRoot);
+		bioclipse = new BioclipseManager(workspaceRoot);
 		ui = new UIManager(workspaceRoot);
 		ui.newProject("/RDFTests/");
 		ui.newFile("/RDFTests/exampleContent.xml",
@@ -83,6 +89,48 @@ public class RDFManagerTest {
 		assertNotNull(store);
 		long size = rdf.size(store);
 		assertNotSame((long)0, size);
+	}
+
+	@Test
+	public void testImportFromString() throws Exception {
+		IRDFStore store = rdf.createInMemoryStore(true);
+		assertNotNull(store);
+		long initialSize = rdf.size(store);
+		store = rdf.importFromString(
+			store,
+			"@prefix ex:    <https://example.org/> .\n" +
+			"@prefix owl:   <http://www.w3.org/2002/07/owl#> .\n" +
+			"@prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .\n" +
+			"@prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .\n" +
+			"@prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .\n" +
+			"\n" +
+			"ex:subject  ex:predicate  \"Object\"@en .\n",
+			"TURTLE"
+		);
+		assertNotSame(initialSize, rdf.size(store));
+	}
+
+	@Test
+	public void testImportURL() throws Exception {
+		IRDFStore store = rdf.createInMemoryStore(true);
+		assertNotNull(store);
+		long initialSize = rdf.size(store);
+		store = rdf.importURL(
+			store, "https://raw.githubusercontent.com/NanoCommons/ontologies/master/enanomapper.owl"
+		);
+		assertNotSame(initialSize, rdf.size(store));
+	}
+
+	@Test
+	public void testImportURLWithHeaders() throws Exception {
+		IRDFStore store = rdf.createInMemoryStore(true);
+		assertNotNull(store);
+		long initialSize = rdf.size(store);
+		store = rdf.importURL(
+			store, "https://raw.githubusercontent.com/NanoCommons/ontologies/master/enanomapper.owl",
+			new HashMap<>()
+		);
+		assertNotSame(initialSize, rdf.size(store));
 	}
 
 	@Test
@@ -167,10 +215,46 @@ public class RDFManagerTest {
 		);
 		rdf.addPrefix(store, "ex", "https://example.org/");
 		String turtle = rdf.asTurtle(store);
-		System.out.println(turtle);
 		assertTrue(turtle.contains("prefix ex:"));
 		assertTrue(turtle.contains("\"Object\""));
 		assertFalse(turtle.contains("ex:Object"));
 		assertTrue(turtle.contains("@en"));
+	}
+
+	@Test
+	public void testSPARQLLocal() throws Exception {
+		IRDFStore store = rdf.createInMemoryStore(true);
+		assertNotNull(store);
+		rdf.addPropertyInLanguage(store,
+			"https://example.org/subject",
+			"https://example.org/predicate",
+			"Object", "en"
+		);
+		StringMatrix results = rdf.sparql(store,
+			"SELECT ?s WHERE { ?s <https://example.org/predicate> [] }"
+		);
+		assertNotNull(store);
+		assertSame(1, results.getRowCount());
+	}
+
+	@Test
+	public void testSPARQLRemote() throws Exception {
+		StringMatrix results = rdf.sparqlRemote(
+			"http://sparql.wikipathways.org/sparql",
+			"SELECT ?node WHERE { ?node a <http://vocabularies.wikipathways.org/wp#DataNode> } LIMIT 1"
+		);
+		assertNotNull(results);
+		assertSame(1, results.getRowCount());
+	}
+
+	@Test
+	public void testSPARQLRemoteNoJena() throws Exception {
+		String query = "SELECT ?node WHERE { ?node a <http://vocabularies.wikipathways.org/wp#DataNode> } LIMIT 1";
+		byte[] queryResults = bioclipse.sparqlRemote(
+			"http://sparql.wikipathways.org/sparql", query
+		);
+		IStringMatrix results = rdf.processSPARQLXML(queryResults, query);
+		assertNotNull(results);
+		assertSame(1, results.getRowCount());
 	}
 }
