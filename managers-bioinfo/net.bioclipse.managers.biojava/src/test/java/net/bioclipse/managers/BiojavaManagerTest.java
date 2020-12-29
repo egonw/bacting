@@ -17,7 +17,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.util.List;
 
-import org.biojava.bio.BioError;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
@@ -46,6 +45,10 @@ public class BiojavaManagerTest {
 	public void testDNAfromPlainSequence() {
 		IDNA dna = biojava.DNAfromPlainSequence("CAT");
 		assertNotNull(dna);
+		assertNotNull(dna.toString());
+		assertNotNull(dna.getPlainSequence());
+		dna = biojava.DNAfromPlainSequence("CAT", "foo");
+		assertSame("foo", dna.getName());
 	}
 
 	@Test
@@ -63,6 +66,9 @@ public class BiojavaManagerTest {
 	public void testProteinfromPlainSequence() {
 		IProtein protein = biojava.proteinFromPlainSequence("PLINT");
 		assertNotNull(protein);
+		assertNotNull(protein.toString());
+		assertNotNull(protein.getPlainSequence());
+		assertNotNull(protein.getName());
 	}
 
 }
