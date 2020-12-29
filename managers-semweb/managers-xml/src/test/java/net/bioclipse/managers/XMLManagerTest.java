@@ -9,9 +9,11 @@
  */
 package net.bioclipse.managers;
 
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.nio.file.Files;
@@ -19,6 +21,8 @@ import java.util.List;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+
+import net.bioclipse.core.business.BioclipseException;
 
 public class XMLManagerTest {
 
@@ -39,6 +43,7 @@ public class XMLManagerTest {
 			"https://raw.githubusercontent.com/egonw/bacting/master/pom.xml",
 			"/XMLTests/pom.xml"
 		);
+		ui.newFile("/XMLTests/notWellFormed.xml", "<xml>");
 	}
 
 	@Test
@@ -56,6 +61,24 @@ public class XMLManagerTest {
 	@Test
 	public void testIsWellFormed() throws Exception {
 		assertTrue(xml.isWellFormed("/XMLTests/pom.xml"));
+	}
+
+	@Test
+	public void testIsNotWellFormed() throws Exception {
+		boolean isWellFormed = xml.isWellFormed("/XMLTests/notWellFormed.xml");
+		assertFalse(isWellFormed);
+	}
+
+	@Test
+	public void testIsWellFormed_NoFile() {
+		Exception exception = assertThrows(
+			BioclipseException.class, () ->
+			{
+				xml.isWellFormed("/XMLTests/doesnotexist.xml");
+			}
+		);
+		assertNotNull(exception);
+		assertTrue(exception.getMessage().contains("Error while opening file"));
 	}
 
 	@Test

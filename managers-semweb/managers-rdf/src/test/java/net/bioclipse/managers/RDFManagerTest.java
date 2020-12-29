@@ -23,6 +23,7 @@ import net.bioclipse.rdf.business.IRDFStore;
 
 public class RDFManagerTest {
 
+	static UIManager ui;
 	static RDFManager rdf;
 	static String workspaceRoot;
 
@@ -30,6 +31,22 @@ public class RDFManagerTest {
 	static void setupManager() throws Exception {
 		workspaceRoot = Files.createTempDirectory("rdftestws").toString();
 		rdf = new RDFManager(workspaceRoot);
+		ui = new UIManager(workspaceRoot);
+		ui.newProject("/RDFTests/");
+		ui.newFile("/RDFTests/exampleContent.xml",
+			"@prefix ex:    <https://example.org/> .\n" +
+			"@prefix owl:   <http://www.w3.org/2002/07/owl#> .\n" +
+			"@prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .\n" +
+			"@prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .\n" +
+			"@prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .\n" +
+			"\n" +
+			"ex:subject  ex:predicate  \"Object\"@en .\n");
+	}
+
+	@Test
+	public void testCreateStore() {
+		IRDFStore store = rdf.createStore("/tmp/");
+		assertNotNull(store);
 	}
 
 	@Test
@@ -66,6 +83,15 @@ public class RDFManagerTest {
 		assertNotNull(store);
 		long size = rdf.size(store);
 		assertNotSame((long)0, size);
+	}
+
+	@Test
+	public void testImportFile() throws Exception {
+		IRDFStore store = rdf.createInMemoryStore(true);
+		assertNotNull(store);
+		long initialSize = rdf.size(store);
+		store = rdf.importFile(store, "/RDFTests/exampleContent.xml", "TURTLE");
+		assertNotSame(initialSize, rdf.size(store));
 	}
 
 	@Test
@@ -111,5 +137,40 @@ public class RDFManagerTest {
 		assertTrue(turtle.contains("prefix ex:"));
 		assertTrue(turtle.contains("\"Object\""));
 		assertFalse(turtle.contains("ex:Object"));
+	}
+
+	@Test
+	public void testAddTypedDataProperty() throws Exception {
+		IRDFStore store = rdf.createInMemoryStore(true);
+		assertNotNull(store);
+		rdf.addTypedDataProperty(store,
+			"https://example.org/subject",
+			"https://example.org/predicate",
+			"Object", "xsd:string"
+		);
+		rdf.addPrefix(store, "ex", "https://example.org/");
+		String turtle = rdf.asTurtle(store);
+		assertTrue(turtle.contains("prefix ex:"));
+		assertTrue(turtle.contains("\"Object\""));
+		assertFalse(turtle.contains("ex:Object"));
+		assertTrue(turtle.contains("^^<xsd:string>"));
+	}
+
+	@Test
+	public void testAddPropertyInLanguage() throws Exception {
+		IRDFStore store = rdf.createInMemoryStore(true);
+		assertNotNull(store);
+		rdf.addPropertyInLanguage(store,
+			"https://example.org/subject",
+			"https://example.org/predicate",
+			"Object", "en"
+		);
+		rdf.addPrefix(store, "ex", "https://example.org/");
+		String turtle = rdf.asTurtle(store);
+		System.out.println(turtle);
+		assertTrue(turtle.contains("prefix ex:"));
+		assertTrue(turtle.contains("\"Object\""));
+		assertFalse(turtle.contains("ex:Object"));
+		assertTrue(turtle.contains("@en"));
 	}
 }

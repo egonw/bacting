@@ -12,6 +12,7 @@ package net.bioclipse.managers;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.IOException;
@@ -22,7 +23,6 @@ import org.bridgedb.DataSource;
 import org.bridgedb.Xref;
 import org.bridgedb.bio.Organism;
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import net.bioclipse.core.business.BioclipseException;
@@ -95,4 +95,27 @@ public class BridgedbManagerTest {
 		assertNotNull(map);
 		assertNotEquals(0, map.size());
 	}
+
+	@Test
+	public void testMapREST_NonExistingService() throws BioclipseException {
+		Exception exception = assertThrows(
+			BioclipseException.class, () ->
+			{
+				bridgedb.map(
+					"http://bridgedb.elixir-europe.org/Human",
+					"1234", "L"
+				);
+			}
+		);
+		assertNotNull(exception);
+		assertTrue(exception.getMessage().contains("Could not connect to the REST service"));
+	}
+
+	@Test
+	public void guessIdentifierType() throws BioclipseException {
+		List<DataSource> types = bridgedb.guessIdentifierType("ENSG00000099250");
+		assertNotNull(types);
+		assertNotEquals(0, types.size());
+	}
+
 }
