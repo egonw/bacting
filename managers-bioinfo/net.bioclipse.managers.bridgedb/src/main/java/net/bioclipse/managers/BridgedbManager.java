@@ -23,6 +23,7 @@ import org.bridgedb.DataSourcePatterns;
 import org.bridgedb.IDMapper;
 import org.bridgedb.IDMapperException;
 import org.bridgedb.Xref;
+import org.bridgedb.bio.DataSourceTxt;
 import org.bridgedb.bio.Organism;
 
 import io.github.egonw.bacting.IBactingManager;
@@ -117,6 +118,7 @@ public class BridgedbManager implements IBactingManager {
      * @throws BioclipseException
      */
     public List<DataSource> guessIdentifierType(String identifier) throws BioclipseException {
+        DataSourceTxt.init();
     	Map<DataSource, Pattern> patterns = DataSourcePatterns.getPatterns();
 
     	List<DataSource> sources = new ArrayList<DataSource>();
