@@ -81,9 +81,8 @@ public class UIManagerTest {
 
 	@Test
 	public void testAppend() throws IOException {
-        String newFile = ui.newFile(
-		    "/NewFiles/append.txt", "test append content"
-        );
+		String newFile = "/NewFiles/append.txt";
+        ui.append(newFile, "test append content");
 		assertTrue(Files.exists(Paths.get(workspaceRoot + newFile)));
 	}
 
