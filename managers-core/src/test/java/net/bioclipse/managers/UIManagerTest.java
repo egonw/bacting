@@ -87,6 +87,11 @@ public class UIManagerTest {
 	}
 
 	@Test
+	public void testOpen() throws IOException {
+		ui.open("It's not supported and nothing will happen.");;
+	}
+
+	@Test
 	public void testRemove() throws IOException {
 		// test it creates a file if not exists
 		String newFile = ui.newFile("/NewFiles/toDelete.txt");

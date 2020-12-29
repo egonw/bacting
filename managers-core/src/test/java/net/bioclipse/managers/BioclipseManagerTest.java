@@ -76,7 +76,18 @@ public class BioclipseManagerTest {
 
 	@Test
 	public void testRequireVersion() throws Exception {
+		bioclipse.requireVersion("2.7.9.RC1");
 		bioclipse.requireVersion("2.8.0");
+		bioclipse.requireVersion("2.8");
+	}
+
+	@Test
+	public void testCompare() {
+		Exception exception = assertThrows(
+			BioclipseException.class, () ->
+			{ bioclipse.requireVersion("a"); }
+		);
+		assertTrue(exception.getMessage().contains("Version numbers looks like these"));
 	}
 
 	@Test()
