@@ -11,7 +11,7 @@ authors:
 affiliations:
  - name: Dept of Bioinformatics - BiGCaT, NUTRIM, Maastricht University
    index: 1
-date: 19 July 2020
+date: 30 December 2020
 bibliography: paper.bib
 ---
 
@@ -21,8 +21,10 @@ Bioclipse was originally developed as an interactive user interface (UI) based o
 of biology and chemistry [@bioclipse1]. It was later extended with scripting
 functionality and scripts could be written in JavaScript, Python, and Groovy [@bioclipse2].
 An innovative aspect of the second Bioclipse version was that Bioclipse plugins could inject
-domain specific functionality into the scripting language. This was done using OSGi and Spring
-approaches, making so-called *managers* accessible in scripts. However, there have not been any
+domain specific functionality into the scripting language. This was done using
+OSGi ([https://www.osgi.org/](https://www.osgi.org/))
+and the Spring Framework ([https://spring.io/](https://spring.io/)),
+making so-called *managers* accessible in scripts. However, there have not been any
 recent Bioclipse releases. Bacting is a next generation,
 command line version of Bioclipse, that is more easily updated, built, released, and used. A subset
 of the original functionality is available, and some managers have already been updated to
@@ -72,10 +74,12 @@ created manually, which requires one extra line of code for each manager.
 
 Bacting is hosted on GitHub and takes advantage of the integrations with Zenodo for automatic
 archiving of releases (see [https://github.com/egonw/bacting/releases](https://github.com/egonw/bacting/releases))
-and with Travis-CI for continuous integration (see [https://travis-ci.org/github/egonw/bacting](https://travis-ci.org/github/egonw/bacting)).
+and with GitHub Actions for continuous integration (see [https://github.com/egonw/bacting/actions](https://github.com/egonw/bacting/actions)).
 Maven is used as a build system and automatically downloads the dependencies when compiling the source code.
-Travis-CI compiles the source code regularly with Java 8, 11, and 14. During the process the JUnit 5 unit
-tests are run and the compilation aborted when there are testing failures.
+GitHub Actions compiles the source code regularly with Java 8, 11, and 14. During the process the JUnit 5 unit
+tests are run and the compilation aborted when there are testing failures. The extend to which
+the tests execute code in the managers is tested with JaCoCo ([https://www.jacoco.org/jacoco/](https://www.jacoco.org/jacoco/))
+and reported online with Codecov at ([https://codecov.io/gh/egonw/bacting](https://codecov.io/gh/egonw/bacting)).
 
 Releases are made at irregular intervals, but often triggered by downstream uses that needed additional
 Bioclipse functionality to be ported. Releases are created
@@ -91,8 +95,8 @@ making it online available with GitHub pages at [https://egonw.github.io/bacting
 
 The *cdk* manager wrapping Chemistry Development Kit functionality was updated to
 version 2.3, released in 2017 [@Mayfield2019; @Willighagen2017]. The *opsin* manager was
-updated to use OPSIN version 2.4.0, released in 2018 [@Lowe2011]. The *bridgedb*
-manager was updated to BridgeDb version 2.3.8, released in 2020 [@Brenninkmeijer2020; @vanIersel2010].
+updated to use OPSIN version 2.5.0, released in 2020 [@Lowe2011]. The *bridgedb*
+manager was updated to BridgeDb version 2.3.10, released in 2020 [@Brenninkmeijer2020; @vanIersel2010].
 
 # Ported Functionality
 
@@ -110,6 +114,7 @@ Bioclipse has a long list of managers and so far only a subset has been ported, 
 | rdf                  | Resource Description Framework (RDF) functionality, using Apache Jena                |
 | opsin                | Access to the OPSIN library for parsing IUPAC names [@Lowe2011]                      |
 | bridgedb             | Access to the BridgeDb library for identifier mapping [@vanIersel2010]               |
+| biojava              | Access to the Biojava library for sequence functionality [@Holland2008]              |
 
 The functionality of the Bioclipse managers is partly documented in the 
 [A lot of Bioclipse Scripting Language examples](https://bioclipse.github.io/bioclipse.scripting/) booklet,
@@ -125,7 +130,7 @@ allowing `@Grab` to be use to dynamically download the code as in this example f
 ```groovy
 @Grab(
   group='io.github.egonw.bacting',
-  module='managers-cdk', version='0.0.11'
+  module='managers-cdk', version='0.0.15'
 )
 
 def cdk = new net.bioclipse.managers.CDKManager(".");
