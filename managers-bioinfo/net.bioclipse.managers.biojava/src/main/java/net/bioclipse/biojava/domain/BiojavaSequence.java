@@ -64,7 +64,7 @@ public class BiojavaSequence extends BioObject implements ISequence {
             throw new IllegalStateException("Illegal BiojavaSequence", e);
         }
 
-        return os.toByteArray().toString();
+        return new String(os.toByteArray());
     }
 
     /**
