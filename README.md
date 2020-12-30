@@ -80,6 +80,14 @@ Full examples:
   * [script that reads melting points from an Excel spreadsheet to enter into Wikidata](https://github.com/egonw/ons-wikidata/blob/master/MeltingPoints/createQuickStatements.groovy)
 * Open Notebooks for WikiPathays:
   * [script to recognize IUPAC names in WikiPathways](https://github.com/egonw/ons-wikipathways/blob/master/WikiPathways/getLabelsWithIUPACNames.groovy)
+* Some examples from [A lot of Bioclipse Scripting Language examples](https://bioclipse.github.io/bioclipse.scripting/):
+  * [FullPathWikiPathways.groovy](https://bioclipse.github.io/bioclipse.scripting/code/FullPathWikiPathways.code.html)
+  * [XMLIsWellFormed.groovy](https://bioclipse.github.io/bioclipse.scripting/code/XMLIsWellFormed.code.html)
+  * [XMLListNamespaces.groovy](https://bioclipse.github.io/bioclipse.scripting/code/XMLListNamespaces.code.html)
+  * [PerceiveCDKAtomTypes.groovy](https://bioclipse.github.io/bioclipse.scripting/code/PerceiveCDKAtomTypes.code.html)
+  * [InChIKeyGenerate.groovy](https://bioclipse.github.io/bioclipse.scripting/code/InChIKeyGenerate.code.html)
+  * [ParseIUPACName.groovy](https://bioclipse.github.io/bioclipse.scripting/code/ParseIUPACName.code.html)
+  * [ChemSpiderResolve.groovy](https://bioclipse.github.io/bioclipse.scripting/code/ChemSpiderResolve.code.html)
 
 ## API Coverage
 
