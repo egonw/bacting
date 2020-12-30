@@ -44,6 +44,9 @@ public class XMLManagerTest {
 			"/XMLTests/pom.xml"
 		);
 		ui.newFile("/XMLTests/notWellFormed.xml", "<xml>");
+		ui.newFile("/XMLTests/doubleNamespace.xml",
+			"<xml xmlns:ns=\"http://examples.org/\" xmlns:ns2=\"http://examples.org/\" />"
+		);
 	}
 
 	@Test
@@ -87,10 +90,24 @@ public class XMLManagerTest {
 	}
 
 	@Test
+	public void testIsValid_NotFound() throws Exception {
+		Exception exception = assertThrows(
+			BioclipseException.class, () ->
+			{
+				xml.isValid("/DoesNotExist/pom.xml");
+			}
+		);
+		assertNotNull(exception);
+		assertTrue(exception.getMessage().contains("Error while opening file"));
+	}
+
+	@Test
 	public void testListNamespaces() throws Exception {
 		List<String> namespaces = xml.listNamespaces("/XMLTests/pom.xml");
-		System.out.println(namespaces);
 		assertNotNull(namespaces);
 		assertNotEquals(0, namespaces.size());
+		namespaces = xml.listNamespaces("/XMLTests/doubleNamespace.xml");
+		assertNotNull(namespaces);
+		assertSame(1, namespaces.size());
 	}
 }
