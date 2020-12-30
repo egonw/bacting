@@ -43,6 +43,19 @@ mvn release:prepare
 mvn release:perform
 ```
 
+### Updating the JavaDoc
+
+After the release is avaiable on Maven Central, the [JavaDoc](https://egonw.github.io/bacting-api/)
+needs to be updated. The JavaDoc is generated with the below command, and the results are stored
+in the `target/site/apidocs/` folder:
+
+```shell
+mvn clean javadoc:javadoc javadoc:aggregate
+```
+
+That created content needs to be copied into the `docs/` folder of
+[this git repository](https://github.com/egonw/bacting-api/).
+
 # Usage
 
 It can be used in [Groovy](https://en.wikipedia.org/wiki/Apache_Groovy) by including the
