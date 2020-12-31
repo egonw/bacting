@@ -61,7 +61,7 @@ public class BridgedbManager implements IBactingManager {
 	/**
 	 * Looks up the {@link DataSource} for the given full name.
 	 *
-	 * @param source  the full name
+	 * @param name    the full name
 	 * @return        the matching {@link DataSource}
 	 * @throws BioclipseException
 	 */

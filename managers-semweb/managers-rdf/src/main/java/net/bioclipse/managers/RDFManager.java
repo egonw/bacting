@@ -231,7 +231,7 @@ public class RDFManager {
      *
      * @param queryResults   the search results as a byte array of the returned XML
      * @param originalQuery  the original SPARQL query that gave the results
-     * @return
+     * @return a matrix with SPARQL results
      * @throws BioclipseException
      */
     public IStringMatrix processSPARQLXML(byte[] queryResults, String originalQuery)
@@ -257,9 +257,9 @@ public class RDFManager {
     /**
      * Queries a local RDF triple store.
      * 
-     * @param store             the RDF triples store to query
-     * @param sparqlQueryString the SPARQL query
-     * @return                  an {@link StringMatrix} object with results
+     * @param store        the RDF triples store to query
+     * @param queryString  the SPARQL query
+     * @return             an {@link StringMatrix} object with results
      */
     public StringMatrix sparql(IRDFStore store, String queryString) throws IOException, BioclipseException,
     CoreException {
@@ -305,7 +305,7 @@ public class RDFManager {
      * @param store   {@link IRDFStore} to put the triples in
      * @param rdfFile location of the RDF file
      * @param format  format of the RDF file (e.g. "RDF/XML", "TURTLE", or "N3")
-     * @return
+     * @return an RDF store with the content of the loaded RDF file
      * @throws IOException
      * @throws BioclipseException
      * @throws CoreException
@@ -322,7 +322,7 @@ public class RDFManager {
      * @param store   {@link IRDFStore} to put the triples in
      * @param stream  the {@link InputStream} from which the triples are read
      * @param format  format of the RDF file (e.g. "RDF/XML", "TURTLE", or "N3")
-     * @return
+     * @return an RDF store with the content of the loaded RDF content
      * @throws IOException
      * @throws BioclipseException
      * @throws CoreException
@@ -368,7 +368,7 @@ public class RDFManager {
      * @param store      {@link IRDFStore} to put the triples in
      * @param rdfContent the {@link String} from which the triples are read
      * @param format     format of the RDF file (e.g. "RDF/XML", "TURTLE", or "N3")
-     * @return
+     * @return an RDF store with the content of the loaded RDF content
      * @throws IOException
      * @throws BioclipseException
      * @throws CoreException
@@ -386,7 +386,7 @@ public class RDFManager {
      *
      * @param store      {@link IRDFStore} to put the triples in
      * @param url        the URL from which the triples are read
-     * @return
+     * @return an RDF store with the content of the loaded RDF file
      * @throws IOException
      * @throws BioclipseException
      * @throws CoreException
@@ -403,7 +403,7 @@ public class RDFManager {
      * @param store        {@link IRDFStore} to put the triples in
      * @param url          the URL from which the triples are read
      * @param extraHeaders the extra HTTP headers
-     * @return
+     * @return an RDF store with the content of the loaded RDF file
      * @throws IOException
      * @throws BioclipseException
      * @throws CoreException

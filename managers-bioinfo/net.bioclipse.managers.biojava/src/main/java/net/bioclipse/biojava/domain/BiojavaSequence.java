@@ -32,8 +32,9 @@ public class BiojavaSequence extends BioObject implements ISequence {
     Sequence sequence;
 
     /**
-     * Create a BiojavaSequence from a RichSequence
-     * @param richSequence
+     * Create a {@link BiojavaSequence} from a {@link Sequence}.
+     *
+     * @param sequence sequence to create the object from
      */
     public BiojavaSequence(Sequence sequence) {
         super();

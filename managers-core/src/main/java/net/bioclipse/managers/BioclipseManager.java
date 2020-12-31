@@ -94,7 +94,7 @@ public class BioclipseManager implements IBactingManager {
      * Tests if there is an active internet connection and throws an
      * {@link BioclipseException} if not.
      *
-     * @throws BioclipseException
+     * @throws BioclipseException when Bioclipse does not have internet access
      */
     public void assumeOnline() throws BioclipseException {
     	if (!isOnline())
@@ -166,7 +166,7 @@ public class BioclipseManager implements IBactingManager {
      *
      * @param url {@link String} version of the URL of the document to download
      * @return    a {@link String} with the content of the webpage
-     * @throws BioclipseException
+     * @throws BioclipseException when there was a downloading problem
      */
     public String download(String url)
     		throws BioclipseException {
@@ -180,7 +180,7 @@ public class BioclipseManager implements IBactingManager {
      * @param url      {@link String} version of the URL of the document to download
      * @param mimeType the mimetype in which the content should be returned, e.g. text/n3
      * @return         a {@link String} with the content of the webpage
-     * @throws BioclipseException
+     * @throws BioclipseException when there was a downloading problem
      */
     public String download(String url, String mimeType) throws BioclipseException {
     	StringBuffer content = new StringBuffer();
@@ -212,7 +212,7 @@ public class BioclipseManager implements IBactingManager {
      * @param url    {@link String} version of the URL of the document to download
      * @param target path in the Bioclipse workspace where the content should be stored
      * @return       a {@link String} with the content of the webpage
-     * @throws BioclipseException
+     * @throws BioclipseException when there was a downloading problem
      */
     public String downloadAsFile(String url, String target) throws BioclipseException {
     	return downloadAsFile(url, null, target);
@@ -227,7 +227,7 @@ public class BioclipseManager implements IBactingManager {
      * @param mimeType the mimetype in which the content should be returned, e.g. text/n3
      * @param target   path in the Bioclipse workspace where the content should be stored
      * @return         a {@link String} with the content of the webpage
-     * @throws BioclipseException
+     * @throws BioclipseException when there was a downloading problem
      */
     public String downloadAsFile(String url, String mimeType, String target)
     throws BioclipseException {
@@ -245,7 +245,7 @@ public class BioclipseManager implements IBactingManager {
      * @param target       path in the Bioclipse workspace where the content should be stored
      * @param extraHeaders additional HTTP headers, e.g. useful if authentication is needed
      * @return             a {@link String} with the content of the webpage
-     * @throws BioclipseException
+     * @throws BioclipseException when there was a downloading problem
      */
     public String downloadAsFile(String url, String mimeType, String target,
     		Map<String,String> extraHeaders)

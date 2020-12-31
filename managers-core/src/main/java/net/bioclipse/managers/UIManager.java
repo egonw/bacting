@@ -67,7 +67,7 @@ public class UIManager implements IBactingManager {
 	 * Creates a new empty file in the Bioclipse workspace or empties the
 	 * existing file.
 	 *
-	 * @param path the location of the file in the Bioclipse workspace
+	 * @param file the location of the file in the Bioclipse workspace
 	 * @return     the location of the file in the Bioclipse workspace
 	 * @throws IOException
 	 */
@@ -139,7 +139,7 @@ public class UIManager implements IBactingManager {
 	/**
 	 * Creates a new project in the Bioclipse workspace.
 	 *
-	 * @param path the location of the project in the Bioclipse workspace
+	 * @param name the location of the project in the Bioclipse workspace
 	 * @return     the location of the project in the Bioclipse workspace
 	 * @throws IOException
 	 */
