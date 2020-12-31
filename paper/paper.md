@@ -17,7 +17,8 @@ bibliography: paper.bib
 
 # Summary
 
-Bioclipse was originally developed as an interactive user interface (UI) based on Eclipse for research in the fields
+Bioclipse ([https://github.com/bioclipse](https://github.com/bioclipse)) was originally
+developed as an interactive user interface (UI) based on Eclipse for research in the fields
 of biology and chemistry [@bioclipse1]. It was later extended with scripting
 functionality and scripts could be written in JavaScript, Python, and Groovy [@bioclipse2].
 An innovative aspect of the second Bioclipse version was that Bioclipse plugins could inject
