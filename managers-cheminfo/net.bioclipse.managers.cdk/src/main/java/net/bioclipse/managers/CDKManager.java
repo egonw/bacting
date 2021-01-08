@@ -34,6 +34,7 @@ import org.openscience.cdk.exception.CDKException;
 import org.openscience.cdk.exception.Intractable;
 import org.openscience.cdk.exception.InvalidSmilesException;
 import org.openscience.cdk.graph.Cycles;
+import org.openscience.cdk.index.CASNumber;
 import org.openscience.cdk.interfaces.IAtom;
 import org.openscience.cdk.interfaces.IAtomContainer;
 import org.openscience.cdk.interfaces.IAtomType;
@@ -452,6 +453,16 @@ public class CDKManager implements IBactingManager {
     		throw new BioclipseException(
     				"Failed in writing molecule to file", e );
     	}
+    }
+
+    /**
+     * Determines if the given CAS registry number is valid.
+     *
+     * @param number the CAS registry number
+     * @return boolean that represents the validity
+     */
+    public boolean isValidCAS(String number){
+        return CASNumber.isValid(number);
     }
 
 	@Override

@@ -52,6 +52,11 @@
       <version>2.3</version>
     </dependency>
     <dependency>
+      <groupId>org.openscience.cdk</groupId>
+      <artifactId>cdk-extra</artifactId>
+      <version>2.3</version>
+    </dependency>
+    <dependency>
         <groupId>org.junit.jupiter</groupId>
         <artifactId>junit-jupiter</artifactId>
         <scope>test</scope>
