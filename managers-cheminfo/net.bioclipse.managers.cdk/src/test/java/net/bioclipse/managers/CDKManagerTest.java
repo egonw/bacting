@@ -9,6 +9,7 @@
  */
 package net.bioclipse.managers;
 
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertSame;
@@ -208,6 +209,12 @@ public class CDKManagerTest {
 		set = cdk.getAtomsWithDefinedStereo(mol);
 		assertNotNull(set);
 		assertSame(1, set.size());
+	}
+
+	@Test
+	public void testIsValidCAS() throws BioclipseException, IOException {
+		assertTrue(cdk.isValidCAS("50-00-0"));
+		assertFalse(cdk.isValidCAS("50-00"));
 	}
 
 }
