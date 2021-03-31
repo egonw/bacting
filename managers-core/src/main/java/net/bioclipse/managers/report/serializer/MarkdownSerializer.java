@@ -51,13 +51,13 @@ public class MarkdownSerializer implements ISerializer {
 			} else if (content instanceof ParagraphStart) {
 				markdown.append("<p>");
 			} else if (content instanceof ParagraphEnd) {
-				markdown.append("</p>");
+				markdown.append("</p>\n");
 			} else if (content instanceof IndentStart) {
-				markdown.append("<ul>");
+				markdown.append("<ul>\n");
 			} else if (content instanceof IndentEnd) {
-				markdown.append("</ul>");
+				markdown.append("</ul>\n");
 			} else if (content instanceof NewLine) {
-				markdown.append("<br />");
+				markdown.append("<br />\n");
 			} else if (content instanceof Box) {
 				Integer[] dims = (Integer[])((Box)content).getContent();
 				markdown.append("<div style=\"width:").append(dims[1].intValue())
@@ -68,11 +68,11 @@ public class MarkdownSerializer implements ISerializer {
 				String title = section.getContent()[0];
 				String level = section.getContent()[1];
 				if ("level1".equals(level)) {
-					markdown.append("# ").append(title);
+					markdown.append("\n# ").append(title).append("\n");
 				} else if ("level2".equals(level)) {
-					markdown.append("## ").append(title);
+					markdown.append("\n## ").append(title).append("\n");
 				} else if ("level3".equals(level)) {
-					markdown.append("### ").append(title);
+					markdown.append("\n### ").append(title).append("\n");
 				}
 			} else if (content instanceof Hyperlink) {
 				Hyperlink link = (Hyperlink)content;
@@ -84,13 +84,13 @@ public class MarkdownSerializer implements ISerializer {
                 Table table = (Table)content;
                 IStringMatrix matrix = (IStringMatrix)table.getContent()[0];
                 String caption = (String)table.getContent()[1];
-                if (caption != null) markdown.append("<b>").append(caption).append("</b><br />");
+                if (caption != null) markdown.append("<b>").append(caption).append("</b><br />\n");
                 if (matrix != null & matrix.getRowCount() != 0) {
-                    markdown.append("<table>");
+                    markdown.append("<table>\n");
                     // column headers
                     List<String> colNames = matrix.getColumnNames();
                     for (String colName : colNames) {
-                        markdown.append("<td><b>").append(colName).append("</b></td>");
+                        markdown.append("<td><b>").append(colName).append("</b></td>\n");
                     }
                     // table content
                     for (int i=1; i<=matrix.getRowCount(); i++) {
@@ -98,11 +98,11 @@ public class MarkdownSerializer implements ISerializer {
                         for (int j=1; j<=matrix.getColumnCount(); j++) {
                             markdown.append("<td>").append(
                                 matrix.get(i, j)
-                            ).append("</td>");
+                            ).append("</td>\n");
                         }
-                        markdown.append("</tr>");
+                        markdown.append("</tr>\n");
                     }
-                    markdown.append("</table>");
+                    markdown.append("</table>\n");
                 }
 			}
 		}
