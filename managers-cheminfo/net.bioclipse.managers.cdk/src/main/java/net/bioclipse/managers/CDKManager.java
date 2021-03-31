@@ -33,10 +33,12 @@ import org.openscience.cdk.config.Elements;
 import org.openscience.cdk.exception.CDKException;
 import org.openscience.cdk.exception.Intractable;
 import org.openscience.cdk.exception.InvalidSmilesException;
+import org.openscience.cdk.graph.ConnectivityChecker;
 import org.openscience.cdk.graph.Cycles;
 import org.openscience.cdk.index.CASNumber;
 import org.openscience.cdk.interfaces.IAtom;
 import org.openscience.cdk.interfaces.IAtomContainer;
+import org.openscience.cdk.interfaces.IAtomContainerSet;
 import org.openscience.cdk.interfaces.IAtomType;
 import org.openscience.cdk.interfaces.IBond;
 import org.openscience.cdk.interfaces.IChemFile;
@@ -465,7 +467,24 @@ public class CDKManager implements IBactingManager {
         return CASNumber.isValid(number);
     }
 
-	@Override
+    public List<IAtomContainer> partition(IMolecule molecule) throws BioclipseException {
+        IAtomContainer todealwith;
+        if (molecule instanceof ICDKMolecule) {
+            todealwith = ((ICDKMolecule) molecule).getAtomContainer();
+        } else {
+            todealwith = asCDKMolecule( molecule ).getAtomContainer();
+        }
+
+        IAtomContainerSet set = ConnectivityChecker.partitionIntoMolecules(todealwith);
+        List<IAtomContainer> result = new ArrayList<IAtomContainer>();
+        for (IAtomContainer container : set.atomContainers()) {
+            result.add(container);
+        }
+
+        return result;
+    }
+
+    @Override
 	public String getManagerName() {
 		return "cdk";
 	}
