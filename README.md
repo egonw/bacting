@@ -65,7 +65,7 @@ itself), and then converts a [SMILES](https://en.wikipedia.org/wiki/Simplified_m
 string to a Bioclipse `IMolecule` data object:
 
 ```groovy
-@Grab(group='io.github.egonw.bacting', module='managers-cdk', version='0.0.13')
+@Grab(group='io.github.egonw.bacting', module='managers-cdk', version='0.0.16')
 
 workspaceRoot = "."
 def cdk = new net.bioclipse.managers.CDKManager(workspaceRoot);
