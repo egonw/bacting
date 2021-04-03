@@ -25,6 +25,12 @@ A paper about Bacting has been writing and available from [paper/paper.md](paper
 
 # Install
 
+For the below use cases, Bacting is actually installed on demand. In Groovy this is done with
+`@Grab` and in Python with `scyjava.config`. This section explains how Bacting can be installed from
+the source code.
+
+## From the source code
+
 First, you need a working [Maven installation](https://www.google.nl/search?q=install+maven) and the code is tested with
 Java 8, 11, and 14, and can be installed with:
 
