@@ -83,7 +83,7 @@ println cdk.fromSMILES("COC")
 
 ## Python
 
-Bacting can also be used in Python 3.7 with at least [scyjava](), which can be installed with
+Bacting can also be used in Python 3.7 with at least [scyjava](https://github.com/scijava/scyjava), which can be installed with
 `pip install scyjava` (or `pip3`, depending on your platform). The above code example in
 Python then looks like:
 
