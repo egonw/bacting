@@ -11,7 +11,7 @@ Bacting := acting as the Bioclipse TNG (The Next Generation)
 Bacting is an open-source platform for chemo- and bioinformatics based on [Bioclipse](https://scholia.toolforge.org/topic/Q1769726)
 that defines a number of common domain objects and wraps common functionality, providing a toolkit independent, scriptable solution to
 handle data from the life sciences. Like Bioclipse, Bacting is written in the Java language, making use in Java-derived
-languages like [Groovy](https://en.wikipedia.org/wiki/Apache_Groovy). Deposition of the Bacting package on
+languages like [Groovy](https://en.wikipedia.org/wiki/Apache_Groovy) easy, but also accessible to Python. Deposition of the Bacting package on
 [Maven Central](https://search.maven.org/search?q=g:%22io.github.egonw.bacting%22%20AND%20a:%22bacting%22) allows it
 to be easily used in Groovy scripts with `@Grab` instructions.
 
@@ -58,6 +58,8 @@ That created content needs to be copied into the `docs/` folder of
 
 # Usage
 
+## Groovy
+
 It can be used in [Groovy](https://en.wikipedia.org/wiki/Apache_Groovy) by including the
 Bacting managers you need. The following example tells Groovy to download the `CDKManager`
 and instantiate it for the given workspace location (as it if was running in Bioclipse
@@ -73,7 +75,26 @@ def cdk = new net.bioclipse.managers.CDKManager(workspaceRoot);
 println cdk.fromSMILES("COC")
 ```
 
-Full examples:
+## Python
+
+Bacting can also be used in Python 3.7 with at least [scyjava](), which can be installed with
+`pip install scyjava` (or `pip3`, depending on your platform). The above code example in
+Python then looks like:
+
+```python
+from scyjava import config, jimport
+config.add_endpoints('io.github.egonw.bacting:managers-cdk:0.0.16')
+
+workspaceRoot = "."
+cdkClass = jimport("net.bioclipse.managers.CDKManager")
+cdk = cdkClass(workspaceRoot)
+
+print(cdk.fromSMILES("COC"))
+```
+
+### Code examples
+
+Full code examples can be found in the following sources:
 
 * Open Notebooks for Wikidata, including:
   * [script that compares a SMILES string with Wikidata, and creates QuickStatements for missing information](https://github.com/egonw/ons-wikidata/blob/master/Wikidata/createWDitemsFromSMILES.groovy)
