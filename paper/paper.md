@@ -11,7 +11,7 @@ authors:
 affiliations:
  - name: Dept of Bioinformatics - BiGCaT, NUTRIM, Maastricht University
    index: 1
-date: 30 December 2020
+date: 25 April 2021
 bibliography: paper.bib
 ---
 
