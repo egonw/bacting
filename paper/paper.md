@@ -139,6 +139,8 @@ def cdk = new net.bioclipse.managers.CDKManager(".");
 println cdk.fromSMILES("COC")
 ```
 
+Similarly, Bacting can be used in Python using [scyjava](https://pypi.org/project/scyjava/).
+
 # Use cases
 
 Bioclipse scripts have been in use in our group in various research lines to automate repetitive work.
