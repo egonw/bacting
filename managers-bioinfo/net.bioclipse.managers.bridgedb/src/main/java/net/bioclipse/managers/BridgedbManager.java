@@ -306,6 +306,17 @@ public class BridgedbManager implements IBactingManager {
 		}
 	}
 
+	/**
+	 * Creates a new {@link DataSource} based on the system code and full name.
+	 *
+	 * @param code      the system code for the new data source
+	 * @param name      the full name for the new data source
+	 * @return          the new {@link DataSource} object
+	 */
+	public DataSource registerDataSource(String code, String name) {
+		return DataSource.register(code, name).asDataSource();
+	}
+
 	@Override
 	public String getManagerName() {
 		return "bridgedb";

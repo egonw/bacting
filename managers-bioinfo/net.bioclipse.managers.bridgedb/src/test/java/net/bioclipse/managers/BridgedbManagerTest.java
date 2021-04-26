@@ -1,4 +1,4 @@
-/* Copyright (c) 2020  Egon Willighagen <egon.willighagen@gmail.com>
+/* Copyright (c) 2020,2021  Egon Willighagen <egon.willighagen@gmail.com>
  *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
@@ -36,6 +36,7 @@ public class BridgedbManagerTest {
 		String tmpPath = Files.createTempDirectory("bridgedbtestws").toString();
 		System.out.println("tmpPath: " + tmpPath);
 		bridgedb = new BridgedbManager(tmpPath);
+		bridgedb.registerDataSource("U", "UniGene");
 	}
 
 	@Test
@@ -94,6 +95,12 @@ public class BridgedbManagerTest {
 		);
 		assertNotNull(map);
 		assertNotEquals(0, map.size());
+	}
+
+	@Test
+	public void testRegisterDataSource() {
+		DataSource source = bridgedb.registerDataSource("Unp", "UniGene No Problem");
+		assertNotNull(source);
 	}
 
 	@Test
