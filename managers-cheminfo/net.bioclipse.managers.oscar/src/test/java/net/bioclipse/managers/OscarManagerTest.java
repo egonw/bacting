@@ -54,6 +54,14 @@ public class OscarManagerTest {
 	}
 
 	@Test
+	public void testExtractText() throws Exception {
+		String html = "<html><body>Benzene and toluene.</body></html>";
+		String text = oscar.extractText(html);
+		assertNotNull(text);
+		assertEquals("Benzene and toluene.", text);
+	}
+
+	@Test
 	public void testDOIs() {
 		List<String> dois = oscar.doi();
 		assertNotNull(dois);

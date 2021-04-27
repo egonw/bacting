@@ -20,6 +20,7 @@ import org.openscience.cdk.io.formats.IChemFormat;
 import io.github.egonw.bacting.IBactingManager;
 import net.bioclipse.core.business.BioclipseException;
 import net.bioclipse.core.domain.IMolecule;
+import net.htmlparser.jericho.Source;
 import uk.ac.cam.ch.wwmm.oscar.Oscar;
 import uk.ac.cam.ch.wwmm.oscar.chemnamedict.entities.ChemicalStructure;
 import uk.ac.cam.ch.wwmm.oscar.chemnamedict.entities.FormatType;
@@ -91,6 +92,17 @@ public class OscarManager implements IBactingManager {
     		}
     	}
     	return mols;
+    }
+
+    /**
+     * Extracts plain text from a HTML document.
+     *
+     * @param html HTML string from which the text should be extracted.
+     * @return The resulting text
+     */
+    public String extractText(String html) {
+    	Source source = new Source(html);
+    	return source.getTextExtractor().toString();
     }
 
 	@Override
