@@ -4,7 +4,7 @@
   <parent>
     <artifactId>managers-bioinfo</artifactId>
     <groupId>io.github.egonw.bacting</groupId>
-    <version>0.0.18-SNAPSHOT</version>
+    <version>0.0.18</version>
   </parent>
 
   <artifactId>managers-bridgedb</artifactId>
@@ -39,7 +39,7 @@
     <dependency>
       <groupId>io.github.egonw.bacting</groupId>
       <artifactId>bacting-core</artifactId>
-      <version>0.0.18-SNAPSHOT</version>
+      <version>0.0.18</version>
     </dependency>
     <dependency>
     	<groupId>org.bridgedb</groupId>
