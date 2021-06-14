@@ -109,7 +109,7 @@ public class BridgedbManagerTest {
 			BioclipseException.class, () ->
 			{
 				bridgedb.map(
-					"http://bridgedb.elixir-europe.org/Human",
+					"https://bridgedb.elixir-europe.org/Human",
 					"1234", "L"
 				);
 			}
