@@ -11,7 +11,7 @@ authors:
 affiliations:
  - name: Dept of Bioinformatics - BiGCaT, NUTRIM, Maastricht University
    index: 1
-date: 25 April 2021
+date: 14 June 2021
 bibliography: paper.bib
 ---
 
@@ -39,7 +39,7 @@ a running Bioclipse application. This makes repeatedly running of a script needl
 and use in continuous integration systems or use on computing platforms impossible. A second
 problem was that the build and release system of Bioclipse was complex, making it hard for
 others to repeat creating new releases. This is reflected in the lack of recent releases
-and complicates external developers to make patches, such as those for updating dependencies.
+and complicates the process for external developers wishing to make patches.
 
 These needs triggered a next generation design of Bioclipse: 1. the managers providing
 the domain-specific functionality would need to be usable on the command line; 2. building
@@ -50,8 +50,8 @@ systems; 3. Bacting should be easy to install and reuse.
 
 To keep the option open to backport new functionality to Bioclipse, the API is copied as
 precisely as possible. However, there are some differences. For example, there is only
-a single manager class, and no longer interfaces for both the scripting language and for
-the running Bioclipse user interface. This means that translation of *IFile* to *String*
+a single manager class, and no longer interfaces for both the scripting language or for
+running Bioclipse user interface. This means that translation of *IFile* to *String*
 translations in the API do not exist in Bioclipse. Furthermore, there are currently
 no progress monitors. That said, the source code implementing the method is otherwise
 identical and easily translated back to the original Bioclipse source code.
@@ -82,7 +82,7 @@ tests are run and the compilation aborted when there are testing failures. The e
 the tests execute code in the managers is tested with JaCoCo ([https://www.jacoco.org/jacoco/](https://www.jacoco.org/jacoco/))
 and reported online with Codecov at ([https://codecov.io/gh/egonw/bacting](https://codecov.io/gh/egonw/bacting)).
 
-Releases are made at irregular intervals, but often triggered by downstream uses that needed additional
+Releases are made at irregular intervals, but often triggered by downstream uses that need additional
 Bioclipse functionality to be ported. Releases are created
 with the `mvn release:prepare` and `mvn release:perform` process that tags the commit, updates the
 version numbers, and uploads the release to Maven Central. Second, a changelog is written for the
@@ -90,7 +90,7 @@ GitHub releases page, which triggers the archiving on Zenodo (see
 [https://doi.org/10.5281/zenodo.2638709](https://doi.org/10.5281/zenodo.2638709)). Finally, at that
 moment the JavaDoc is also generated and uploaded to another GitHub repository
 (see [https://github.com/egonw/bacting-api](https://github.com/egonw/bacting-api))
-making it online available with GitHub pages at [https://egonw.github.io/bacting-api/](https://egonw.github.io/bacting-api/).
+making it available online with GitHub pages at [https://egonw.github.io/bacting-api/](https://egonw.github.io/bacting-api/).
 
 ## Updated dependencies of managers
 
@@ -125,8 +125,8 @@ page from this booklet shows both the Bioclipse version of the script as well as
 
 ## Grabbing Bacting from Groovy
 
-Use of Bacting in the Groovy language is taking advantage from the fact that it is available from Maven Central,
-allowing `@Grab` to be use to dynamically download the code as in this example for the *cdk* manager:
+Use of Bacting in the Groovy language takes advantage of the fact that it is available from Maven Central,
+allowing `@Grab` to be used to dynamically download the code as in this example for the *cdk* manager:
 
 ```groovy
 @Grab(
