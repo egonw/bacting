@@ -90,7 +90,7 @@ public class BridgedbManagerTest {
 	@Test
 	public void testMapREST() throws BioclipseException {
 		List<String> map = bridgedb.map(
-			"http://webservice.bridgedb.org/Human",
+			"https://webservice.bridgedb.org/Human",
 			"1234", "L"
 		);
 		assertNotNull(map);
