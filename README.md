@@ -71,7 +71,7 @@ itself), and then converts a [SMILES](https://en.wikipedia.org/wiki/Simplified_m
 string to a Bioclipse `IMolecule` data object:
 
 ```groovy
-@Grab(group='io.github.egonw.bacting', module='managers-cdk', version='0.0.19')
+@Grab(group='io.github.egonw.bacting', module='managers-cdk', version='0.0.20')
 
 workspaceRoot = "."
 def cdk = new net.bioclipse.managers.CDKManager(workspaceRoot);
@@ -87,7 +87,7 @@ Python then looks like:
 
 ```python
 from scyjava import config, jimport
-config.add_endpoints('io.github.egonw.bacting:managers-cdk:0.0.19')
+config.add_endpoints('io.github.egonw.bacting:managers-cdk:0.0.20')
 
 workspaceRoot = "."
 cdkClass = jimport("net.bioclipse.managers.CDKManager")
