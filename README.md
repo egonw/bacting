@@ -19,7 +19,7 @@ to be easily used in Groovy scripts with `@Grab` instructions.
 
 If you use this software, please cite the article in JOSS:
 
-[![status](https://joss.theoj.org/papers/c306d8f50a6390d21b43633c99cbe4c3/status.svg)](https://joss.theoj.org/papers/c306d8f50a6390d21b43633c99cbe4c3)
+[![DOI](https://joss.theoj.org/papers/10.21105/joss.02558/status.svg)](https://doi.org/10.21105/joss.02558)
 
 # Install
 
