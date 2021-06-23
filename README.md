@@ -32,7 +32,7 @@ the source code.
 ## From the source code
 
 First, you need a working [Maven installation](https://www.google.nl/search?q=install+maven) and the code is tested with
-Java 8, 11, and 14, and can be installed with:
+Java 11, and 14, and can be installed with:
 
 ```shell
 mvn clean install -Dgpg.skip -Dmaven.javadoc.skip=true
