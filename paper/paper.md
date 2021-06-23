@@ -51,7 +51,7 @@ systems; 3. Bacting should be easy to install and reuse.
 To keep the option open to backport new functionality to Bioclipse, the API is copied as
 precisely as possible. However, there are some differences. For example, there is only
 a single manager class, and no longer interfaces for both the scripting language or for
-running Bioclipse user interface. This means that translation of *IFile* to *String*
+running Bioclipse user interface. This means that the *IFile* to *String*
 translations in the API do not exist in Bioclipse. Furthermore, there are currently
 no progress monitors. That said, the source code implementing the method is otherwise
 identical and easily translated back to the original Bioclipse source code.
