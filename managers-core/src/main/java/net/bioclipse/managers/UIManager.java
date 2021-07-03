@@ -16,6 +16,7 @@ package net.bioclipse.managers;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.PrintWriter;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -119,6 +120,29 @@ public class UIManager implements IBactingManager {
     			Files.write(Paths.get(workspaceRoot + path), toWrite.getBytes(), StandardOpenOption.APPEND);
     		} else {
     			Files.write(Paths.get(workspaceRoot + path), toWrite.getBytes(), StandardOpenOption.CREATE);
+    		}
+    	} catch (Exception exception) {
+    		throw new RuntimeException(
+    			"Error while appending to File", exception
+    		);
+    	}
+    }
+
+	/**
+	 * Appends the new content to write to a new or existing file in the Bioclipse workspace.
+	 *
+	 * @param path    the location of the file in the Bioclipse workspace
+	 * @param toWrite the content to append to the new file
+	 * @throws IOException
+	 */
+    public void append(String path, InputStream toWrite) {
+    	try {
+    		byte[] buffer = new byte[toWrite.available()];
+    		toWrite.read(buffer);
+    		if (fileExists(path)) {
+    			Files.write(Paths.get(workspaceRoot + path), buffer, StandardOpenOption.APPEND);
+    		} else {
+    			Files.write(Paths.get(workspaceRoot + path), buffer, StandardOpenOption.CREATE);
     		}
     	} catch (Exception exception) {
     		throw new RuntimeException(
