@@ -21,12 +21,14 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import net.bioclipse.core.domain.IMolecule;
+import net.bioclipse.rdf.business.IRDFStore;
 
 public class PubChemManagerTest {
 
 	static PubChemManager pubchem;
 	static UIManager ui;
 	static CDKManager cdk;
+	static RDFManager rdf;
 	static String workspaceRoot;
 
 	@BeforeAll
@@ -35,6 +37,7 @@ public class PubChemManagerTest {
 		pubchem = new PubChemManager(workspaceRoot);
 		ui = new UIManager(workspaceRoot);
 		cdk = new CDKManager(workspaceRoot);
+		rdf = new RDFManager(workspaceRoot);
 		ui.newProject("/PubChemFiles/");
 	}
 	@Test
@@ -71,6 +74,14 @@ public class PubChemManagerTest {
 		IMolecule mol = pubchem.download(71583);
 		assertNotNull(mol);
 		assertNotSame(0, cdk.asCDKMolecule(mol).getAtomContainer().getAtomCount());
+	}
+
+	@Test
+	public void downloadRDF() throws Exception {
+		IRDFStore store = rdf.createInMemoryStore();
+	    pubchem.downloadRDF(71583, store);
+		assertNotNull(store);
+		assertNotSame(0, rdf.size(store));
 	}
 
 }

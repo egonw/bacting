@@ -33,6 +33,7 @@ import io.github.egonw.bacting.IBactingManager;
 import net.bioclipse.cdk.domain.ICDKMolecule;
 import net.bioclipse.core.business.BioclipseException;
 import net.bioclipse.core.domain.IMolecule;
+import net.bioclipse.rdf.business.IRDFStore;
 import nu.xom.Builder;
 import nu.xom.Document;
 import nu.xom.Nodes;
@@ -53,6 +54,7 @@ public class PubChemManager implements IBactingManager {
 
     private String workspaceRoot;
 	private CDKManager cdk;
+	private RDFManager rdf;
 
 	/**
      * Creates a new {@link PubChemManager}.
@@ -62,6 +64,7 @@ public class PubChemManager implements IBactingManager {
     public PubChemManager(String workspaceRoot) {
 		this.workspaceRoot = workspaceRoot;
 		this.cdk = new CDKManager(this.workspaceRoot);
+		this.rdf = new RDFManager(this.workspaceRoot);
 	}
 
     private String replaceSpaces(String molecule2) {
@@ -194,4 +197,11 @@ public class PubChemManager implements IBactingManager {
         return fileContent;
     }
 
+    public IRDFStore downloadRDF(Integer cid, IRDFStore store)
+        throws IOException, BioclipseException, CoreException {
+        String downloadURI = PUBCHEMRDF_URL_BASE + "CID" + cid;
+        String rdfContent = downloadAsString(downloadURI, "application/rdf+xml");
+        rdf.importFromString(store, rdfContent, "RDF/XML");
+        return store;
+    }
 }

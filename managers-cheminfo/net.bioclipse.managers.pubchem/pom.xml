@@ -63,6 +63,11 @@
       <version>0.0.20-SNAPSHOT</version>
     </dependency>
     <dependency>
+      <groupId>io.github.egonw.bacting</groupId>
+      <artifactId>managers-rdf</artifactId>
+      <version>0.0.20-SNAPSHOT</version>
+    </dependency>
+    <dependency>
       <groupId>org.openscience.cdk</groupId>
       <artifactId>cdk-interfaces</artifactId>
       <version>2.5</version>
