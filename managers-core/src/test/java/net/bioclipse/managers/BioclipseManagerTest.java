@@ -106,7 +106,7 @@ public class BioclipseManagerTest {
 	@Test
 	public void testSparqlRemote() throws BioclipseException {
 		byte[] results = bioclipse.sparqlRemote(
-			"http://sparql.wikipathways.org/sparql",
+			"https://sparql.wikipathways.org/sparql",
 			"SELECT * WHERE { ?s ?p ?o } LIMIT 1"
 		);
 		assertNotSame(0, results.length);
