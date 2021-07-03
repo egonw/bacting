@@ -35,6 +35,7 @@ public class InChIManagerTest {
 		inchi = new InChIManager(workspaceRoot);
 		cdk = new CDKManager(workspaceRoot);
 		String result = inchi.load();
+		assertNotNull(result);
 		assertTrue(inchi.isLoaded());
 		assertTrue(inchi.isAvailable());
 	}
