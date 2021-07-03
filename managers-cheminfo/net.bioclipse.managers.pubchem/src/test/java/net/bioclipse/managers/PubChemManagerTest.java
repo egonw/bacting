@@ -48,6 +48,9 @@ public class PubChemManagerTest {
 		List<Integer> results = pubchem.search("methane");
 		assertNotNull(results);
 		assertNotSame(0, results.size());
+		results = pubchem.search("acetic acid"); // query with a space
+		assertNotNull(results);
+		assertNotSame(0, results.size());
 	}
 
 	@Test
