@@ -9,6 +9,7 @@
  */
 package net.bioclipse.managers;
 
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -26,9 +27,12 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.eclipse.core.runtime.CoreException;
+import org.openscience.cdk.io.formats.IChemFormat;
 
 import io.github.egonw.bacting.IBactingManager;
+import net.bioclipse.cdk.domain.ICDKMolecule;
 import net.bioclipse.core.business.BioclipseException;
+import net.bioclipse.core.domain.IMolecule;
 import nu.xom.Builder;
 import nu.xom.Document;
 import nu.xom.Nodes;
@@ -48,6 +52,7 @@ public class PubChemManager implements IBactingManager {
     private final static String TOOL = "bioclipse.net";
 
     private String workspaceRoot;
+	private CDKManager cdk;
 
 	/**
      * Creates a new {@link PubChemManager}.
@@ -56,6 +61,7 @@ public class PubChemManager implements IBactingManager {
      */
     public PubChemManager(String workspaceRoot) {
 		this.workspaceRoot = workspaceRoot;
+		this.cdk = new CDKManager(this.workspaceRoot);
 	}
 
     private String replaceSpaces(String molecule2) {
@@ -130,6 +136,19 @@ public class PubChemManager implements IBactingManager {
 	public List<String> doi() {
 		return Collections.emptyList();
 	}
+
+    public IMolecule download(Integer cid)
+        throws IOException, BioclipseException, CoreException {
+    	String molstring = downloadAsString(cid);
+        if ( molstring == null || molstring.isEmpty() ) {
+            throw new BioclipseException( "Could not read molecule from" + cid );
+        }
+        IChemFormat format = cdk.getFormat( "PubChemCompoundXMLFormat" );
+        ICDKMolecule molecule = cdk.loadMolecule(
+        	new ByteArrayInputStream( molstring.getBytes() ), format
+        );
+        return molecule;
+    }
 
     public String downloadAsString(Integer cid)
         throws IOException, BioclipseException, CoreException {

@@ -20,17 +20,23 @@ import java.util.List;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
+import net.bioclipse.core.domain.IMolecule;
+
 public class PubChemManagerTest {
 
 	static PubChemManager pubchem;
+	static UIManager ui;
+	static CDKManager cdk;
 	static String workspaceRoot;
 
 	@BeforeAll
 	static void setupManager() throws Exception {
 		workspaceRoot = Files.createTempDirectory("pubchemtestws").toString();
 		pubchem = new PubChemManager(workspaceRoot);
+		ui = new UIManager(workspaceRoot);
+		cdk = new CDKManager(workspaceRoot);
+		ui.newProject("/PubChemFiles/");
 	}
-
 	@Test
 	public void testManagerName() {
 		assertSame("pubchem", pubchem.getManagerName());
@@ -58,6 +64,13 @@ public class PubChemManagerTest {
 		String xml = pubchem.downloadAsString(71583);
 		assertNotNull(xml);
 		assertTrue(xml.contains("PC-Compounds"));
+	}
+
+	@Test
+	public void download() throws Exception {
+		IMolecule mol = pubchem.download(71583);
+		assertNotNull(mol);
+		assertNotSame(0, cdk.asCDKMolecule(mol).getAtomContainer().getAtomCount());
 	}
 
 }
