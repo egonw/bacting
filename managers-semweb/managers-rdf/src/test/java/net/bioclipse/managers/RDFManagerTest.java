@@ -134,6 +134,17 @@ public class RDFManagerTest {
 	}
 
 	@Test
+	public void testImportURLWithRedirect() throws Exception {
+		IRDFStore store = rdf.createInMemoryStore(true);
+		assertNotNull(store);
+		long initialSize = rdf.size(store);
+		store = rdf.importURL(
+			store, "http://www.wikidata.org/entity/Q5"
+		);
+		assertNotSame(initialSize, rdf.size(store));
+	}
+
+	@Test
 	public void testImportURLWithHeaders() throws Exception {
 		IRDFStore store = rdf.createInMemoryStore(true);
 		assertNotNull(store);
