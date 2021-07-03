@@ -569,14 +569,13 @@ public class RDFManager {
     public IRDFStore importURL(IRDFStore store, String url,
     		Map<String, String> extraHeaders)
         throws IOException, BioclipseException, CoreException {
-        	URL realURL = new URL(url);
-        URLConnection connection = realURL.openConnection();
+       	URL realURL = new URL(url);
+       	HttpURLConnection connection = (HttpURLConnection)realURL.openConnection();
         connection.setConnectTimeout(CONNECT_TIME_OUT);
         connection.setReadTimeout(READ_TIME_OUT);
         connection.setRequestProperty("User-Agent", "Bacting (https://joss.theoj.org/papers/10.21105/joss.02558)");
         connection.setRequestProperty(
-            "Accept",
-            "application/xml, application/rdf+xml"
+            "Accept", "application/xml, application/rdf+xml"
         );
         // set the extra headers
         if (extraHeaders != null) {
@@ -584,6 +583,29 @@ public class RDFManager {
         		connection.setRequestProperty(key, extraHeaders.get(key));
         	}
         }
+        
+        int status = connection.getResponseCode();
+        if (status != HttpURLConnection.HTTP_OK) {
+            if (status == HttpURLConnection.HTTP_MOVED_TEMP ||  // 302
+            	status == HttpURLConnection.HTTP_MOVED_PERM ||  // 301
+                status == HttpURLConnection.HTTP_SEE_OTHER) {   // 303
+            	realURL = new URL(connection.getHeaderField("Location"));
+            	connection = (HttpURLConnection)realURL.openConnection();
+            	connection.setConnectTimeout(CONNECT_TIME_OUT);
+            	connection.setReadTimeout(READ_TIME_OUT);
+            	connection.setRequestProperty("User-Agent", "Bacting (https://joss.theoj.org/papers/10.21105/joss.02558)");
+            	connection.setRequestProperty(
+            			"Accept", "application/xml, application/rdf+xml"
+            			);
+            	// set the extra headers
+            	if (extraHeaders != null) {
+            		for (String key : extraHeaders.keySet()) {
+            			connection.setRequestProperty(key, extraHeaders.get(key));
+            		}
+            	}
+            }
+        }
+        
         try {
             InputStream stream = connection.getInputStream();
             importFromStream(store, stream, null);
