@@ -18,6 +18,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.nio.file.Files;
 import java.util.HashMap;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
@@ -49,6 +50,9 @@ public class RDFManagerTest {
 			"ex:subject  ex:predicate  \"Object\"@en .\n");
 	}
 
+	// mock class, aimed to be not supported
+	private class Store implements IRDFStore {}
+
 	@Test
 	public void testCreateStore() {
 		IRDFStore store = rdf.createStore("/tmp/");
@@ -73,6 +77,9 @@ public class RDFManagerTest {
 		assertNotNull(store);
 		String turtle = rdf.asTurtle(store);
 		assertTrue(turtle.contains("prefix"));
+		Assertions.assertThrows(Exception.class, () -> {
+			rdf.asTurtle(new Store());
+		});
 	}
 
 	@Test
@@ -89,6 +96,9 @@ public class RDFManagerTest {
 		assertNotNull(store);
 		long size = rdf.size(store);
 		assertNotSame((long)0, size);
+		Assertions.assertThrows(Exception.class, () -> {
+			rdf.size(new Store());
+		});
 	}
 
 	@Test
@@ -96,18 +106,18 @@ public class RDFManagerTest {
 		IRDFStore store = rdf.createInMemoryStore(true);
 		assertNotNull(store);
 		long initialSize = rdf.size(store);
-		store = rdf.importFromString(
-			store,
-			"@prefix ex:    <https://example.org/> .\n" +
-			"@prefix owl:   <http://www.w3.org/2002/07/owl#> .\n" +
-			"@prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .\n" +
-			"@prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .\n" +
-			"@prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .\n" +
-			"\n" +
-			"ex:subject  ex:predicate  \"Object\"@en .\n",
-			"TURTLE"
-		);
+		String content = 			"@prefix ex:    <https://example.org/> .\n" +
+				"@prefix owl:   <http://www.w3.org/2002/07/owl#> .\n" +
+				"@prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .\n" +
+				"@prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .\n" +
+				"@prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .\n" +
+				"\n" +
+				"ex:subject  ex:predicate  \"Object\"@en .\n";
+		store = rdf.importFromString(store, content, "TURTLE");
 		assertNotSame(initialSize, rdf.size(store));
+		Assertions.assertThrows(Exception.class, () -> {
+			rdf.importFromString(new Store(), content, "TURTLE");
+		});
 	}
 
 	@Test
@@ -154,6 +164,13 @@ public class RDFManagerTest {
 		String turtle = rdf.asTurtle(store);
 		assertTrue(turtle.contains("prefix"));
 		assertTrue(turtle.contains("example.org"));
+		Assertions.assertThrows(Exception.class, () -> {
+			rdf.addObjectProperty(new Store(),
+				"https://example.org/subject",
+				"https://example.org/predicate",
+				"https://example.org/object"
+			);
+		});
 	}
 
 	@Test
@@ -169,6 +186,13 @@ public class RDFManagerTest {
 		String turtle = rdf.asTurtle(store);
 		assertTrue(turtle.contains("prefix ex:"));
 		assertTrue(turtle.contains("ex:subject"));
+		Assertions.assertThrows(Exception.class, () -> {
+			rdf.addObjectProperty(new Store(),
+				"https://example.org/subject",
+				"https://example.org/predicate",
+				"https://example.org/object"
+			);
+		});
 	}
 
 	@Test
@@ -185,6 +209,13 @@ public class RDFManagerTest {
 		assertTrue(turtle.contains("prefix ex:"));
 		assertTrue(turtle.contains("\"Object\""));
 		assertFalse(turtle.contains("ex:Object"));
+		Assertions.assertThrows(Exception.class, () -> {
+			rdf.addDataProperty(new Store(),
+				"https://example.org/subject",
+				"https://example.org/predicate",
+				"Object"
+			);
+		});
 	}
 
 	@Test
@@ -202,6 +233,13 @@ public class RDFManagerTest {
 		assertTrue(turtle.contains("\"Object\""));
 		assertFalse(turtle.contains("ex:Object"));
 		assertTrue(turtle.contains("^^<xsd:string>"));
+		Assertions.assertThrows(Exception.class, () -> {
+			rdf.addTypedDataProperty(new Store(),
+				"https://example.org/subject",
+				"https://example.org/predicate",
+				"Object", "xsd:string"
+			);
+		});
 	}
 
 	@Test
@@ -219,6 +257,13 @@ public class RDFManagerTest {
 		assertTrue(turtle.contains("\"Object\""));
 		assertFalse(turtle.contains("ex:Object"));
 		assertTrue(turtle.contains("@en"));
+		Assertions.assertThrows(Exception.class, () -> {
+			rdf.addPropertyInLanguage(new Store(),
+				"https://example.org/subject",
+				"https://example.org/predicate",
+				"Object", "en"
+			);
+		});
 	}
 
 	@Test
