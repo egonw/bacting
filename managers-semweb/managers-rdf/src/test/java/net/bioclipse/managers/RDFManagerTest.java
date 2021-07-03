@@ -240,7 +240,7 @@ public class RDFManagerTest {
 	@Test
 	public void testSPARQLRemote() throws Exception {
 		StringMatrix results = rdf.sparqlRemote(
-			"http://sparql.wikipathways.org/sparql",
+			"https://sparql.wikipathways.org/sparql",
 			"SELECT ?node WHERE { ?node a <http://vocabularies.wikipathways.org/wp#DataNode> } LIMIT 1"
 		);
 		assertNotNull(results);
@@ -251,7 +251,7 @@ public class RDFManagerTest {
 	public void testSPARQLRemoteNoJena() throws Exception {
 		String query = "SELECT ?node WHERE { ?node a <http://vocabularies.wikipathways.org/wp#DataNode> } LIMIT 1";
 		byte[] queryResults = bioclipse.sparqlRemote(
-			"http://sparql.wikipathways.org/sparql", query
+			"https://sparql.wikipathways.org/sparql", query
 		);
 		IStringMatrix results = rdf.processSPARQLXML(queryResults, query);
 		assertNotNull(results);
