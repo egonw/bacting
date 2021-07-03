@@ -38,6 +38,12 @@
       <version>0.0.20-SNAPSHOT</version>
     </dependency>
     <dependency>
+      <groupId>io.github.egonw.bacting</groupId>
+      <artifactId>managers-ui</artifactId>
+      <version>0.0.20-SNAPSHOT</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
       <groupId>org.apache.poi</groupId>
       <artifactId>poi-ooxml</artifactId>
       <version>3.15</version>
