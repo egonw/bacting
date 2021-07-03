@@ -9,6 +9,7 @@
  */
 package net.bioclipse.managers;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNotSame;
@@ -17,6 +18,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.nio.file.Files;
 import java.util.HashMap;
+import java.util.List;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
@@ -302,4 +304,59 @@ public class RDFManagerTest {
 		assertNotNull(results);
 		assertSame(1, results.getRowCount());
 	}
+
+	@Test
+	public void getForPredicate() throws Exception {
+		IRDFStore store = rdf.createInMemoryStore(true);
+		assertNotNull(store);
+		String content =
+			"@prefix ex:    <https://example.org/> .\n" +
+			"@prefix owl:   <http://www.w3.org/2002/07/owl#> .\n" +
+			"@prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .\n" +
+			"@prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .\n" +
+			"@prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .\n" +
+			"\n" +
+			"ex:subject  ex:predicate  \"Object\"@en .\n";
+		store = rdf.importFromString(store, content, "TURTLE");
+		List<String> resources = rdf.getForPredicate(store, "https://example.org/subject", "https://example.org/predicate");
+		assertNotNull(resources);
+		assertEquals(1, resources.size());
+	}
+
+	@Test
+	public void allWolSameAs() throws Exception {
+		IRDFStore store = rdf.createInMemoryStore(true);
+		assertNotNull(store);
+		String content =
+			"@prefix ex:    <https://example.org/> .\n" +
+			"@prefix owl:   <http://www.w3.org/2002/07/owl#> .\n" +
+			"@prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .\n" +
+			"@prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .\n" +
+			"@prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .\n" +
+			"\n" +
+			"ex:subject  owl:sameAs  ex:subject2 .\n";
+		store = rdf.importFromString(store, content, "TURTLE");
+		List<String> resources = rdf.allOwlSameAs(store, "https://example.org/subject");
+		assertNotNull(resources);
+		assertEquals(1, resources.size());
+	}
+
+	@Test
+	public void allOwlEquivalentClass() throws Exception {
+		IRDFStore store = rdf.createInMemoryStore(true);
+		assertNotNull(store);
+		String content =
+			"@prefix ex:    <https://example.org/> .\n" +
+			"@prefix owl:   <http://www.w3.org/2002/07/owl#> .\n" +
+			"@prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .\n" +
+			"@prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .\n" +
+			"@prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .\n" +
+			"\n" +
+			"ex:subject  owl:equivalentClass  ex:subject2 .\n";
+		store = rdf.importFromString(store, content, "TURTLE");
+		List<String> resources = rdf.allOwlEquivalentClass(store, "https://example.org/subject");
+		assertNotNull(resources);
+		assertEquals(1, resources.size());
+	}
+
 }
