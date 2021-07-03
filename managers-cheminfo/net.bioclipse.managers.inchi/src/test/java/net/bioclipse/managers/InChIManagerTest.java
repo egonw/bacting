@@ -70,6 +70,7 @@ public class InChIManagerTest {
 	@Test
 	public void testCheck() throws Exception {
 		assertFalse(inchi.check("InChI="));
+		assertFalse(inchi.check("Foo="));
 		assertTrue(inchi.check("InChI=1S/CH4/h1H4"));
 	}
 	
@@ -83,12 +84,14 @@ public class InChIManagerTest {
 	@Test
 	public void testCheckStrict() throws Exception {
 		assertFalse(inchi.checkStrict("InChI="));
+		assertFalse(inchi.checkStrict("Foo="));
 	}
 
 	@Test
 	public void testCheckKey() throws Exception {
 		assertFalse(inchi.checkKey("VNWKTOKETHGBQD-UHFFFAOYSA-3"));
 		assertTrue(inchi.checkKey("VNWKTOKETHGBQD-UHFFFAOYSA-N"));
+		assertFalse(inchi.checkKey("FOO-FOO-N"));
 	}
 
 }
