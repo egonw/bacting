@@ -15,6 +15,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -83,6 +84,13 @@ public class UIManagerTest {
 	public void testAppend() throws IOException {
 		String newFile = "/NewFiles/append.txt";
         ui.append(newFile, "test append content");
+		assertTrue(Files.exists(Paths.get(workspaceRoot + newFile)));
+	}
+
+	@Test
+	public void testAppendInputStream() throws IOException {
+		String newFile = "/NewFiles/append.txt";
+        ui.append(newFile, new ByteArrayInputStream("test append content".getBytes()));
 		assertTrue(Files.exists(Paths.get(workspaceRoot + newFile)));
 	}
 
