@@ -117,10 +117,10 @@ public class RDFManager {
     /**
      * Lists all resources or literals for the resource and predicate.
      *
-     * @param store     an {@link IRDFStore} object
-     * @param String    resourceURI
-     * @param String    predicate
-     * @return          List of objects.
+     * @param store        an {@link IRDFStore} object
+     * @param resourceURI  subject of the triples
+     * @param predicate    predicate of the triples
+     * @return             List of objects (resources and literals).
      * @throws BioclipseException
     */
     public List<String> getForPredicate(IRDFStore store, String resourceURI, String predicate) throws BioclipseException {
