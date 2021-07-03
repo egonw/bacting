@@ -12,6 +12,7 @@ package net.bioclipse.managers;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -225,6 +226,14 @@ public class CDKManagerTest {
 	public void testIsValidCAS() throws BioclipseException, IOException {
 		assertTrue(cdk.isValidCAS("50-00-0"));
 		assertFalse(cdk.isValidCAS("50-00"));
+	}
+
+	@Test
+	public void testGetFormat() {
+		IChemFormat format = cdk.getFormat( "PubChemCompoundXMLFormat" );
+		assertNotNull(format);
+		format = cdk.getFormat( "ChemicalFooFormat" );
+		assertNull(format);
 	}
 
 }

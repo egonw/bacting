@@ -54,6 +54,7 @@ import org.openscience.cdk.io.ReaderFactory;
 import org.openscience.cdk.io.SDFWriter;
 import org.openscience.cdk.io.formats.CMLFormat;
 import org.openscience.cdk.io.formats.IChemFormat;
+import org.openscience.cdk.io.formats.IChemFormatMatcher;
 import org.openscience.cdk.io.formats.IResourceFormat;
 import org.openscience.cdk.silent.ChemFile;
 import org.openscience.cdk.silent.SilentChemObjectBuilder;
@@ -482,6 +483,16 @@ public class CDKManager implements IBactingManager {
         }
 
         return result;
+    }
+
+    public IChemFormat getFormat(String type) {
+        List<IChemFormatMatcher> formats = formatsFactory.getFormats();
+        for (IChemFormatMatcher format : formats) {
+            if (format.getClass().getName().substring(
+                "org.openscience.cdk.io.formats.".length()
+            ).equals(type)) return format;
+        }
+        return null;
     }
 
     @Override
