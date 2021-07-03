@@ -573,6 +573,7 @@ public class RDFManager {
         URLConnection connection = realURL.openConnection();
         connection.setConnectTimeout(CONNECT_TIME_OUT);
         connection.setReadTimeout(READ_TIME_OUT);
+        connection.setRequestProperty("User-Agent", "Bacting (https://joss.theoj.org/papers/10.21105/joss.02558)");
         connection.setRequestProperty(
             "Accept",
             "application/xml, application/rdf+xml"
