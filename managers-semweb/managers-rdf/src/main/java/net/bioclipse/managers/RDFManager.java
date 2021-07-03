@@ -407,7 +407,8 @@ public class RDFManager {
      * @throws IOException
      * @throws BioclipseException
      * @throws CoreException
-     */public IRDFStore importURL(IRDFStore store, String url,
+     */
+    public IRDFStore importURL(IRDFStore store, String url,
     		Map<String, String> extraHeaders)
         throws IOException, BioclipseException, CoreException {
         	URL realURL = new URL(url);
