@@ -21,6 +21,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
@@ -88,10 +89,27 @@ public class UIManagerTest {
 	}
 
 	@Test
+	public void testAppendToNotExists() throws IOException {
+		Assertions.assertThrows(Exception.class, () -> {
+			String newFile = "/DoesNotExist/append.txt";
+	        ui.append(newFile, "test append content");
+		});
+	}
+
+	@Test
 	public void testAppendInputStream() throws IOException {
 		String newFile = "/NewFiles/append.txt";
         ui.append(newFile, new ByteArrayInputStream("test append content".getBytes()));
 		assertTrue(Files.exists(Paths.get(workspaceRoot + newFile)));
+	}
+
+	@Test
+	public void testAppendInputStreamToNotExists() throws IOException {
+		Assertions.assertThrows(Exception.class, () -> {
+			String newFile = "/DoesNotExist/append.txt";
+	        ui.append(newFile, new ByteArrayInputStream("test append content".getBytes()));
+			assertTrue(Files.exists(Paths.get(workspaceRoot + newFile)));
+		});
 	}
 
 	@Test
