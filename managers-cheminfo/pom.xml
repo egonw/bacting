@@ -15,7 +15,7 @@
     <modules>
         <module>net.bioclipse.managers.cdk</module>
         <module>net.bioclipse.managers.cdkdebug</module>
-        <module>net.bioclipse.managers.chemspider</module>
+        <!-- module>net.bioclipse.managers.chemspider</module -->
         <module>net.bioclipse.managers.inchi</module>
         <module>net.bioclipse.managers.opsin</module>
         <module>net.bioclipse.managers.oscar</module>
