@@ -11,6 +11,8 @@ package net.bioclipse.managers;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.InputStream;
 import java.nio.file.Files;
@@ -51,4 +53,19 @@ public class ExcelManagerTest {
 		StringMatrix sheet = excel.getSheet("/NewFiles/testSpreadsheet.xlsx", 0);
 		assertNotNull(sheet);
 	}
+
+	@Test
+	public void testGetSheet_NotFound() throws BioclipseException {
+		Exception exception = assertThrows(
+			BioclipseException.class, () ->
+			{ excel.getSheet("/NewFiles/doesnotexist.xlsx", 0); }
+		);
+		assertTrue(exception.getMessage().contains("Could not open file"));
+	}
+
+	@Test
+	public void testManagerName() {
+		assertSame("excel", excel.getManagerName());
+	}
+
 }
