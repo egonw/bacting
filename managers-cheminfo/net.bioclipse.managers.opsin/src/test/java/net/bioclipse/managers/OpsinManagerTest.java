@@ -48,6 +48,17 @@ public class OpsinManagerTest {
 	}
 
 	@Test
+	public void testParseIUPACNameAsCML_Bad() throws Exception {
+		Exception exception = assertThrows(
+			BioclipseException.class, () ->
+			{
+				opsin.parseIUPACNameAsCML("brexit");
+			}
+		);
+		assertTrue(exception.getMessage().contains("Could not parse"));
+	}
+
+	@Test
 	public void testParseIUPACName_Bad() throws Exception {
 		Exception exception = assertThrows(
 			BioclipseException.class, () ->
