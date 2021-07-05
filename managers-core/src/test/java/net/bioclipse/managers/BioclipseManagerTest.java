@@ -113,6 +113,20 @@ public class BioclipseManagerTest {
 	}
 
 	@Test
+	public void testSparqlRemote_403() throws BioclipseException {
+		Exception exception = assertThrows(
+			BioclipseException.class, () ->
+			{
+				bioclipse.sparqlRemote(
+					"https://httpstat.us/403",
+					"SELECT * WHERE { ?s ?p ?o } LIMIT 1"
+				);
+			}
+		);
+		assertTrue(exception.getMessage().contains("Expected HTTP 200, but got"));
+	}
+
+	@Test
 	public void testDownload() throws BioclipseException {
 		String results = bioclipse.download(
 			"https://wikipathways.org"
@@ -129,6 +143,17 @@ public class BioclipseManagerTest {
 			}
 		);
 		assertTrue(exception.getMessage().contains("Error while opening browser"));
+	}
+
+	@Test
+	public void testDownload_403() {
+		Exception exception = assertThrows(
+			BioclipseException.class, () ->
+			{
+				bioclipse.download("https://httpstat.us/403");
+			}
+		);
+		assertTrue(exception.getMessage().contains("Error while downloading from URL"));
 	}
 
 	@Test
@@ -160,5 +185,35 @@ public class BioclipseManagerTest {
 		);
 		assertTrue(results.equals("/Download/test.n3"));
 		// should also test the file content
+	}
+
+	@Test
+	public void testDownloadAsFile_BadURL() throws BioclipseException {
+		Exception exception = assertThrows(
+			BioclipseException.class, () ->
+			{
+				bioclipse.downloadAsFile(
+					"xxx://wikidata.org/wiki/Q5",
+					"text/n3",
+					"/Download/test.n3"
+				);
+			}
+		);
+		assertTrue(exception.getMessage().contains("unknown protocol: xxx"));
+	}
+
+	@Test
+	public void testDownloadAsFile403() throws BioclipseException {
+		Exception exception = assertThrows(
+			BioclipseException.class, () ->
+			{
+				bioclipse.downloadAsFile(
+					"https://httpstat.us/403",
+					"text/n3",
+					"/Download/test.n3"
+				);
+			}
+		);
+		assertTrue(exception.getMessage().equals("No access."));
 	}
 }
