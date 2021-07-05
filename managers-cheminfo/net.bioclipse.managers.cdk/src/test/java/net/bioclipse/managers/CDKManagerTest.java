@@ -23,6 +23,7 @@ import java.nio.file.Files;
 import java.util.List;
 import java.util.Set;
 
+import org.eclipse.core.resources.IResource;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.openscience.cdk.interfaces.IAtom;
@@ -32,6 +33,7 @@ import org.openscience.cdk.io.formats.SMILESFormat;
 
 import net.bioclipse.cdk.domain.ICDKMolecule;
 import net.bioclipse.core.business.BioclipseException;
+import net.bioclipse.core.domain.IMolecule;
 
 public class CDKManagerTest {
 
@@ -83,11 +85,18 @@ public class CDKManagerTest {
 		);
 		assertTrue(exception.getMessage().contains("cannot be null"));
 	}
-	
+
 	@Test
 	public void testAsCDKMolecule() throws BioclipseException, IOException {
 		ICDKMolecule mol = cdk.fromCml("<molecule/>");
 		ICDKMolecule mol2 = cdk.asCDKMolecule(mol); 
+		assertNotNull(mol2);
+	}
+
+	@Test
+	public void testAsCDKMolecule_Mock() throws BioclipseException, IOException {
+		IMolecule smiMol = new SMILESMolecule("CCCO");
+		ICDKMolecule mol2 = cdk.asCDKMolecule(smiMol); 
 		assertNotNull(mol2);
 	}
 
@@ -236,4 +245,47 @@ public class CDKManagerTest {
 		assertNull(format);
 	}
 
+	class SMILESMolecule implements IMolecule {
+
+		private String smiles;
+
+		SMILESMolecule(String smiles) { this.smiles = smiles; }
+
+		@Override
+		public IResource getResource() {
+			throw new UnsupportedOperationException("not support");
+		}
+
+		@Override
+		public void setResource(IResource resource) {
+			throw new UnsupportedOperationException("not support");
+		}
+
+		@Override
+		public String getUID() {
+			throw new UnsupportedOperationException("not support");
+		}
+
+		@Override
+		public <T> T getAdapter(Class<T> adapter) {
+			throw new UnsupportedOperationException("not support");
+		}
+
+		@Override
+		public List<IMolecule> getConformers() {
+			throw new UnsupportedOperationException("not support");
+		}
+
+		@Override
+		public String toSMILES() throws BioclipseException {
+			return this.smiles;
+		}
+
+		@Override
+		public String toCML() throws BioclipseException {
+			throw new UnsupportedOperationException("not support");
+		}
+		
+	}
+	
 }
