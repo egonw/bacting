@@ -24,7 +24,8 @@ If you use this software, please cite the article in JOSS:
 # Install
 
 For the below use cases, Bacting is actually installed on demand. In Groovy this is done with
-`@Grab` and in Python with `scyjava.config`. This section explains how Bacting can be installed from
+`@Grab` and in Python with `from pybacting import cdk` (see [pybacting](https://github.com/cthoyt/pybacting))
+or `scyjava.config`. This section explains how Bacting can be installed from
 the source code.
 
 ## From the source code
