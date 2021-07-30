@@ -97,7 +97,7 @@ cdk = cdkClass(workspaceRoot)
 print(cdk.fromSMILES("COC"))
 ```
 
-### Code examples
+# Code examples
 
 Full code examples can be found in the following sources:
 
