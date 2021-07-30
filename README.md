@@ -96,6 +96,9 @@ from pybacting import cdk
 print(cdk.fromSMILES("COC"))
 ```
 
+Pybacting uses a specific Bacting version, so check the [website](https://github.com/cthoyt/pybacting)
+to see which Bacting version you are using.
+
 ### Scyjava
 
 Scyjava can be installed with `pip install scyjava` (or `pip3`, depending on your platform).
