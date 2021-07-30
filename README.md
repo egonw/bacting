@@ -85,7 +85,7 @@ println cdk.fromSMILES("COC")
 Bacting can also be used in Python 3.7 with [pybacting](https://github.com/cthoyt/pybacting) and
 [scyjava](https://github.com/scijava/scyjava).
 
-## Pybacting
+### Pybacting
 
 Pybacting can be installed with `pip install pybacting` (or `pip3`, depending on your platform).
 The above code example looks like:
