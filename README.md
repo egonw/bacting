@@ -82,9 +82,24 @@ println cdk.fromSMILES("COC")
 
 ## Python
 
-Bacting can also be used in Python 3.7 with at least [scyjava](https://github.com/scijava/scyjava), which can be installed with
-`pip install scyjava` (or `pip3`, depending on your platform). The above code example in
-Python then looks like:
+Bacting can also be used in Python 3.7 with [pybacting](https://github.com/cthoyt/pybacting) and
+[scyjava](https://github.com/scijava/scyjava).
+
+## Pybacting
+
+Pybacting can be installed with `pip install pybacting` (or `pip3`, depending on your platform).
+The above code example looks like:
+
+```python
+from pybacting import cdk
+
+print(cdk.fromSMILES("COC"))
+```
+
+### Scyjava
+
+Scyjava can be installed with `pip install scyjava` (or `pip3`, depending on your platform).
+The code example looks like:
 
 ```python
 from scyjava import config, jimport
