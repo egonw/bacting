@@ -30,6 +30,7 @@ import java.util.Set;
 import org.openscience.cdk.CDKConstants;
 import org.openscience.cdk.atomtype.CDKAtomTypeMatcher;
 import org.openscience.cdk.config.Elements;
+import org.openscience.cdk.depict.DepictionGenerator;
 import org.openscience.cdk.exception.CDKException;
 import org.openscience.cdk.exception.Intractable;
 import org.openscience.cdk.exception.InvalidSmilesException;
@@ -493,6 +494,16 @@ public class CDKManager implements IBactingManager {
             ).equals(type)) return format;
         }
         return null;
+    }
+
+    public String asSVG(IMolecule molecule) throws BioclipseException {
+        ICDKMolecule cdkMolecule = asCDKMolecule(molecule);
+        DepictionGenerator dg = new DepictionGenerator();
+        try {
+            return dg.depict(cdkMolecule.getAtomContainer()).toSvgStr();
+        } catch (CDKException exception) {
+            throw new BioclipseException("Exception while creating SVG: " + exception.getMessage(), exception);
+        }
     }
 
     @Override

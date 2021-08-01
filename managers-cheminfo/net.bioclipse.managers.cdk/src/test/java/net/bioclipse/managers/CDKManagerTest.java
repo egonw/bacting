@@ -9,6 +9,7 @@
  */
 package net.bioclipse.managers;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -229,6 +230,15 @@ public class CDKManagerTest {
 		set = cdk.getAtomsWithDefinedStereo(mol);
 		assertNotNull(set);
 		assertSame(1, set.size());
+	}
+
+	@Test
+	public void testAsSVG() throws BioclipseException, IOException {
+		ICDKMolecule mol = cdk.fromSMILES("C[C@](O)CC");
+		String svg = cdk.asSVG(mol);
+		String lines[] = svg.split(System.getProperty("line.separator"),3);
+        assertEquals("<?xml version='1.0' encoding='UTF-8'?>", lines[0]);
+        assertEquals("<!DOCTYPE svg PUBLIC \"-//W3C//DTD SVG 1.1//EN\" \"http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd\">", lines[1]);
 	}
 
 	@Test
