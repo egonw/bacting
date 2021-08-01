@@ -11,14 +11,18 @@ package net.bioclipse.managers;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.lang.reflect.InvocationTargetException;
 import java.nio.file.Files;
 import java.util.List;
 
+import org.eclipse.core.resources.IResource;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
+import net.bioclipse.core.business.BioclipseException;
 import net.bioclipse.core.domain.IMolecule;
 import net.bioclipse.managers.cdkdebug.CDKDebugManager;
 
@@ -53,6 +57,39 @@ public class CDKDebugManagerTest {
 		String types = cdx.perceiveCDKAtomTypes(mol);
 		assertNotNull(types);
 		assertTrue(types.contains("C.sp3"));
+	}
+
+	@Test
+	public void testPerceiveCDKAtomTypes_FakeIMolecule() throws Exception {
+		IMolecule mol = new IMolecule() {
+			public <T> T getAdapter(Class<T> adapter) { return null; }
+			public void setResource(IResource resource) {}
+			public String getUID() { return null; }
+			public IResource getResource() { return null; }
+			public String toSMILES() throws BioclipseException { return null; }
+			public String toCML() throws BioclipseException { return null; }
+			public List<IMolecule> getConformers() { return null; }
+		};
+		assertThrows(NullPointerException.class, () -> {
+			cdx.perceiveCDKAtomTypes(mol);
+		});
+	}
+
+	@Test
+	public void testPerceiveCDKAtomTypes_FakeIMolecule2() throws Exception {
+		IMolecule mol = new IMolecule() {
+			public <T> T getAdapter(Class<T> adapter) { return null; }
+			public void setResource(IResource resource) {}
+			public String getUID() { return null; }
+			public IResource getResource() { return null; }
+			public String toSMILES() throws BioclipseException { throw new BioclipseException("No, I'm fake."); }
+			public String toCML() throws BioclipseException { return null; }
+			public List<IMolecule> getConformers() { return null; }
+		};
+		InvocationTargetException exception = assertThrows(InvocationTargetException.class, () -> {
+			cdx.perceiveCDKAtomTypes(mol);
+		});
+		assertTrue(exception.getMessage().contains("Error while creating a ICDKMolecule"));
 	}
 
 }
