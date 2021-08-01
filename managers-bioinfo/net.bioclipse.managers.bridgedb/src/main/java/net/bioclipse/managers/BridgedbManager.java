@@ -254,7 +254,7 @@ public class BridgedbManager implements IBactingManager {
     private List<String> extractIdentifierStrings(Set<Xref> dests) {
 		List<String> results = new ArrayList<String>();
     	for (Xref dest : dests)
-    	    results.add(dest.getURN());
+    	    results.add(dest.getMiriamURN());
 		return results;
 	}
 
