@@ -9,12 +9,14 @@
  */
 package net.bioclipse.managers;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNotSame;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.nio.file.Files;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.jupiter.api.BeforeAll;
@@ -81,6 +83,26 @@ public class PubChemManagerTest {
 		IMolecule mol = pubchem.download3d(71583);
 		assertNotNull(mol);
 		assertNotSame(0, cdk.asCDKMolecule(mol).getAtomContainer().getAtomCount());
+	}
+
+	@Test
+	public void download3d_list() throws Exception {
+		List<Integer> cids = new ArrayList<>();
+		cids.add(71583);
+		cids.add(176);
+		List<IMolecule> mols = pubchem.download3d(cids);
+		assertNotNull(mols);
+		assertEquals(2, mols.size());
+	}
+
+	@Test
+	public void download_list() throws Exception {
+		List<Integer> cids = new ArrayList<>();
+		cids.add(71583);
+		cids.add(176);
+		List<IMolecule> mols = pubchem.download(cids);
+		assertNotNull(mols);
+		assertEquals(2, mols.size());
 	}
 
 	@Test
