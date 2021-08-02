@@ -105,4 +105,16 @@ public class PubChemManagerTest {
 		assertNotSame(0, rdf.size(store));
 	}
 
+	@Test
+    public void loadCompound() throws Exception {
+		pubchem.loadCompound(71583, "/PubChemFiles/cid71583.mol");
+		assertTrue(ui.fileExists("/PubChemFiles/cid71583.mol"));
+    }
+
+	@Test
+    public void loadCompound3d() throws Exception {
+		pubchem.loadCompound3d(71583, "/PubChemFiles/cid71583_3d.mol");
+		assertTrue(ui.fileExists("/PubChemFiles/cid71583_3d.mol"));
+	}
+
 }

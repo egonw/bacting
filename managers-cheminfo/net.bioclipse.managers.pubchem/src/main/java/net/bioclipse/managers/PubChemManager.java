@@ -55,6 +55,7 @@ public class PubChemManager implements IBactingManager {
     private String workspaceRoot;
 	private CDKManager cdk;
 	private RDFManager rdf;
+	private UIManager ui;
 
 	/**
      * Creates a new {@link PubChemManager}.
@@ -65,6 +66,7 @@ public class PubChemManager implements IBactingManager {
 		this.workspaceRoot = workspaceRoot;
 		this.cdk = new CDKManager(this.workspaceRoot);
 		this.rdf = new RDFManager(this.workspaceRoot);
+		this.ui = new UIManager(this.workspaceRoot);
 	}
 
     private String replaceSpaces(String molecule2) {
@@ -238,6 +240,31 @@ public class PubChemManager implements IBactingManager {
     		results.add(download3d(cid));
     	}
     	return results;
+    }
+
+    public String loadCompound(int cid, String target)
+    throws IOException, BioclipseException, CoreException {
+        return loadCompoundAny(cid, target, "DisplayXML");
+    }
+
+    public String loadCompound3d(int cid, String target)
+        throws IOException, BioclipseException, CoreException {
+        return loadCompoundAny(cid, target, "3DDisplaySDF");
+    }
+
+    private String loadCompoundAny(int cid, String target, String type)
+            throws IOException, BioclipseException, CoreException {
+        if (target == null) {
+            throw new BioclipseException("Cannot save to a NULL file.");
+        }
+        String molString = downloadAsString(cid, type);
+        if (ui.fileExists(target)) {
+            ui.renewFile(target);
+            ui.append(target, molString);
+        } else {
+            ui.newFile(target, molString);
+        }
+        return target;
     }
 
 }

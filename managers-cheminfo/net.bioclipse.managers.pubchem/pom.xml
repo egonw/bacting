@@ -55,7 +55,6 @@
       <groupId>io.github.egonw.bacting</groupId>
       <artifactId>managers-ui</artifactId>
       <version>0.0.22-SNAPSHOT</version>
-      <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>io.github.egonw.bacting</groupId>
