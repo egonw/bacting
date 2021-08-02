@@ -89,9 +89,18 @@ public class CDKManagerTest {
 
 	@Test
 	public void testAsCDKMolecule() throws BioclipseException, IOException {
-		ICDKMolecule mol = cdk.fromCml("<molecule/>");
+		ICDKMolecule mol = cdk.fromCml("<molecule><atomArray><atom elementType=\"C\" /></atomArray></molecule>");
 		ICDKMolecule mol2 = cdk.asCDKMolecule(mol); 
 		assertNotNull(mol2);
+		assertEquals(1, mol2.getAtomContainer().getAtomCount());
+	}
+
+	@Test
+	public void testAsCDKMolecule_CML() throws BioclipseException, IOException {
+		IMolecule mol = new CMLMolecule("<molecule><atomArray><atom elementType=\"C\" /></atomArray></molecule>");
+		ICDKMolecule mol2 = cdk.asCDKMolecule(mol);
+		assertNotNull(mol2);
+		assertEquals(1, mol2.getAtomContainer().getAtomCount());
 	}
 
 	@Test
@@ -99,6 +108,7 @@ public class CDKManagerTest {
 		IMolecule smiMol = new SMILESMolecule("CCCO");
 		ICDKMolecule mol2 = cdk.asCDKMolecule(smiMol); 
 		assertNotNull(mol2);
+		assertEquals(4, mol2.getAtomContainer().getAtomCount());
 	}
 
 	@Test
@@ -298,4 +308,47 @@ public class CDKManagerTest {
 		
 	}
 	
+	class CMLMolecule implements IMolecule {
+
+		private String cml;
+
+		CMLMolecule(String cml) { this.cml = cml; }
+
+		@Override
+		public IResource getResource() {
+			throw new UnsupportedOperationException("not support");
+		}
+
+		@Override
+		public void setResource(IResource resource) {
+			throw new UnsupportedOperationException("not support");
+		}
+
+		@Override
+		public String getUID() {
+			throw new UnsupportedOperationException("not support");
+		}
+
+		@Override
+		public <T> T getAdapter(Class<T> adapter) {
+			throw new UnsupportedOperationException("not support");
+		}
+
+		@Override
+		public List<IMolecule> getConformers() {
+			throw new UnsupportedOperationException("not support");
+		}
+
+		@Override
+		public String toSMILES() throws BioclipseException {
+			throw new UnsupportedOperationException("not support");
+		}
+
+		@Override
+		public String toCML() throws BioclipseException {
+			return this.cml;
+		}
+
+	}
+
 }
