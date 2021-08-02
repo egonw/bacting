@@ -77,6 +77,20 @@ public class PubChemManagerTest {
 	}
 
 	@Test
+	public void download3d() throws Exception {
+		IMolecule mol = pubchem.download3d(71583);
+		assertNotNull(mol);
+		assertNotSame(0, cdk.asCDKMolecule(mol).getAtomContainer().getAtomCount());
+	}
+
+	@Test
+	public void download3dAsString() throws Exception {
+		String mol = pubchem.download3dAsString(71583);
+		assertNotNull(mol);
+		assertTrue(mol.contains("PUBCHEM_COMPOUND_CID"));
+	}
+
+	@Test
 	public void download() throws Exception {
 		IMolecule mol = pubchem.download(71583);
 		assertNotNull(mol);

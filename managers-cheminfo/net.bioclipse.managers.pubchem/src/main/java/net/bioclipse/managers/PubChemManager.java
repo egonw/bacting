@@ -204,4 +204,40 @@ public class PubChemManager implements IBactingManager {
         rdf.importFromString(store, rdfContent, "RDF/XML");
         return store;
     }
+
+    public IMolecule download3d(Integer cid)
+        throws IOException, BioclipseException, CoreException{
+    	String molstring = download3dAsString(cid);
+
+    	// convert the returned SD file into a MDL molfile by stripping the
+    	// $$$$ and beyond
+    	molstring = molstring.substring(0, molstring.indexOf("$$$$"));
+
+    	ICDKMolecule molecule = cdk.fromString(molstring);
+    	return molecule;
+    }
+
+    public String download3dAsString(Integer cid)
+        throws IOException, BioclipseException, CoreException{
+        return downloadAsString(cid, "3DDisplaySDF");
+    }
+
+    public List<IMolecule> download(List<Integer> cids)
+    				throws IOException, BioclipseException, CoreException {
+    	List<IMolecule> results = new ArrayList<IMolecule>();
+    	for (Integer cid : cids) {
+    		results.add(download(cid));
+    	}
+    	return results;
+    }
+
+    public List<IMolecule> download3d(List<Integer> cids)
+    	throws IOException, BioclipseException, CoreException {
+    	List<IMolecule> results = new ArrayList<IMolecule>();
+    	for (Integer cid : cids) {
+    		results.add(download3d(cid));
+    	}
+    	return results;
+    }
+
 }
