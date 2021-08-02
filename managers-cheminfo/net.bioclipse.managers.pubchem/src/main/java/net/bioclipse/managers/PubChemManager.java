@@ -267,4 +267,22 @@ public class PubChemManager implements IBactingManager {
         return target;
     }
 
+    public String loadCompoundRDF(int cid, String target)
+        throws IOException, BioclipseException, CoreException {
+        if (target == null) {
+            throw new BioclipseException("Cannot save to a NULL file.");
+        }
+
+        String downloadURI = PUBCHEMRDF_URL_BASE + "CID" + cid;
+        String rdfString = downloadAsString(downloadURI, "application/rdf+xml");
+
+        if (ui.fileExists(target)) {
+            ui.renewFile(target);
+            ui.append(target, rdfString);
+        } else {
+            ui.newFile(target, rdfString);
+        }
+        return target;
+    }
+
 }

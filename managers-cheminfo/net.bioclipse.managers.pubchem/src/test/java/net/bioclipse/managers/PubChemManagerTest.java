@@ -139,4 +139,10 @@ public class PubChemManagerTest {
 		assertTrue(ui.fileExists("/PubChemFiles/cid71583_3d.mol"));
 	}
 
+	@Test
+    public void loadCompoundRDF() throws Exception {
+		pubchem.loadCompoundRDF(71583, "/PubChemFiles/cid71583.rdf");
+		assertTrue(ui.fileExists("/PubChemFiles/cid71583.rdf"));
+	}
+
 }
