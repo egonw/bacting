@@ -13,6 +13,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNotSame;
 import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.nio.file.Files;
@@ -22,6 +23,7 @@ import java.util.List;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
+import net.bioclipse.core.business.BioclipseException;
 import net.bioclipse.core.domain.IMolecule;
 import net.bioclipse.rdf.business.IRDFStore;
 
@@ -134,6 +136,22 @@ public class PubChemManagerTest {
     }
 
 	@Test
+    public void loadCompound_null() throws Exception {
+		Exception exception = assertThrows(BioclipseException.class, () ->
+		{
+		    pubchem.loadCompound(71583, null);
+		});
+		assertTrue(exception.getMessage().contains("Cannot save to a NULL file"));
+    }
+
+	@Test
+    public void loadCompound_overwrite() throws Exception {
+		ui.newFile("/PubChemFiles/overwrite.mol", "overwrite");
+		pubchem.loadCompound(71583, "/PubChemFiles/overwrite.mol");
+		assertTrue(ui.fileExists("/PubChemFiles/overwrite.mol"));
+    }
+
+	@Test
     public void loadCompound3d() throws Exception {
 		pubchem.loadCompound3d(71583, "/PubChemFiles/cid71583_3d.mol");
 		assertTrue(ui.fileExists("/PubChemFiles/cid71583_3d.mol"));
@@ -144,5 +162,21 @@ public class PubChemManagerTest {
 		pubchem.loadCompoundRDF(71583, "/PubChemFiles/cid71583.rdf");
 		assertTrue(ui.fileExists("/PubChemFiles/cid71583.rdf"));
 	}
+
+	@Test
+    public void loadCompoundRDF_null() throws Exception {
+		Exception exception = assertThrows(BioclipseException.class, () ->
+		{
+		    pubchem.loadCompoundRDF(71583, null);
+		});
+		assertTrue(exception.getMessage().contains("Cannot save to a NULL file"));
+    }
+
+	@Test
+    public void loadCompoundRDF_overwrite() throws Exception {
+		ui.newFile("/PubChemFiles/overwrite.rdf", "overwrite");
+		pubchem.loadCompoundRDF(71583, "/PubChemFiles/overwrite.rdf");
+		assertTrue(ui.fileExists("/PubChemFiles/overwrite.rdf"));
+    }
 
 }
