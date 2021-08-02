@@ -63,6 +63,13 @@ public class PubChemManagerTest {
 	}
 
 	@Test
+	public void testSearch_Brexitane() throws Exception {
+		List<Integer> results = pubchem.search("brexitane");
+		assertNotNull(results);
+		assertSame(0, results.size());
+	}
+
+	@Test
 	public void downloadAsString() throws Exception {
 		String xml = pubchem.downloadAsString(71583);
 		assertNotNull(xml);
