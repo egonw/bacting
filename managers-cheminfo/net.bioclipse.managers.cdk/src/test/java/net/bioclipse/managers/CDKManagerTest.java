@@ -29,6 +29,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.openscience.cdk.interfaces.IAtom;
 import org.openscience.cdk.interfaces.IMolecularFormula;
+import org.openscience.cdk.io.formats.CDKSourceCodeFormat;
 import org.openscience.cdk.io.formats.IChemFormat;
 import org.openscience.cdk.io.formats.SMILESFormat;
 
@@ -67,6 +68,18 @@ public class CDKManagerTest {
 		);
 		assertNotNull(mol);
 		assertSame(3, mol.getAtomContainer().getAtomCount());
+	}
+
+	@Test
+	public void testloadMolecule_UnsupportedFormat() throws BioclipseException, IOException {
+		Exception exception = assertThrows(BioclipseException.class, () ->
+		{
+			cdk.loadMolecule(
+				new ByteArrayInputStream("CCC".getBytes()),
+				(IChemFormat)CDKSourceCodeFormat.getInstance()
+			);
+		});
+		assertTrue(exception.getMessage().contains("Could not create reader in CDK."));
 	}
 
 	@Test
