@@ -44,7 +44,6 @@ public class CDKManagerTest {
 	@BeforeAll
 	static void setupManager() throws IOException {
 		String tmpPath = Files.createTempDirectory("cdktestws").toString();
-		System.out.println("tmpPath: " + tmpPath);
 		cdk = new CDKManager(tmpPath);
 	}
 
