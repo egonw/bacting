@@ -1,5 +1,5 @@
-cff-version: 1.0.3
-message: If you use this software, please cite it as below.
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
 authors:
   - family-names: Willighagen
     given-names: Egon
@@ -8,15 +8,18 @@ title: Bacting
 version: 0.0.22
 doi: 10.5281/zenodo.5068521
 date-released: 2021-08-02
-references:
-  - type: article
-    authors:
-      - family-names: Willighagen
-        given-names: Egon L.
-    title: "Bacting: a next generation, command line version of Bioclipse"
-    year: 2021
-    journal: Journal of Open Source Software
-    volume: 6
-    issue: 62
-    doi: 10.21105/joss.02558
-    url: https://doi.org/10.21105/joss.02558
+url: "https://github.com/egonw/bacting"
+preferred-citation:
+  type: article
+  authors:
+    - family-names: Willighagen
+      given-names: Egon L.
+  title: "Bacting: a next generation, command line version of Bioclipse"
+  year: 2021
+  month: 6
+  day: 23
+  journal: Journal of Open Source Software
+  volume: 6
+  issue: 62
+  doi: 10.21105/joss.02558
+  url: https://doi.org/10.21105/joss.02558
