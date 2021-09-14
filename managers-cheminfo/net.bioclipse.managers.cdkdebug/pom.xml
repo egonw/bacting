@@ -4,7 +4,7 @@
   <parent>
     <artifactId>managers-cheminfo</artifactId>
     <groupId>io.github.egonw.bacting</groupId>
-    <version>0.0.23-SNAPSHOT</version>
+    <version>0.0.23</version>
   </parent>
 
   <artifactId>managers-cdkdebug</artifactId>
@@ -34,7 +34,7 @@
     <dependency>
       <groupId>io.github.egonw.bacting</groupId>
       <artifactId>managers-cdk</artifactId>
-      <version>0.0.23-SNAPSHOT</version>
+      <version>0.0.23</version>
     </dependency>
     <dependency>
         <groupId>org.junit.jupiter</groupId>
