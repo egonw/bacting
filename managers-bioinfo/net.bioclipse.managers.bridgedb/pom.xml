@@ -4,7 +4,7 @@
   <parent>
     <artifactId>managers-bioinfo</artifactId>
     <groupId>io.github.egonw.bacting</groupId>
-    <version>0.0.22</version>
+    <version>0.0.23</version>
   </parent>
 
   <artifactId>managers-bridgedb</artifactId>
@@ -39,7 +39,7 @@
     <dependency>
       <groupId>io.github.egonw.bacting</groupId>
       <artifactId>bacting-core</artifactId>
-      <version>0.0.22</version>
+      <version>0.0.23</version>
     </dependency>
     <dependency>
     	<groupId>org.bridgedb</groupId>
@@ -52,16 +52,21 @@
         <version>3.0.5</version>
     </dependency>
     <dependency>
+        <groupId>org.bridgedb</groupId>
+        <artifactId>org.bridgedb.rdb</artifactId>
+        <version>3.0.5</version>
+    </dependency>
+    <dependency>
         <groupId>org.junit.jupiter</groupId>
         <artifactId>junit-jupiter</artifactId>
         <scope>test</scope>
-        <version>5.7.0</version>
+        <version>5.7.2</version>
     </dependency>
     <dependency>
         <groupId>org.junit.jupiter</groupId>
         <artifactId>junit-jupiter-engine</artifactId>
         <scope>test</scope>
-        <version>5.7.0</version>
+        <version>5.7.2</version>
     </dependency>
   </dependencies>
 </project>
