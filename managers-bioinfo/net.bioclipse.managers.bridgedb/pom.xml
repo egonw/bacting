@@ -52,6 +52,11 @@
         <version>3.0.5</version>
     </dependency>
     <dependency>
+        <groupId>org.bridgedb</groupId>
+        <artifactId>org.bridgedb.rdb</artifactId>
+        <version>3.0.5</version>
+    </dependency>
+    <dependency>
         <groupId>org.junit.jupiter</groupId>
         <artifactId>junit-jupiter</artifactId>
         <scope>test</scope>
