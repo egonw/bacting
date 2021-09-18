@@ -22,6 +22,7 @@ import org.openscience.cdk.exception.CDKException;
 import org.openscience.cdk.interfaces.IAtom;
 import org.openscience.cdk.interfaces.IAtomContainer;
 import org.openscience.cdk.interfaces.IAtomType;
+import org.openscience.cdk.tools.diff.AtomContainerDiff;
 
 import io.github.egonw.bacting.IBactingManager;
 import net.bioclipse.cdk.domain.ICDKMolecule;
@@ -89,6 +90,19 @@ public class CDKDebugManager implements IBactingManager {
 			i++;
 		}
 		return result.toString();
+	}
+
+	/**
+	 * Returns the differences between the two molecules.
+	 *
+	 * @param mol  One of the two {@link ICDKMolecule}s to compare
+	 * @param mol2 One of the two {@link ICDKMolecule}s to compare
+	 * @return
+	 */
+	public String diff(ICDKMolecule mol, ICDKMolecule mol2) {
+		return AtomContainerDiff.diff(
+	         mol.getAtomContainer(), mol2.getAtomContainer()
+	    );
 	}
 
 	@Override

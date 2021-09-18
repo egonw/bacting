@@ -22,6 +22,7 @@ import org.eclipse.core.resources.IResource;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
+import net.bioclipse.cdk.domain.ICDKMolecule;
 import net.bioclipse.core.business.BioclipseException;
 import net.bioclipse.core.domain.IMolecule;
 import net.bioclipse.managers.cdkdebug.CDKDebugManager;
@@ -91,5 +92,12 @@ public class CDKDebugManagerTest {
 		});
 		assertTrue(exception.getMessage().contains("Error while creating a ICDKMolecule"));
 	}
+
+    @Test
+    public void testDiff() throws Exception {
+        ICDKMolecule mol1 = (ICDKMolecule)cdk.fromSMILES("C");
+        ICDKMolecule mol2 = (ICDKMolecule)cdk.fromSMILES("C");
+        cdx.diff(mol1, mol2);
+    }
 
 }
