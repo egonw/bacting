@@ -47,7 +47,7 @@ public class CDKManagerTest {
 		String tmpPath = Files.createTempDirectory("cdktestws").toString();
 		cdk = new CDKManager(tmpPath);
 		ui = new UIManager(tmpPath);
-		ui.newProject("/RDFTests/");
+		ui.newProject("/CDKTests/");
 		ui.newFile("/testFiles/cs2a.cml",
 		      " <cml:molecule xmlns:cml=\"http://www.xml-cml.org/schema/cml2/core\">\n"
 			+ " <!--\n"
