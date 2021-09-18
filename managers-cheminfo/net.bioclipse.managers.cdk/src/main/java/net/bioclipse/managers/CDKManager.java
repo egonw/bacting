@@ -13,8 +13,11 @@
  */
 package net.bioclipse.managers;
 
+import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringReader;
@@ -94,6 +97,23 @@ public class CDKManager implements IBactingManager {
      */
 	public CDKManager(String workspaceRoot) {
 		this.workspaceRoot = workspaceRoot;
+	}
+
+    /**
+     * Loads a molecule from file using CDK. If many molecules, just return first.
+     * To return a list of molecules, use loadMolecules(...)
+     *
+     * @param  path The path to the file
+     * @return      a {@link IMolecule} object
+     * @throws      IOException
+     * @throws      BioclipseException
+     */
+	public ICDKMolecule loadMolecule(String file) throws IOException, BioclipseException {
+		IChemFormat format = determineIChemFormat(file);
+		ICDKMolecule loadedMol = loadMolecule(
+			new FileInputStream(workspaceRoot + file), format
+		);
+		return loadedMol;
 	}
 
 	/**
@@ -261,6 +281,22 @@ public class CDKManager implements IBactingManager {
             throw new BioclipseException( message + e.getMessage(), e );
         }
         return new CDKMolecule(molecule);
+    }
+
+	/**
+	 * Determines the file format of the given input.
+	 *
+	 * @param fileContent {@link String} with the chemical file
+	 *
+	 * @return path String pointing to the file to test
+	 * @throws      IOException
+	 */
+    public IChemFormat determineIChemFormat(String path) throws IOException {
+        return formatsFactory.guessFormat(
+            new BufferedReader(
+                new FileReader(new File(workspaceRoot + path))
+            )
+        );
     }
 
 	/**
