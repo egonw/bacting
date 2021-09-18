@@ -62,6 +62,7 @@ import org.openscience.cdk.io.formats.IChemFormatMatcher;
 import org.openscience.cdk.io.formats.IResourceFormat;
 import org.openscience.cdk.silent.ChemFile;
 import org.openscience.cdk.silent.SilentChemObjectBuilder;
+import org.openscience.cdk.smiles.SmilesGenerator;
 import org.openscience.cdk.smiles.SmilesParser;
 import org.openscience.cdk.stereo.Stereocenters;
 import org.openscience.cdk.stereo.Stereocenters.Type;
@@ -540,6 +541,33 @@ public class CDKManager implements IBactingManager {
         } catch (CDKException exception) {
             throw new BioclipseException("Exception while creating SVG: " + exception.getMessage(), exception);
         }
+    }
+
+    /**
+     * Returns the SMILES for a molecule.
+     *
+     * @param molecule {@link IMolecule} to generate the SMILES for
+     * @return         String with the SMILES representation
+     * @throws         BioclipseException
+     */
+    public String calculateSMILES(IMolecule molecule) throws BioclipseException {
+        ICDKMolecule mol;
+        try {
+            mol = asCDKMolecule( molecule );
+        } catch ( BioclipseException e ) {
+            return "";
+        }
+        String result;
+        try {
+            IAtomContainer cdkMol = mol.getAtomContainer();
+
+            // Create the SMILES
+            SmilesGenerator generator = SmilesGenerator.absolute();
+            result = generator.create( cdkMol );
+        } catch (Exception e) {
+            return "";
+        }
+        return result;
     }
 
     @Override

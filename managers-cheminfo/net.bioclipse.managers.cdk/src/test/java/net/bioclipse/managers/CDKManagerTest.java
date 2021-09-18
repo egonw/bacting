@@ -167,6 +167,14 @@ public class CDKManagerTest {
 	}
 
 	@Test
+	public void testCalculateSMILES() throws BioclipseException, IOException {
+		ICDKMolecule mol = cdk.fromSMILES("CCC");
+		assertNotNull(mol);
+		String smiles = cdk.calculateSMILES(mol);
+		assertTrue("CCC".equals(smiles));
+	}
+
+	@Test
 	public void testPartition() throws BioclipseException, IOException {
 		ICDKMolecule mol = cdk.fromSMILES("O=C[O-].[Na+]");
 		assertNotNull(mol);
