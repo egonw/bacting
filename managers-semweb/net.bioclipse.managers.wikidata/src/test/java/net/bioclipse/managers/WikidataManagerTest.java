@@ -57,6 +57,20 @@ public class WikidataManagerTest {
 			}
 		);
 		assertTrue(exception.getMessage().contains("You must give an InChI"));
+		exception = assertThrows(
+			BioclipseException.class, () ->
+			{
+				wikidata.getEntityID(null);
+			}
+		);
+		assertTrue(exception.getMessage().contains("You must give an InChI"));
+		exception = assertThrows(
+			BioclipseException.class, () ->
+			{
+				wikidata.getMolecule(null);
+			}
+		);
+		assertTrue(exception.getMessage().contains("You must give an InChI"));
 	}
 
 	@Test
@@ -73,6 +87,7 @@ public class WikidataManagerTest {
 		IMolecule mol = wikidata.getMolecule(inchiObj);
 		assertNotNull(mol);
 		assertTrue(mol instanceof WikidataMolecule);
+		assertEquals(0, cdk.totalFormalCharge(mol));
 		ICDKMolecule cdkMol = ((WikidataMolecule)mol).asCDKMolecule();
 		assertEquals("C", cdkMol.toSMILES());
 		String cml = mol.toCML();
