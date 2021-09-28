@@ -75,8 +75,23 @@ public class WikidataManagerTest {
 		assertTrue(mol instanceof WikidataMolecule);
 		ICDKMolecule cdkMol = ((WikidataMolecule)mol).asCDKMolecule();
 		assertEquals("C", cdkMol.toSMILES());
+		String cml = mol.toCML();
+		assertNotNull(cml);
+		assertTrue(cml.contains("\"C\""));
 	}
 
+	@Test
+	public void testNotInWikidata() {
+		Exception exception = assertThrows(
+			BioclipseException.class, () ->
+			{
+				IMolecule methane = cdk.fromSMILES("CCCC[O-]");
+				InChI inchiObj = inchi.generate(methane);
+				wikidata.getMolecule(inchiObj);
+			}
+		);
+		assertTrue(exception.getMessage().contains("No molecule in Wikidata with the InChI"));
+	}
 	@Test
 	public void testDOIs() {
 		List<String> dois = wikidata.doi();
