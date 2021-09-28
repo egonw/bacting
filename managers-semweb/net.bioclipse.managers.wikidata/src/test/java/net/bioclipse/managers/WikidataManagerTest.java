@@ -79,7 +79,7 @@ public class WikidataManagerTest {
 
 	@Test
 	public void testDOIs() {
-		List<String> dois = cdk.doi();
+		List<String> dois = wikidata.doi();
 		assertNotNull(dois);
 		assertNotEquals(0, dois.size());
 	}
