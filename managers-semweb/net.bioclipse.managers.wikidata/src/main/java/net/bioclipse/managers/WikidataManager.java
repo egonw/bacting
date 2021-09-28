@@ -77,10 +77,7 @@ public class WikidataManager implements IBactingManager {
     		throw new BioclipseException("No molecule in Wikidata with the InChI: " + inchi);
     	if (results.getRowCount() > 1)
     		throw new BioclipseException("Too many molecules in Wikidata with the InChI: " + inchi);
-    	String entityID = results.get(1, "compound");
-    	if (entityID == null || entityID.length() == 0)
-    		throw new BioclipseException("No Wikidata entity found for the molecule with the InChI: " + inchi);
-    	return entityID;
+        return results.get(1, "compound");
     }
 
     /**
