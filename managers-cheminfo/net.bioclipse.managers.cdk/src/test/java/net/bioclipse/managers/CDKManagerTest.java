@@ -357,6 +357,15 @@ public class CDKManagerTest {
 	}
 
     @Test
+    public void testGetFormats() {
+        String formats = cdk.getFormats();
+        assertTrue(formats.contains("Mol2Format"));
+        assertTrue(formats.contains("CMLFormat"));
+        assertTrue(formats.contains("MDLV2000Format"));
+        assertTrue(formats.contains("SDFFormat"));
+    }
+
+    @Test
     public void testTotalFormalCharge() throws Exception {
         ICDKMolecule mol = cdk.fromSMILES("O=C(CC)[O-].[Na+]");
         assertEquals(0, cdk.totalFormalCharge(mol));

@@ -533,6 +533,22 @@ public class CDKManager implements IBactingManager {
         return null;
     }
 
+    public String getFormats() {
+        StringBuffer buffer = new StringBuffer();
+        List<IChemFormatMatcher> formats = formatsFactory.getFormats();
+        for (IChemFormatMatcher format : formats) {
+            buffer.append(
+                format.getClass().getName().substring(
+                    "org.openscience.cdk.io.formats.".length()
+                )
+            );
+            buffer.append(": ");
+            buffer.append(format.getFormatName());
+            buffer.append('\n');
+        }
+        return buffer.toString();
+    }
+
     public String asSVG(IMolecule molecule) throws BioclipseException {
         ICDKMolecule cdkMolecule = asCDKMolecule(molecule);
         DepictionGenerator dg = new DepictionGenerator();
