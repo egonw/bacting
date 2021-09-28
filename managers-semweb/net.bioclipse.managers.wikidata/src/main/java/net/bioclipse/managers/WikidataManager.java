@@ -61,9 +61,9 @@ public class WikidataManager implements IBactingManager {
     }
 
     /**
-     * Return true the Wikidata entity ID for the molecule with the given InChI.
+     * Returns the Wikidata entity ID for the molecule with the given InChI.
      *
-     * @param inchi InChI of the molecule to check if it already exists in Wikidata
+     * @param inchi InChI of the molecule to return Wikidata ID for
      */
     public String getEntityID(InChI inchi) throws BioclipseException {
     	if (inchi == null) throw new BioclipseException("You must give an InChI.");
