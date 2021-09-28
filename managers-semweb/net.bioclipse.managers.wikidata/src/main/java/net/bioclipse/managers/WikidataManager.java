@@ -9,6 +9,10 @@
  */
 package net.bioclipse.managers;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import io.github.egonw.bacting.IBactingManager;
 import net.bioclipse.core.business.BioclipseException;
 import net.bioclipse.core.domain.IMolecule;
 import net.bioclipse.core.domain.IStringMatrix;
@@ -20,7 +24,7 @@ import net.bioclipse.wikidata.domain.WikidataMolecule;
  * Description Framework standard. It allows creating in memory and
  * on disk triple stores, creating on content, and IO functionality.
  */
-public class WikidataManager {
+public class WikidataManager implements IBactingManager {
 
 	static RDFManager rdf;
 
@@ -89,4 +93,16 @@ public class WikidataManager {
     	if (inchi == null) throw new BioclipseException("You must give an InChI.");
     	return new WikidataMolecule(getEntityID(inchi));
     }
+
+    @Override
+	public String getManagerName() {
+		return "wikidata";
+	}
+
+	@Override
+	public List<String> doi() {
+		List<String> dois = new ArrayList<String>();
+		dois.add("10.7554/eLife.52614");
+		return dois;
+	}
 }
