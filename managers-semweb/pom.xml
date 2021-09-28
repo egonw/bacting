@@ -15,6 +15,7 @@
     <modules>
         <module>managers-rdf</module>
         <module>managers-xml</module>
+        <module>net.bioclipse.managers.wikidata</module>
     </modules>
 
 </project>
