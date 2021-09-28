@@ -333,6 +333,9 @@ public class CDKManagerTest {
 
         mol = cdk.fromSMILES("O=C(CC(=O)[O-])[O-]");
         assertEquals(-2, cdk.totalFormalCharge(mol));
+
+        SMILESMolecule smilesMol = new SMILESMolecule("CC[O-]");
+        assertEquals(-1, cdk.totalFormalCharge(smilesMol));
     }
 
 	class SMILESMolecule implements IMolecule {
