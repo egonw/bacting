@@ -1,4 +1,5 @@
-/* Copyright (c) 2020  Egon Willighagen <egon.willighagen@gmail.com>
+/* Copyright (c) 2008       The Bioclipse Project and others
+ *               2020-2021  Egon Willighagen <egon.willighagen@gmail.com>
  *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
@@ -321,6 +322,18 @@ public class CDKManagerTest {
 		format = cdk.getFormat( "ChemicalFooFormat" );
 		assertNull(format);
 	}
+
+    @Test
+    public void testTotalFormalCharge() throws Exception {
+        ICDKMolecule mol = cdk.fromSMILES("O=C(CC)[O-].[Na+]");
+        assertEquals(0, cdk.totalFormalCharge(mol));
+
+        mol = cdk.fromSMILES("O=C(CC)[O-]");
+        assertEquals(-1, cdk.totalFormalCharge(mol));
+
+        mol = cdk.fromSMILES("O=C(CC(=O)[O-])[O-]");
+        assertEquals(-2, cdk.totalFormalCharge(mol));
+    }
 
 	class SMILESMolecule implements IMolecule {
 

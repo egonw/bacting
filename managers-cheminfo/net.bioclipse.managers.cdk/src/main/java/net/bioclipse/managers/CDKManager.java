@@ -570,6 +570,27 @@ public class CDKManager implements IBactingManager {
         return result;
     }
 
+    /**
+     * Calculates the total formal charge.
+     *
+     * @param molecule {@link IMolecule} to calculate the total formal charge for
+     */
+    public int totalFormalCharge(IMolecule molecule)
+            throws BioclipseException {
+    	IAtomContainer todealwith;
+        if (molecule instanceof ICDKMolecule) {
+            todealwith = ((ICDKMolecule) molecule).getAtomContainer();
+        } else {
+            todealwith = asCDKMolecule( molecule ).getAtomContainer();
+        }
+
+        int totalCharge = 0;
+        for (IAtom atom : todealwith.atoms()) {
+            totalCharge += atom.getFormalCharge() == null ? 0 : atom.getFormalCharge();
+        }
+        return totalCharge;
+    }
+
     @Override
 	public String getManagerName() {
 		return "cdk";
