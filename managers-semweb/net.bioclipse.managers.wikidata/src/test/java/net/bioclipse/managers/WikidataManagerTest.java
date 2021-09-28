@@ -9,6 +9,7 @@
  */
 package net.bioclipse.managers;
 
+import static org.junit.Assert.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -16,9 +17,11 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
+import net.bioclipse.cdk.domain.ICDKMolecule;
 import net.bioclipse.core.business.BioclipseException;
 import net.bioclipse.core.domain.IMolecule;
 import net.bioclipse.inchi.InChI;
+import net.bioclipse.wikidata.domain.WikidataMolecule;
 
 public class WikidataManagerTest {
 
@@ -57,6 +60,17 @@ public class WikidataManagerTest {
 		IMolecule methane = cdk.fromSMILES("C");
 		InChI inchiObj = inchi.generate(methane);
 		assertEquals("http://www.wikidata.org/entity/Q37129", wikidata.getEntityID(inchiObj));
+	}
+
+	@Test
+	public void testGetMolecule() throws Exception {
+		IMolecule methane = cdk.fromSMILES("C");
+		InChI inchiObj = inchi.generate(methane);
+		IMolecule mol = wikidata.getMolecule(inchiObj);
+		assertNotNull(mol);
+		assertTrue(mol instanceof WikidataMolecule);
+		ICDKMolecule cdkMol = ((WikidataMolecule)mol).asCDKMolecule();
+		assertEquals("C", cdkMol.toSMILES());
 	}
 
 }

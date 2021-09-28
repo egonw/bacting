@@ -10,8 +10,10 @@
 package net.bioclipse.managers;
 
 import net.bioclipse.core.business.BioclipseException;
+import net.bioclipse.core.domain.IMolecule;
 import net.bioclipse.core.domain.IStringMatrix;
 import net.bioclipse.inchi.InChI;
+import net.bioclipse.wikidata.domain.WikidataMolecule;
 
 /**
  * Bioclipse manager that provides functionality around the Resource
@@ -75,5 +77,16 @@ public class WikidataManager {
     	if (entityID == null || entityID.length() == 0)
     		throw new BioclipseException("No Wikidata entity found for the molecule with the InChI: " + inchi);
     	return entityID;
+    }
+
+    /**
+     * Return a molecule with the given InChI, or throws an BioclipseException
+     * when it does not exist.
+     *
+     * @param inchi InChI of the molecule to check if it already exists in Wikidata
+     */
+    public IMolecule getMolecule(InChI inchi) throws BioclipseException {
+    	if (inchi == null) throw new BioclipseException("You must give an InChI.");
+    	return new WikidataMolecule(getEntityID(inchi));
     }
 }
