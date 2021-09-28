@@ -94,6 +94,39 @@ public class CDKManagerTest {
 	}
 
 	@Test
+	public void testloadMolecule_FakeFormat() throws BioclipseException, IOException {
+		Exception exception = assertThrows(BioclipseException.class, () ->
+		{
+			cdk.loadMolecule(
+				new ByteArrayInputStream("CCC".getBytes()),
+				new IChemFormat() {
+					public boolean isXMLBased() {return false;}
+					public String getPreferredNameExtension() {return null;}
+					public String[] getNameExtensions() {return null;}
+					public String getMIMEType() {return null;}
+					public String getFormatName() {return null;}
+					public String getWriterClassName() {return null;}
+					public int getSupportedDataFeatures() {return 0;}
+					public int getRequiredDataFeatures() {return 0;}
+					public String getReaderClassName() {return null;}
+				}
+			);
+		});
+		assertTrue(exception.getMessage().contains("Could not create reader in CDK"));
+	}
+
+	@Test
+	public void testloadMolecule_NullFormat() throws BioclipseException, IOException {
+		Exception exception = assertThrows(BioclipseException.class, () ->
+		{
+			cdk.loadMolecule(
+				new ByteArrayInputStream("CCC".getBytes()), null
+			);
+		});
+		assertTrue(exception.getMessage().contains("Unsupported file format in CDK"));
+	}
+
+	@Test
 	public void testloadMolecule() throws BioclipseException, IOException {
 		ICDKMolecule mol = cdk.loadMolecule("/testFiles/cs2a.cml");
 		assertNotNull(mol);
