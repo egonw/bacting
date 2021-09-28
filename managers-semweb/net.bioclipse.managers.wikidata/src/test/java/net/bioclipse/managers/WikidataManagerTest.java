@@ -16,7 +16,9 @@ import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -78,6 +80,36 @@ public class WikidataManagerTest {
 		IMolecule methane = cdk.fromSMILES("C");
 		InChI inchiObj = inchi.generate(methane);
 		assertEquals("http://www.wikidata.org/entity/Q37129", wikidata.getEntityID(inchiObj));
+	}
+
+	@Test
+	public void testGetEntityIDs() throws Exception {
+		List<InChI> inchis = new ArrayList<>();
+		inchis.add(inchi.generate(cdk.fromSMILES("C")));
+		inchis.add(inchi.generate(cdk.fromSMILES("CCO")));
+		Map<String,String> mappings = wikidata.getEntityIDs(inchis);
+		assertNotNull(mappings);
+		assertEquals(2, mappings.size());
+	}
+
+	@Test
+	public void testGetEntityIDs_NotInWikidata() throws Exception {
+		List<InChI> inchis = new ArrayList<>();
+		inchis.add(inchi.generate(cdk.fromSMILES("CCCC[O-]")));
+		Map<String,String> mappings = wikidata.getEntityIDs(inchis);
+		assertNotNull(mappings);
+		assertEquals(0, mappings.size());
+	}
+
+	@Test
+	public void testGetEntityIDs_Null() throws Exception {
+		Exception exception = assertThrows(
+			BioclipseException.class, () ->
+			{
+				wikidata.getEntityIDs(null);
+			}
+		);
+		assertTrue(exception.getMessage().contains("You must give a list of InChIs"));
 	}
 
 	@Test

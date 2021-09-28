@@ -10,7 +10,9 @@
 package net.bioclipse.managers;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import io.github.egonw.bacting.IBactingManager;
 import net.bioclipse.core.business.BioclipseException;
@@ -78,6 +80,35 @@ public class WikidataManager implements IBactingManager {
     	if (results.getRowCount() > 1)
     		throw new BioclipseException("Too many molecules in Wikidata with the InChI: " + inchi);
         return results.get(1, "compound");
+    }
+
+    /**
+     * Returns the Wikidata entity IDs for the molecules with the given InChIs.
+     *
+     * @param inchis List of InChIs of the molecules to check if they already exists in Wikidata
+     */
+    public Map<String,String> getEntityIDs(List<InChI> inchis) throws BioclipseException {
+    	if (inchis == null) throw new BioclipseException("You must give a list of InChIs.");
+    	String values = "  VALUES ?inchikey { ";
+    	for (InChI inchi : inchis) {
+    		values += "\"" + inchi.getKey() + "\"\n";
+    	}
+    	values += " }\n";
+    	String query =
+        	"PREFIX wdt: <http://www.wikidata.org/prop/direct/>"
+        	+ "SELECT ?inchikey ?compound WHERE {"
+        	+ values
+        	+ "  ?compound wdt:P235 ?inchikey ."
+        	+ "}";
+    	System.out.println(query);
+    	IStringMatrix results = rdf.sparqlRemote(
+    		"https://query.wikidata.org/sparql", query
+        );
+    	Map<String,String> mappings = new HashMap<>();
+    	for (int i=0; i<results.getRowCount(); i++) {
+    		mappings.put(results.get(i, "inchikey"), results.get(i, "compound"));
+    	}
+        return mappings;
     }
 
     /**
