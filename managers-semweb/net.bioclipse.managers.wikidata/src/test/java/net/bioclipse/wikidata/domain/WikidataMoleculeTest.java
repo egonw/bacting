@@ -31,6 +31,15 @@ public class WikidataMoleculeTest {
 	}
 
 	@Test
+	public void testDefaultConstructor() throws Exception {
+		// Spring requirement
+		WikidataMolecule mol = new WikidataMolecule();
+		assertNotNull(mol);
+		assertNull(mol.getId());
+		assertEquals(0, mol.toSMILES().length());
+	}
+
+	@Test
 	public void testGetAdapter() {
 		WikidataMolecule mol = new WikidataMolecule("http://www.wikidata.org/entity/Q37129");
 		Object adapter = mol.getAdapter(ICDKMolecule.class);
