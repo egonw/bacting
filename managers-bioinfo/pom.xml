@@ -15,6 +15,7 @@
     <modules>
         <module>net.bioclipse.managers.bridgedb</module>
         <module>net.bioclipse.managers.biojava</module>
+        <module>net.bioclipse.managers.pathvisio</module>
     </modules>
 
 </project>
