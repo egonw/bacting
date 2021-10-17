@@ -10,18 +10,20 @@
  */
 package net.bioclipse.managers;
 
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
-import org.pathvisio.io.ConverterException;
 import org.pathvisio.model.PathwayModel;
 
 import io.github.egonw.bacting.IBactingManager;
 import net.bioclipse.core.business.BioclipseException;
+import net.bioclipse.core.domain.IStringMatrix;
 
 /**
  * Bioclipse manager that provides identifier mapping functionality
@@ -36,6 +38,7 @@ public class PathvisioManager implements IBactingManager {
 
 	static BioclipseManager bioclipse;
 	static UIManager ui;
+	static RDFManager rdf;
 
     /**
      * Creates a new {@link PathvisioManager}.
@@ -46,6 +49,30 @@ public class PathvisioManager implements IBactingManager {
 		this.workspaceRoot = workspaceRoot;
 		bioclipse = new BioclipseManager(workspaceRoot);
 		ui = new UIManager(workspaceRoot);
+		rdf = new RDFManager(workspaceRoot);
+	}
+
+	public Set<String> queryWikipathways(String label) throws BioclipseException{
+		String endpoint = "https://sparql.wikipathways.org/sparql";
+		String query = "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>"
+			+ "PREFIX wp: <http://vocabularies.wikipathways.org/wp#>"
+			+ "PREFIX dcterms: <http://purl.org/dc/terms/>"
+			+ "SELECT DISTINCT ?pathway ?label WHERE {"
+			+ " ?geneProduct a wp:GeneProduct . "
+			+ " ?geneProduct rdfs:label ?label . "
+			+ " ?geneProduct dcterms:isPartOf ?pathway ."
+			+ " FILTER regex(str(?label), \"" + label + "\"). "
+			+ " FILTER regex(str(?pathway), \"^http\")."
+			+ "}";
+		IStringMatrix results = rdf.sparqlRemote(endpoint, query);
+		if (results.getRowCount() == 0) return Collections.emptySet();
+
+		List<String> col = results.getColumn("pathway");
+		Set<String> res = new HashSet<String>();
+		for (String str : col){
+			res.add(str);
+		}
+		return res;
 	}
 
 	public String getGPML(String pathwayID) 

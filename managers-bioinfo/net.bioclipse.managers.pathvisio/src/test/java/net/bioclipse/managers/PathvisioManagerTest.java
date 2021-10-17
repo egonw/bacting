@@ -17,6 +17,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.List;
+import java.util.Set;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -47,6 +48,13 @@ public class PathvisioManagerTest {
 		PathwayModel model = pathvisio.loadGPML(gpmlFile);
 		assertNotNull(model);
 		assertTrue(model.getPathway().getTitle().contains("SARS-CoV-2"));
+	}
+
+	@Test
+	public void queryWikipathways() throws Exception {
+		Set<String> hits = pathvisio.queryWikipathways("orf1");
+		assertNotNull(hits);
+		assertNotEquals(0, hits.size());
 	}
 
 	@Test

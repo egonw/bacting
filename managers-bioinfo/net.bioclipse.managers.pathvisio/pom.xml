@@ -51,6 +51,11 @@
       <version>0.0.26-SNAPSHOT</version>
     </dependency>
     <dependency>
+      <groupId>io.github.egonw.bacting</groupId>
+      <artifactId>managers-rdf</artifactId>
+      <version>0.0.26-SNAPSHOT</version>
+    </dependency>
+    <dependency>
         <groupId>org.pathvisio</groupId>
         <artifactId>org.pathvisio.libgpml</artifactId>
         <version>4.0.0-20211008.172656-2</version>
