@@ -10,9 +10,15 @@
  */
 package net.bioclipse.managers;
 
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+
+import org.pathvisio.io.ConverterException;
+import org.pathvisio.model.PathwayModel;
 
 import io.github.egonw.bacting.IBactingManager;
 import net.bioclipse.core.business.BioclipseException;
@@ -24,7 +30,7 @@ import net.bioclipse.core.business.BioclipseException;
 public class PathvisioManager implements IBactingManager {
 
 	public static final String WIKIPATHWAYS_BASE_URL = 
-		"http://www.wikipathways.org//wpi/wpi.php?action=downloadFile&type=gpml&pwTitle=Pathway:";
+		"https://www.wikipathways.org//wpi/wpi.php?action=downloadFile&type=gpml&pwTitle=Pathway:";
 
 	private String workspaceRoot;
 
@@ -59,6 +65,14 @@ public class PathvisioManager implements IBactingManager {
 		}
 		String res = bioclipse.downloadAsFile(WIKIPATHWAYS_BASE_URL+pathwayID, "/Virtual/"+pathwayID+".gpml");
 		return res;
+	}
+
+	public PathwayModel loadGPML(String file) throws Exception {
+		PathwayModel pathwayModel = new PathwayModel();
+		pathwayModel.readFromXml(
+			new FileReader(Paths.get(workspaceRoot + file).toFile()), true
+		);
+		return pathwayModel;
 	}
 
 	@Override

@@ -20,6 +20,7 @@ import java.util.List;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.pathvisio.model.PathwayModel;
 
 import net.bioclipse.core.business.BioclipseException;
 
@@ -38,6 +39,14 @@ public class PathvisioManagerTest {
 		String gpmlFile = pathvisio.getGPML("WP4846");
 		assertNotNull(gpmlFile);
 		assertTrue(gpmlFile.contains("WP4846.gpml"));
+	}
+
+	@Test
+	public void loadGPML() throws Exception {
+		String gpmlFile = pathvisio.getGPML("WP4846");
+		PathwayModel model = pathvisio.loadGPML(gpmlFile);
+		assertNotNull(model);
+		assertTrue(model.getPathway().getTitle().contains("SARS-CoV-2"));
 	}
 
 	@Test
