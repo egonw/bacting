@@ -12,6 +12,7 @@ package net.bioclipse.managers;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.IOException;
@@ -22,6 +23,8 @@ import java.util.Set;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.pathvisio.model.PathwayModel;
+
+import net.bioclipse.core.business.BioclipseException;
 
 public class PathvisioManagerTest {
 
@@ -79,6 +82,33 @@ public class PathvisioManagerTest {
 		Set<String> hits = pathvisio.queryWikipathways("SARS-CoV-2");
 		assertNotNull(hits);
 		assertSame(0, hits.size());
+	}
+
+	@Test
+	public void testWriteWrongFormat() throws Exception {
+		String gpmlFile = pathvisio.getGPML("WP4846");
+		PathwayModel model = pathvisio.loadGPML(gpmlFile);
+		Exception exception = assertThrows(
+			BioclipseException.class, () ->
+			{ pathvisio.writeGPML("/Virtual/WP4846.2001.gpml", model, "GPML2009"); }
+		);
+		assertTrue(exception.getMessage().contains("No support for GPML version"));
+	}
+
+	@Test
+	public void testWriteGPML2013a() throws Exception {
+		String gpmlFile = pathvisio.getGPML("WP4846");
+		PathwayModel model = pathvisio.loadGPML(gpmlFile);
+		String gpml2013aFile = pathvisio.writeGPML2013a("/Virtual/WP4846.2013a.gpml", model);
+		ui.fileExists(gpml2013aFile);
+	}
+
+	@Test
+	public void testWriteGPML2021() throws Exception {
+		String gpmlFile = pathvisio.getGPML("WP4846");
+		PathwayModel model = pathvisio.loadGPML(gpmlFile);
+		String gpml2021File = pathvisio.writeGPML2021("/Virtual/WP4846.2021.gpml", model);
+		ui.fileExists(gpml2021File);
 	}
 
 	@Test

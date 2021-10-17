@@ -10,6 +10,7 @@
  */
 package net.bioclipse.managers;
 
+import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Paths;
@@ -19,6 +20,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.pathvisio.io.GPML2013aWriter;
+import org.pathvisio.io.GPML2021Writer;
 import org.pathvisio.model.PathwayModel;
 
 import io.github.egonw.bacting.IBactingManager;
@@ -100,6 +103,26 @@ public class PathvisioManager implements IBactingManager {
 			new FileReader(Paths.get(workspaceRoot + file).toFile()), true
 		);
 		return pathwayModel;
+	}
+
+	public String writeGPML2013a(String file, PathwayModel pathwayModel) throws Exception {
+		return writeGPML(file, pathwayModel, "GPML2013a");
+	}
+
+	public String writeGPML2021(String file, PathwayModel pathwayModel) throws Exception {
+		return writeGPML(file, pathwayModel, "GPML2021");
+	}
+
+	public String writeGPML(String file, PathwayModel pathwayModel, String format) throws Exception {
+		File tmp = Paths.get(workspaceRoot + file).toFile();
+		if ("GPML2013a".equals(format)) {
+			GPML2013aWriter.GPML2013aWRITER.writeToXml(pathwayModel, tmp, true);
+		} else if ("GPML2021".equals(format)) {
+			GPML2021Writer.GPML2021WRITER.writeToXml(pathwayModel, tmp, true);
+		} else {
+			throw new BioclipseException("No support for GPML version: " + format);
+		}
+		return workspaceRoot + file;
 	}
 
 	@Override
