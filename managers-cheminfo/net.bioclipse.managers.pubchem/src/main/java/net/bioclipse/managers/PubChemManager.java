@@ -24,6 +24,8 @@ import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.StatusLine;
 import org.apache.http.client.HttpClient;
+import org.apache.http.client.config.CookieSpecs;
+import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.eclipse.core.runtime.CoreException;
@@ -169,7 +171,11 @@ public class PubChemManager implements IBactingManager {
 
     private String downloadAsString(String URL, String accepts)
             throws IOException, BioclipseException, CoreException {
-        HttpClient client = HttpClientBuilder.create().build();
+        HttpClient client = HttpClientBuilder.create()
+            .useSystemProperties()
+            .disableAutomaticRetries()
+            .setDefaultRequestConfig(RequestConfig.custom().setCookieSpec(CookieSpecs.STANDARD).build())
+            .build();
         String fileContent = "";
         try {
             HttpGet method = new HttpGet(URL);
