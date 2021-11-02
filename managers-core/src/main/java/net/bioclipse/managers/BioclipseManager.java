@@ -32,6 +32,8 @@ import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.StatusLine;
 import org.apache.http.client.HttpClient;
+import org.apache.http.client.config.CookieSpecs;
+import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.HttpClientBuilder;
@@ -128,7 +130,11 @@ public class BioclipseManager implements IBactingManager {
     throws BioclipseException {
 
          // use Apache for doing the SPARQL query
-         HttpClient httpclient = HttpClientBuilder.create().build();
+         HttpClient httpclient = HttpClientBuilder.create()
+             .useSystemProperties()
+             .disableAutomaticRetries()
+             .setDefaultRequestConfig(RequestConfig.custom().setCookieSpec(CookieSpecs.STANDARD).build())
+             .build();
 
          // Set credentials on the client
          List<NameValuePair> formparams = new ArrayList<NameValuePair>();
