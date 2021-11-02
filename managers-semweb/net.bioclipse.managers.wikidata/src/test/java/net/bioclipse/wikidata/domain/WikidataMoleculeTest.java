@@ -37,6 +37,7 @@ public class WikidataMoleculeTest {
 		assertNotNull(mol);
 		assertNull(mol.getId());
 		assertEquals(0, mol.toSMILES().length());
+		assertEquals(0, mol.toSMILES().length());
 	}
 
 	@Test
