@@ -44,17 +44,17 @@
     <dependency>
     	<groupId>org.bridgedb</groupId>
     	<artifactId>org.bridgedb.bio</artifactId>
-        <version>3.0.5</version>
+        <version>3.0.6</version>
     </dependency>
     <dependency>
     	<groupId>org.bridgedb.webservice</groupId>
     	<artifactId>org.bridgedb.webservice.bridgerest</artifactId>
-        <version>3.0.5</version>
+        <version>3.0.6</version>
     </dependency>
     <dependency>
         <groupId>org.bridgedb</groupId>
         <artifactId>org.bridgedb.rdb</artifactId>
-        <version>3.0.5</version>
+        <version>3.0.6</version>
     </dependency>
     <dependency>
         <groupId>org.junit.jupiter</groupId>
