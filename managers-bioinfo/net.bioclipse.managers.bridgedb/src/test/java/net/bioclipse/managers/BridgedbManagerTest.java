@@ -37,6 +37,7 @@ public class BridgedbManagerTest {
 		System.out.println("tmpPath: " + tmpPath);
 		bridgedb = new BridgedbManager(tmpPath);
 		bridgedb.registerDataSource("U", "UniGene");
+		bridgedb.registerDataSource("UUU", "Unknown data source"); // something in the old Ensembl ID mapping database that BridgeDb 3.0.10 doesn't like
 	}
 
 	@Test
