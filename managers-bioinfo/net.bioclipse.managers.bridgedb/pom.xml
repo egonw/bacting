@@ -12,6 +12,7 @@
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <bridgedb.version>3.0.10</bridgedb.version>
   </properties>
 
   <build>
@@ -44,17 +45,17 @@
     <dependency>
     	<groupId>org.bridgedb</groupId>
     	<artifactId>org.bridgedb.bio</artifactId>
-        <version>3.0.6</version>
+        <version>${bridgedb.version}</version>
     </dependency>
     <dependency>
     	<groupId>org.bridgedb.webservice</groupId>
     	<artifactId>org.bridgedb.webservice.bridgerest</artifactId>
-        <version>3.0.6</version>
+        <version>${bridgedb.version}</version>
     </dependency>
     <dependency>
         <groupId>org.bridgedb</groupId>
         <artifactId>org.bridgedb.rdb</artifactId>
-        <version>3.0.6</version>
+        <version>${bridgedb.version}</version>
     </dependency>
     <dependency>
         <groupId>org.junit.jupiter</groupId>
