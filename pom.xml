@@ -32,7 +32,11 @@
       <developerConnection>scm:git:ssh://git@github.com/egonw/bacting.git</developerConnection>
       <url>http://github.com/egonw/bacting/tree/master</url>
       <tag>HEAD</tag>
-  </scm>
+    </scm>
+
+    <properties>
+      <cdk.version>2.6</cdk.version>
+    </properties>
 
     <modules>
         <module>bacting-core</module>

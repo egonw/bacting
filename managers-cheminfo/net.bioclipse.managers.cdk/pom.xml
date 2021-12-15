@@ -55,17 +55,17 @@
     <dependency>
       <groupId>org.openscience.cdk</groupId>
       <artifactId>cdk-interfaces</artifactId>
-      <version>2.5</version>
+      <version>${cdk.version}</version>
     </dependency>
     <dependency>
       <groupId>org.openscience.cdk</groupId>
       <artifactId>cdk-extra</artifactId>
-      <version>2.5</version>
+      <version>${cdk.version}</version>
     </dependency>
     <dependency>
       <groupId>org.openscience.cdk</groupId>
       <artifactId>cdk-depict</artifactId>
-      <version>2.5</version>
+      <version>${cdk.version}</version>
     </dependency>
     <dependency>
         <groupId>org.junit.jupiter</groupId>
