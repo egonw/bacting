@@ -18,6 +18,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.util.List;
 
+import org.biojava.bio.BioError;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
@@ -80,6 +81,22 @@ public class BiojavaManagerTest {
 		assertTrue(fasta.startsWith(">"));
 		Object parsedResource = protein.getParsedResource();
 		assertNotNull(parsedResource);
+	}
+
+	@Test
+	public void testProteinfromPlainSequence_Bad() {
+		Error exception = assertThrows(
+			BioError.class, () ->
+			{
+				biojava.proteinFromPlainSequence("0");
+			}
+		);
+		assertNotNull(exception);
+	}
+
+	@Test
+	public void testManagerName() {
+		assertSame("biojava", biojava.getManagerName());
 	}
 
 }
