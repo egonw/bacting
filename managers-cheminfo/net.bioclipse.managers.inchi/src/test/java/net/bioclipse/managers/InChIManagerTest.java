@@ -9,17 +9,21 @@
  */
 package net.bioclipse.managers;
 
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.junit.jupiter.api.Assertions.assertFalse;
 
 import java.nio.file.Files;
+import java.security.InvalidParameterException;
 import java.util.List;
 
+import org.eclipse.core.resources.IResource;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
+import net.bioclipse.core.business.BioclipseException;
 import net.bioclipse.core.domain.IMolecule;
 import net.bioclipse.inchi.InChI;
 
@@ -61,6 +65,48 @@ public class InChIManagerTest {
 	}
 
 	@Test
+	public void testGenerate_NotSupport() throws Exception {
+		IMolecule mol = cdk.fromSMILES("CC[X]");
+		Exception exception = assertThrows(
+			InvalidParameterException.class, () ->
+			{
+				inchi.generate(mol);
+			}
+		);
+		assertNotNull(exception);
+		assertTrue(exception.getMessage().contains("Error while generating InChI"));
+		exception = assertThrows(
+			InvalidParameterException.class, () ->
+			{
+				inchi.generate(mol, "FixedH");
+			}
+		);
+		assertNotNull(exception);
+		assertTrue(exception.getMessage().contains("Error while generating InChI"));
+	}
+
+	@Test
+	public void testGenerate_NoCDKMoleule() throws Exception {
+		IMolecule mol = new SMILESMolecule("CCO");
+		Exception exception = assertThrows(
+			InvalidParameterException.class, () ->
+			{
+				inchi.generate(mol);
+			}
+		);
+		assertNotNull(exception);
+		assertTrue(exception.getMessage().contains("Given molecule must be a CDKMolecule"));
+		exception = assertThrows(
+			InvalidParameterException.class, () ->
+			{
+				inchi.generate(mol, "FixedH");
+			}
+		);
+		assertNotNull(exception);
+		assertTrue(exception.getMessage().contains("Given molecule must be a CDKMolecule"));
+	}
+
+	@Test
 	public void testGenerateFixedH() throws Exception {
 		IMolecule mol = cdk.fromSMILES("C=CO");
 		InChI someInChI = inchi.generate(mol, "FixedH");
@@ -93,6 +139,49 @@ public class InChIManagerTest {
 		assertFalse(inchi.checkKey("VNWKTOKETHGBQD-UHFFFAOYSA-3"));
 		assertTrue(inchi.checkKey("VNWKTOKETHGBQD-UHFFFAOYSA-N"));
 		assertFalse(inchi.checkKey("FOO-FOO-N"));
+	}
+
+	class SMILESMolecule implements IMolecule {
+
+		private String smiles;
+
+		SMILESMolecule(String smiles) { this.smiles = smiles; }
+
+		@Override
+		public IResource getResource() {
+			throw new UnsupportedOperationException("not support");
+		}
+
+		@Override
+		public void setResource(IResource resource) {
+			throw new UnsupportedOperationException("not support");
+		}
+
+		@Override
+		public String getUID() {
+			throw new UnsupportedOperationException("not support");
+		}
+
+		@Override
+		public <T> T getAdapter(Class<T> adapter) {
+			return null;
+		}
+
+		@Override
+		public List<IMolecule> getConformers() {
+			throw new UnsupportedOperationException("not support");
+		}
+
+		@Override
+		public String toSMILES() throws BioclipseException {
+			return this.smiles;
+		}
+
+		@Override
+		public String toCML() throws BioclipseException {
+			throw new UnsupportedOperationException("not support");
+		}
+
 	}
 
 }
