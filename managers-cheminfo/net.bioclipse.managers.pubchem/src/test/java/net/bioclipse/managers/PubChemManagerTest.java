@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import net.bioclipse.core.business.BioclipseException;
@@ -44,6 +45,13 @@ public class PubChemManagerTest {
 		rdf = new RDFManager(workspaceRoot);
 		ui.newProject("/PubChemFiles/");
 	}
+
+	@BeforeEach
+	public void slowDown() throws InterruptedException {
+		// keep PubChem happy
+		Thread.sleep(150);
+	}
+
 	@Test
 	public void testManagerName() {
 		assertSame("pubchem", pubchem.getManagerName());
