@@ -39,6 +39,8 @@ mvn clean install -Dgpg.skip -Dmaven.javadoc.skip=true
 
 ## Making releases
 
+Before making a release, update the version number in this `README.md` and in `CITATION.cff`.
+
 Releases are created by the release manager and requires permission to submit the release to Maven Central
 (using an approved Sonatype ([oss.sonatype.org](http://oss.sonatype.org/)) account).
 If these requirements are fulfilled then the following two commands to the job:
@@ -72,7 +74,7 @@ itself), and then converts a [SMILES](https://en.wikipedia.org/wiki/Simplified_m
 string to a Bioclipse `IMolecule` data object:
 
 ```groovy
-@Grab(group='io.github.egonw.bacting', module='managers-cdk', version='0.0.26')
+@Grab(group='io.github.egonw.bacting', module='managers-cdk', version='0.0.29')
 
 workspaceRoot = "."
 def cdk = new net.bioclipse.managers.CDKManager(workspaceRoot);
@@ -106,7 +108,7 @@ The code example looks like:
 
 ```python
 from scyjava import config, jimport
-config.add_endpoints('io.github.egonw.bacting:managers-cdk:0.0.26')
+config.add_endpoints('io.github.egonw.bacting:managers-cdk:0.0.29')
 
 workspaceRoot = "."
 cdkClass = jimport("net.bioclipse.managers.CDKManager")
