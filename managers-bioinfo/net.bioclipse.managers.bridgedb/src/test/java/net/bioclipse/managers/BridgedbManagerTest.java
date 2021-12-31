@@ -90,6 +90,18 @@ public class BridgedbManagerTest {
 	}
 
 	@Test
+	public void testXref_bad() throws BioclipseException {
+		Exception exception = assertThrows(
+			BioclipseException.class, () ->
+			{
+				bridgedb.xref("1234");
+			}
+		);
+		assertNotNull(exception);
+		assertTrue(exception.getMessage().contains("Unexpected format"));
+	}
+
+	@Test
 	public void testMapREST() throws BioclipseException {
 		List<String> map = bridgedb.map(
 			"https://webservice.bridgedb.org/Human",
