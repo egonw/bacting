@@ -20,6 +20,7 @@ import java.nio.file.Files;
 import java.util.List;
 
 import org.bridgedb.DataSource;
+import org.bridgedb.IDMapper;
 import org.bridgedb.Xref;
 import org.bridgedb.bio.Organism;
 import org.junit.jupiter.api.BeforeAll;
@@ -124,6 +125,19 @@ public class BridgedbManagerTest {
 		List<DataSource> types = bridgedb.guessIdentifierType("ENSG00000099250");
 		assertNotNull(types);
 		assertNotEquals(0, types.size());
+	}
+
+	@Test
+	public void loadRelationalDatabase() {
+		Exception exception = assertThrows(
+			BioclipseException.class, () ->
+			{
+				bridgedb.loadRelationalDatabase("noExist.bridge");
+			}
+		);
+		assertNotNull(exception);
+		System.out.println(exception.getMessage());
+		assertTrue(exception.getMessage().contains("the database at this location"));
 	}
 
 }
