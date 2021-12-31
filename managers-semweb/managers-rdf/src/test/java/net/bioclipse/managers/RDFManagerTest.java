@@ -14,11 +14,14 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNotSame;
 import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.net.UnknownHostException;
 import java.nio.file.Files;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
@@ -134,6 +137,22 @@ public class RDFManagerTest {
 	}
 
 	@Test
+	public void testImportURL_UnknownHost() throws Exception {
+		Exception exception = assertThrows(
+			UnknownHostException.class, () ->
+			{
+				IRDFStore store = rdf.createInMemoryStore(true);
+				rdf.importURL(
+					store, "https://xxx.example.org/file.ttl"
+				);
+			}
+		);
+		assertNotNull(exception);
+		System.out.println(exception.getMessage());
+		assertTrue(exception.getMessage().contains("xxx.example.org"));
+	}
+
+	@Test
 	public void testImportURLWithRedirect() throws Exception {
 		IRDFStore store = rdf.createInMemoryStore(true);
 		assertNotNull(store);
@@ -149,9 +168,11 @@ public class RDFManagerTest {
 		IRDFStore store = rdf.createInMemoryStore(true);
 		assertNotNull(store);
 		long initialSize = rdf.size(store);
+		Map<String, String> extraHeaders = new HashMap<String, String>();
+		extraHeaders.put("SourceCode", "https://github.com/egonw/bacting/");
 		store = rdf.importURL(
-			store, "https://raw.githubusercontent.com/NanoCommons/ontologies/master/enanomapper.owl",
-			new HashMap<>()
+			store, "http://www.wikidata.org/entity/Q5",
+			extraHeaders
 		);
 		assertNotSame(initialSize, rdf.size(store));
 	}
