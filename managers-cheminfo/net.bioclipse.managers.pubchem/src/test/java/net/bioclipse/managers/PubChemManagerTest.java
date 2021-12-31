@@ -22,6 +22,7 @@ import java.util.List;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
 import net.bioclipse.core.business.BioclipseException;
@@ -65,6 +66,7 @@ public class PubChemManagerTest {
 	}
 
 	@Test
+	@Tag("pubchem")
 	public void testSearch() throws Exception {
 		List<Integer> results = pubchem.search("methane");
 		assertNotNull(results);
@@ -75,6 +77,7 @@ public class PubChemManagerTest {
 	}
 
 	@Test
+	@Tag("pubchem")
 	public void testSearch_Brexitane() throws Exception {
 		List<Integer> results = pubchem.search("brexitane");
 		assertNotNull(results);
@@ -82,6 +85,7 @@ public class PubChemManagerTest {
 	}
 
 	@Test
+	@Tag("pubchem")
 	public void downloadAsString() throws Exception {
 		String xml = pubchem.downloadAsString(71583);
 		assertNotNull(xml);
@@ -89,6 +93,7 @@ public class PubChemManagerTest {
 	}
 
 	@Test
+	@Tag("pubchem")
 	public void download3d() throws Exception {
 		IMolecule mol = pubchem.download3d(71583);
 		assertNotNull(mol);
@@ -96,6 +101,7 @@ public class PubChemManagerTest {
 	}
 
 	@Test
+	@Tag("pubchem")
 	public void download3d_list() throws Exception {
 		List<Integer> cids = new ArrayList<>();
 		cids.add(71583);
@@ -106,6 +112,7 @@ public class PubChemManagerTest {
 	}
 
 	@Test
+	@Tag("pubchem")
 	public void download_list() throws Exception {
 		List<Integer> cids = new ArrayList<>();
 		cids.add(71583);
@@ -116,6 +123,7 @@ public class PubChemManagerTest {
 	}
 
 	@Test
+	@Tag("pubchem")
 	public void download3dAsString() throws Exception {
 		String mol = pubchem.download3dAsString(71583);
 		assertNotNull(mol);
@@ -123,6 +131,7 @@ public class PubChemManagerTest {
 	}
 
 	@Test
+	@Tag("pubchem")
 	public void download() throws Exception {
 		IMolecule mol = pubchem.download(71583);
 		assertNotNull(mol);
@@ -130,6 +139,7 @@ public class PubChemManagerTest {
 	}
 
 	@Test
+	@Tag("pubchem")
 	public void downloadRDF() throws Exception {
 		IRDFStore store = rdf.createInMemoryStore();
 	    pubchem.downloadRDF(71583, store);
@@ -138,12 +148,14 @@ public class PubChemManagerTest {
 	}
 
 	@Test
+	@Tag("pubchem")
     public void loadCompound() throws Exception {
 		pubchem.loadCompound(71583, "/PubChemFiles/cid71583.mol");
 		assertTrue(ui.fileExists("/PubChemFiles/cid71583.mol"));
     }
 
 	@Test
+	@Tag("pubchem")
     public void loadCompound_null() throws Exception {
 		Exception exception = assertThrows(BioclipseException.class, () ->
 		{
@@ -153,6 +165,7 @@ public class PubChemManagerTest {
     }
 
 	@Test
+	@Tag("pubchem")
     public void loadCompound_overwrite() throws Exception {
 		ui.newFile("/PubChemFiles/overwrite.mol", "overwrite");
 		pubchem.loadCompound(71583, "/PubChemFiles/overwrite.mol");
@@ -160,18 +173,21 @@ public class PubChemManagerTest {
     }
 
 	@Test
+	@Tag("pubchem")
     public void loadCompound3d() throws Exception {
 		pubchem.loadCompound3d(71583, "/PubChemFiles/cid71583_3d.mol");
 		assertTrue(ui.fileExists("/PubChemFiles/cid71583_3d.mol"));
 	}
 
 	@Test
+	@Tag("pubchem")
     public void loadCompoundRDF() throws Exception {
 		pubchem.loadCompoundRDF(71583, "/PubChemFiles/cid71583.rdf");
 		assertTrue(ui.fileExists("/PubChemFiles/cid71583.rdf"));
 	}
 
 	@Test
+	@Tag("pubchem")
     public void loadCompoundRDF_null() throws Exception {
 		Exception exception = assertThrows(BioclipseException.class, () ->
 		{

@@ -139,6 +139,10 @@
             <plugin>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>2.22.2</version>
+                <configuration>
+                    <groups>${junit5.groups}</groups>
+                    <excludedGroups>${junit5.excludeGroups}</excludedGroups>
+                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.jacoco</groupId>
