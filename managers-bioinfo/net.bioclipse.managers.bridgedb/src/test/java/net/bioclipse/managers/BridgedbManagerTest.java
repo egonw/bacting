@@ -110,6 +110,12 @@ public class BridgedbManagerTest {
 		);
 		assertNotNull(map);
 		assertNotEquals(0, map.size());
+		// and check full provider style link
+        map = bridgedb.map(
+            "idmapper-bridgerest:https://webservice.bridgedb.org/Human", "1234", "L"
+        );
+        assertNotNull(map);
+        assertNotEquals(0, map.size());
 	}
 
 	@Test
@@ -136,11 +142,16 @@ public class BridgedbManagerTest {
 	@Test
 	public void testSearchMapREST() throws BioclipseException {
 		List<String> map = bridgedb.search(
-			"https://webservice.bridgedb.org/Human",
-			"NFKB", 3
+			"https://webservice.bridgedb.org/Human", "NFKB", 3
 		);
 		assertNotNull(map);
 		assertNotEquals(0, map.size());
+		// and check full provider style link
+        map = bridgedb.search(
+            "idmapper-bridgerest:https://webservice.bridgedb.org/Human", "NFKB", 3
+        );
+        assertNotNull(map);
+        assertNotEquals(0, map.size());
 	}
 
 	@Test
