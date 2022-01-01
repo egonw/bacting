@@ -197,6 +197,11 @@ public class BridgedbManager implements IBactingManager {
      * @throws BioclipseException
      */
     public List<String> search(String restService, String query, int limit) throws BioclipseException {
+        try {
+            Class.forName ("org.bridgedb.webservice.bridgerest.BridgeRest");
+        } catch (ClassNotFoundException e) {
+            throw new BioclipseException("Could not load the BridgeDb REST client: " + e.getMessage(), e);
+        }
     	// now we connect to the driver and create a IDMapper instance.
     	IDMapper mapper;
 		try {
