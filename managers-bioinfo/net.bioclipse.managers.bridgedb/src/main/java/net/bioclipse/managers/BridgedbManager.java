@@ -174,11 +174,42 @@ public class BridgedbManager implements IBactingManager {
     public List<String> map(String restService, String identifier, String source, String target) throws BioclipseException {
     	// now we connect to the driver and create a IDMapper instance.
 		try {
-			IDMapper mapper = BridgeDb.connect("idmapper-bridgerest:" + restService);
+			IDMapper mapper;
+			if (restService.startsWith("idmapper-bridgerest:")) {
+				mapper = BridgeDb.connect(restService);
+			} else {
+				mapper = BridgeDb.connect("idmapper-bridgerest:" + restService);
+			}
 			return map(mapper, identifier, source, target);
 		} catch (IDMapperException exception) {
 			throw new BioclipseException("Could not connect to the REST service at: " + restService, exception);
 		}		
+    }
+
+    /**
+     * Using the given connection string, it returns mappings for the given identifier, but only for the
+     * given target data source.
+     *
+     * @param restService the REST server, or the full connection string
+     * @param query       what to search for
+     * @param limit       maximal number of identifiers to be found
+     * @return            a Java {@link List} of found identifiers
+     * @throws BioclipseException
+     */
+    public List<String> search(String restService, String query, int limit) throws BioclipseException {
+    	// now we connect to the driver and create a IDMapper instance.
+    	IDMapper mapper;
+		try {
+			if (restService.startsWith("idmapper-bridgerest:")) {
+				mapper = BridgeDb.connect(restService);
+			} else {
+				mapper = BridgeDb.connect("idmapper-bridgerest:" + restService);
+			}
+		} catch (IDMapperException exception) {
+			throw new BioclipseException("Could not connect to the REST service at: " + restService);
+		}
+
+		return search(mapper, query, limit);
     }
 
     /**
@@ -324,6 +355,19 @@ public class BridgedbManager implements IBactingManager {
 	 */
     public List<String> listIDMapperProviders() {
         return Collections.emptyList();
+        // example: "Gene ID Mapping Database (Homo sapiens)"
+    }
+
+    /**
+     * Returns the {@link IDMapper} for the given provider.
+     *
+     * @param provider name of the provider, for example "Gene ID Mapping Database (Homo sapiens)"
+     * @return the IDMapper for the given provider
+     * 
+     * @throws BioclipseException when the mapping database could not be properly loaded
+     */
+    public IDMapper getIDMapper(String provider) throws BioclipseException {
+    	return null;
     }
 
 	@Override
