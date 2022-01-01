@@ -11,6 +11,7 @@ package net.bioclipse.managers;
 
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -20,6 +21,7 @@ import java.nio.file.Files;
 import java.util.List;
 
 import org.bridgedb.DataSource;
+import org.bridgedb.IDMapper;
 import org.bridgedb.Xref;
 import org.bridgedb.bio.Organism;
 import org.junit.jupiter.api.BeforeAll;
@@ -132,6 +134,31 @@ public class BridgedbManagerTest {
 	}
 
 	@Test
+	public void testSearchMapREST() throws BioclipseException {
+		List<String> map = bridgedb.search(
+			"https://webservice.bridgedb.org/Human",
+			"NFKB", 3
+		);
+		assertNotNull(map);
+		assertNotEquals(0, map.size());
+	}
+
+	@Test
+	public void testSearchREST_NonExistingService() throws BioclipseException {
+		Exception exception = assertThrows(
+			BioclipseException.class, () ->
+			{
+				bridgedb.search(
+					"https://bridgedb.elixir-europe.org/Human",
+					"NFKB", 3
+				);
+			}
+		);
+		assertNotNull(exception);
+		assertTrue(exception.getMessage().contains("Could not connect to the REST service"));
+	}
+
+	@Test
 	public void guessIdentifierType() throws BioclipseException {
 		List<DataSource> types = bridgedb.guessIdentifierType("ENSG00000099250");
 		assertNotNull(types);
@@ -155,6 +182,12 @@ public class BridgedbManagerTest {
     public void listIDMapperProviders() {
 		List<String> providers = bridgedb.listIDMapperProviders();
 		assertNotNull(providers);
+    }
+
+	@Test
+    public void getIDMapper() throws BioclipseException {
+		IDMapper mapper = bridgedb.getIDMapper("Gene ID Mapping Database (Homo sapiens)");
+		assertNull(mapper);
     }
 
 }
