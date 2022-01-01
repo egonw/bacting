@@ -100,7 +100,6 @@ public class UIManager implements IBactingManager {
 	 * Deletes the file in the Bioclipse workspace.
 	 *
 	 * @param path the location of the file in the Bioclipse workspace
-	 * @throws IOException
 	 */
     public void remove(String path) {
     	File file = new File(workspaceRoot + path);
@@ -112,7 +111,6 @@ public class UIManager implements IBactingManager {
 	 *
 	 * @param path    the location of the file in the Bioclipse workspace
 	 * @param toWrite the content to append to the new file
-	 * @throws IOException
 	 */
     public void append(String path, String toWrite) {
     	try {
@@ -133,7 +131,6 @@ public class UIManager implements IBactingManager {
 	 *
 	 * @param path    the location of the file in the Bioclipse workspace
 	 * @param toWrite the content to append to the new file
-	 * @throws IOException
 	 */
     public void append(String path, InputStream toWrite) {
     	try {

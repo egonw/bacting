@@ -104,7 +104,7 @@ public class CDKManager implements IBactingManager {
      * Loads a molecule from file using CDK. If many molecules, just return first.
      * To return a list of molecules, use loadMolecules(...)
      *
-     * @param  path The path to the file
+     * @param  file The path to the file
      * @return      a {@link IMolecule} object
      * @throws      IOException
      * @throws      BioclipseException
@@ -269,7 +269,6 @@ public class CDKManager implements IBactingManager {
 	 * @return a data object for the given input
 	 *
 	 * @throws BioclipseException
-	 * @throws IOException
 	 */
 	public ICDKMolecule fromSMILES(String smilesDescription)
             throws BioclipseException {
@@ -287,7 +286,7 @@ public class CDKManager implements IBactingManager {
 	/**
 	 * Determines the file format of the given input.
 	 *
-	 * @param fileContent {@link String} with the chemical file
+	 * @param path {@link String} with the location of the chemical file to determine the format of
 	 *
 	 * @return path String pointing to the file to test
 	 * @throws      IOException

@@ -11,6 +11,10 @@ import java.util.List;
 
 import net.bioclipse.managers.business.IBioclipseManager;
 
+/**
+ * Interface for Bacting managers extension the {@link IBioclipseManager} with a method
+ * to return DOIs relevant to this manager.
+ */
 public interface IBactingManager extends IBioclipseManager {
 
     /**

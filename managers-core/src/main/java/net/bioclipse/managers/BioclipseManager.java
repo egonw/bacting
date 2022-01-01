@@ -63,6 +63,8 @@ public class BioclipseManager implements IBactingManager {
 
 	/**
 	 * Returns the location of the current logfile.
+	 *
+	 * @return location of the logfile
 	 */
 	public String logfileLocation() {
 		// no logging functionality at this moment. Not clear how this can be shared among all managers
@@ -124,7 +126,7 @@ public class BioclipseManager implements IBactingManager {
      * @param serviceURL        the URL of the SPARQL end point
      * @param sparqlQueryString the SPARQL query
      * @return                  an {@link StringMatrix} object with results
-     * @throws BioclipseException
+     * @throws BioclipseException when an {@link UnsupportedEncodingException} or {@link IOException} is encountered
      */
     public byte[] sparqlRemote(String serviceURL, String sparqlQueryString)
     throws BioclipseException {
@@ -304,7 +306,7 @@ public class BioclipseManager implements IBactingManager {
         return "2.8.0"; // need to get this from the bioclipse-core pom.xml or so
     }
 
-    public static class VersionNumberComparator implements Comparator<String> {
+    private static class VersionNumberComparator implements Comparator<String> {
 
         private static Pattern p
             = Pattern.compile( "(\\d+)\\.(\\d+)(?:\\.(\\d+)(?:\\.(\\S+))?)?" );
@@ -369,7 +371,7 @@ public class BioclipseManager implements IBactingManager {
      * ensure it is new enough.
      *
      * @param version the minimum required Bioclipse version
-     * @throws BioclipseException
+     * @throws BioclipseException when an {@link Exception} is encountered
      */
     public void requireVersion( String version ) throws BioclipseException {
         try {

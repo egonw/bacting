@@ -49,8 +49,7 @@ public class BiojavaSequence extends BioObject implements ISequence {
     }
 
     /**
-     * Convert RichSequence to FASTA and return as String
-     * @throws IOException 
+     * Convert RichSequence to FASTA and return as String.
      */
     public String toFasta() {
 

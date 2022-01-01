@@ -33,6 +33,12 @@ import net.bioclipse.report.serializer.ISerializer;
  */
 public class MarkdownSerializer implements ISerializer {
 
+	/**
+	 * Converts the {@link IReport} into a Markdown String.
+	 *
+	 * @param report {@link IReport} to convert into Markdown
+	 * @return       {@link String} with the Markdown content
+	 */
 	public String serialize(IReport report) {
 		StringBuffer markdown = new StringBuffer();
 		for (IReportContent content : report.getContent()) {
