@@ -20,7 +20,6 @@ import java.nio.file.Files;
 import java.util.List;
 
 import org.bridgedb.DataSource;
-import org.bridgedb.IDMapper;
 import org.bridgedb.Xref;
 import org.bridgedb.bio.Organism;
 import org.junit.jupiter.api.BeforeAll;
@@ -151,5 +150,11 @@ public class BridgedbManagerTest {
 		System.out.println(exception.getMessage());
 		assertTrue(exception.getMessage().contains("the database at this location"));
 	}
+
+	@Test
+    public void listIDMapperProviders() {
+		List<String> providers = bridgedb.listIDMapperProviders();
+		assertNotNull(providers);
+    }
 
 }

@@ -317,6 +317,15 @@ public class BridgedbManager implements IBactingManager {
 		return DataSource.register(code, name).asDataSource();
 	}
 
+	/**
+	 * Returns IDMappers supported by Bacting.
+	 *
+	 * @return a {@link List} with {@link IDMapper}s
+	 */
+    public List<String> listIDMapperProviders() {
+        return Collections.emptyList();
+    }
+
 	@Override
 	public String getManagerName() {
 		return "bridgedb";
