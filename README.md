@@ -50,6 +50,12 @@ mvn release:prepare
 mvn release:perform
 ```
 
+### Making snapshots
+
+```shell
+mvn deploy
+```
+
 ### Updating the JavaDoc
 
 After the release is avaiable on Maven Central, the [JavaDoc](https://egonw.github.io/bacting-api/)
