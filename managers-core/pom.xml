@@ -48,6 +48,11 @@
       <version>4.5.13</version>
     </dependency>
     <dependency>
+      <groupId>com.github.egonw</groupId>
+      <artifactId>jqudt</artifactId>
+      <version>1.4.0</version>
+    </dependency>
+    <dependency>
         <groupId>org.junit.jupiter</groupId>
         <artifactId>junit-jupiter</artifactId>
         <scope>test</scope>
