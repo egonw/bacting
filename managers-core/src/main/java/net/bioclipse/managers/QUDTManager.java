@@ -48,6 +48,7 @@ public class QUDTManager implements IBactingManager {
      *
      * @param quantity the quantity
      * @param unit     the {@link Unit}
+     * @return a {@link Quantity} for the given input
      */
     public Quantity newQuantity(double quantity, Unit unit) {
     	return new Quantity(quantity, unit);
@@ -99,6 +100,7 @@ public class QUDTManager implements IBactingManager {
      *
      * @param quantity the quantity
      * @param unit     the {@link Unit}
+     * @return a {@link Quantity} for the given input
      * @throws BioclipseException when zero or more than one unit matches this symbol
      */
     public Quantity newQuantity(double quantity, String unit) throws BioclipseException {
