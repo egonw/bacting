@@ -46,8 +46,8 @@ Releases are created by the release manager and requires permission to submit th
 If these requirements are fulfilled then the following two commands to the job:
 
 ```shell
-mvn release:prepare
-mvn release:perform
+export MAVEN_OPTS="--add-opens=java.base/java.util=ALL-UNNAMED --add-opens=java.base/java.lang.reflect=ALL-UNNAMED --add-opens=java.base/java.text=ALL-UNNAMED --add-opens=java.desktop/java.awt.font=ALL-UNNAMED"
+mvn deploy -P release
 ```
 
 ### Making snapshots
