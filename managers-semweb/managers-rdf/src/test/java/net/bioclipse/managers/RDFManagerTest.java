@@ -432,5 +432,8 @@ public class RDFManagerTest {
 		assertFalse(report.conforms());
 		reportStr = rdf.asString(report);
 		assertTrue(reportStr.contains("Status = nonconformant"));
+		Assertions.assertThrows(Exception.class, () -> {
+			rdf.validateAllOfType(new Store(), "/RDFTests/exampleContent.shex", "https://example.org/shape", "https://example.org/type");
+		});
 	}
 }
