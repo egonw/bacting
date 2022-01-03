@@ -1,4 +1,4 @@
-/* Copyright (c) 2020  Egon Willighagen <egon.willighagen@gmail.com>
+/* Copyright (c) 2020-2022  Egon Willighagen <egon.willighagen@gmail.com>
  *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
@@ -19,10 +19,12 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.net.UnknownHostException;
 import java.nio.file.Files;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.jena.shex.ShexReport;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -52,7 +54,28 @@ public class RDFManagerTest {
 			"@prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .\n" +
 			"@prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .\n" +
 			"\n" +
-			"ex:subject  ex:predicate  \"Object\"@en .\n");
+			"ex:subject  a ex:type ; ex:predicate  \"Object\"@en .\n");
+		ui.newFile("/RDFTests/exampleContent2.xml",
+				"@prefix ex:    <https://example.org/> .\n" +
+				"@prefix owl:   <http://www.w3.org/2002/07/owl#> .\n" +
+				"@prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .\n" +
+				"@prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .\n" +
+				"@prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .\n" +
+				"\n" +
+				"ex:subject  a ex:type ; ex:predicate  \"Object\"@en .\n" +
+				"ex:subject2 a ex:type ; ex:predicate  \"Object\"@en .\n");
+		ui.newFile("/RDFTests/exampleContent.shex",
+            "PREFIX ex:    <https://example.org/>\n" +
+            "PREFIX xsd:   <http://www.w3.org/2001/XMLSchema#>\n" +
+            "ex:shape {\n" +
+            "  ex:predicate [ @en~ ] ; \n" +
+            "}\n");
+		ui.newFile("/RDFTests/exampleContent2.shex",
+	            "PREFIX ex:    <https://example.org/>\n" +
+	            "PREFIX xsd:   <http://www.w3.org/2001/XMLSchema#>\n" +
+	            "ex:shape {\n" +
+	            "  ex:predicate [ @nl~ ] ; \n" +
+	            "}\n");
 	}
 
 	// mock class, aimed to be not supported
@@ -391,4 +414,23 @@ public class RDFManagerTest {
 		assertEquals(1, resources.size());
 	}
 
+	@Test
+	public void validateShEx() throws Exception {
+		IRDFStore store = rdf.createInMemoryStore(true);
+		assertNotNull(store);
+		store = rdf.importFile(store, "/RDFTests/exampleContent2.xml", "TURTLE");
+		List<String> resources = new ArrayList<>();
+		resources.add("https://example.org/subject");
+		resources.add("https://example.org/bar");
+		ShexReport report = rdf.validateAllOfType(store, "/RDFTests/exampleContent.shex", "https://example.org/shape", "https://example.org/type");
+		assertNotNull(report);
+		assertTrue(report.conforms());
+		String reportStr = rdf.asString(report);
+		assertTrue(reportStr.contains("Status = conformant"));
+		report = rdf.validateAllOfType(store, "/RDFTests/exampleContent2.shex", "https://example.org/shape", "https://example.org/type");
+		assertNotNull(report);
+		assertFalse(report.conforms());
+		reportStr = rdf.asString(report);
+		assertTrue(reportStr.contains("Status = nonconformant"));
+	}
 }

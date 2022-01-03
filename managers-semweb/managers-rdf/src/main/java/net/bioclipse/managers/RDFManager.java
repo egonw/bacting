@@ -1,4 +1,4 @@
-/* Copyright (c) 2009-2021  Egon Willighagen <egonw@users.sf.net>
+/* Copyright (c) 2009-2022  Egon Willighagen <egonw@users.sf.net>
  *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
@@ -24,6 +24,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.jena.graph.Graph;
+import org.apache.jena.graph.NodeFactory;
+import org.apache.jena.graph.Triple;
 import org.apache.jena.query.Query;
 import org.apache.jena.query.QueryExecution;
 import org.apache.jena.query.QueryExecutionFactory;
@@ -37,8 +40,16 @@ import org.apache.jena.shared.NoReaderForLangException;
 import org.apache.jena.shared.PrefixMapping;
 import org.apache.jena.shared.SyntaxError;
 import org.apache.jena.shared.impl.PrefixMappingImpl;
+import org.apache.jena.shex.Shex;
+import org.apache.jena.shex.ShexMap;
+import org.apache.jena.shex.ShexMap.Builder;
+import org.apache.jena.shex.ShexReport;
+import org.apache.jena.shex.ShexSchema;
+import org.apache.jena.shex.ShexValidator;
+import org.apache.jena.shex.sys.ShexLib;
 import org.apache.jena.sparql.engine.http.QueryEngineHTTP;
 import org.apache.jena.ttl.turtle.TurtleParseException;
+import org.apache.jena.vocabulary.RDF;
 import org.eclipse.core.runtime.CoreException;
 
 import net.bioclipse.core.business.BioclipseException;
@@ -657,6 +668,41 @@ public class RDFManager {
     	} catch (IOException e) {
     		throw new BioclipseException("Error while writing RDF.", e);
     	}
+    }
+
+    /**
+     * Validates triples according to some shape expression in ShEx format.
+     *
+     * @param store     the {@link IRDFStore}
+     * @param shexFile  the file with shape expressions
+     * @param shapeURI  URI of the shape to test against
+     * @param type      URI of the rdf:type of the resources to test
+     * @return          the ShEx validation report as {@link ShexReport}
+     */
+    public ShexReport validateAllOfType(IRDFStore store, String shexFile, String shapeURI, String type) {
+        if (!(store instanceof IJenaStore))
+            throw new RuntimeException("Can only handle IJenaStore's for now.");
+
+        Graph dataGraph = ((IJenaStore)store).getModel().getGraph();
+        ShexSchema shapes = Shex.readSchema(workspaceRoot + shexFile);
+        Builder shapeMapBuilder = ShexMap.newBuilder();
+        Triple instance = Triple.create(Shex.FOCUS, RDF.type.asNode(), NodeFactory.createURI(type));
+        shapeMapBuilder.add(instance, NodeFactory.createURI(shapeURI));
+        ShexMap shapeMap = shapeMapBuilder.build();
+
+        return ShexValidator.get().validate(dataGraph, shapes, shapeMap);
+    }
+
+    /**
+     * Converts a {@link ShexReport} into a String.
+     *
+     * @param report the {@link ShexReport}
+     * @return       String serialization of the report
+     */
+    public String asString(ShexReport report) {
+        ByteArrayOutputStream output = new ByteArrayOutputStream();
+        ShexLib.printReport(output, report);
+        return output.toString();
     }
 
 }

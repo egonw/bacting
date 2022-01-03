@@ -38,6 +38,11 @@
       <version>${bioclipse.version}</version>
     </dependency>
     <dependency>
+      <groupId>org.apache.jena</groupId>
+      <artifactId>jena-shex</artifactId>
+      <version>4.2.0</version>
+    </dependency>
+    <dependency>
       <groupId>io.github.egonw.bacting</groupId>
       <artifactId>bioclipse-core</artifactId>
       <version>${bioclipse.version}</version>
