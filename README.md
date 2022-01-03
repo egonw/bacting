@@ -47,12 +47,14 @@ If these requirements are fulfilled then the following two commands to the job:
 
 ```shell
 export MAVEN_OPTS="--add-opens=java.base/java.util=ALL-UNNAMED --add-opens=java.base/java.lang.reflect=ALL-UNNAMED --add-opens=java.base/java.text=ALL-UNNAMED --add-opens=java.desktop/java.awt.font=ALL-UNNAMED"
+mvn versions:set -DnewVersion=0.0.31
 mvn deploy -P release
 ```
 
 ### Making snapshots
 
 ```shell
+mvn versions:set -DnewVersion=0.0.31-SNAPSHOT
 mvn deploy
 ```
 
