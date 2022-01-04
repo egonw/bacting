@@ -22,6 +22,8 @@ import net.bioclipse.managers.RDFManager;
 
 public class WikidataMolecule extends BioObject implements IWikidataMolecule {
 
+	private static RDFManager rdf = new RDFManager(null);
+
 	private ICDKMolecule cdkMol;
 	private String entityID;
 	private String SMILES;
@@ -51,7 +53,7 @@ public class WikidataMolecule extends BioObject implements IWikidataMolecule {
 	        + "SELECT ?smiles WHERE {"
 	        + "  <" + this.entityID + "> wdt:P233 ?smiles . "
 	        + "}";
-	    IStringMatrix results = new RDFManager(null).sparqlRemote(
+	    IStringMatrix results = rdf.sparqlRemote(
 	    	"https://query.wikidata.org/sparql", hasMoleculeByInChI
 	    );
 	    if (results.getRowCount() == 0) {
