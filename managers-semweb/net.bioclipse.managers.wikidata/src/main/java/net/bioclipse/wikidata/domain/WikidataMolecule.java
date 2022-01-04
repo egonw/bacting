@@ -1,4 +1,4 @@
-/* Copyright (c) 2016  Egon Willighagen <egonw@user.sf.net>
+/* Copyright (c) 2016-2022  Egon Willighagen <egonw@user.sf.net>
  *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
@@ -23,6 +23,7 @@ import net.bioclipse.managers.RDFManager;
 public class WikidataMolecule extends BioObject implements IWikidataMolecule {
 
 	private static RDFManager rdf = new RDFManager(null);
+	private static CDKManager cdk = new CDKManager(null);
 
 	private ICDKMolecule cdkMol;
 	private String entityID;
@@ -82,7 +83,7 @@ public class WikidataMolecule extends BioObject implements IWikidataMolecule {
 
 	public ICDKMolecule asCDKMolecule() throws BioclipseException {
 		if (cdkMol == null) {
-			cdkMol = new CDKManager(null).fromSMILES(this.toSMILES());
+			cdkMol = cdk.fromSMILES(this.toSMILES());
 		}
 		return cdkMol;
 	}
