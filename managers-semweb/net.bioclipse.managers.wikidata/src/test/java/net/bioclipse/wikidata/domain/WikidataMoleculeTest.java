@@ -9,6 +9,7 @@
  */
 package net.bioclipse.wikidata.domain;
 
+import static org.junit.Assert.assertNotSame;
 import static org.junit.Assert.assertNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -38,6 +39,16 @@ public class WikidataMoleculeTest {
 		assertNull(mol.getId());
 		assertEquals(0, mol.toSMILES().length());
 		assertEquals(0, mol.toSMILES().length());
+	}
+
+	@Test
+	public void testToSMILES() throws Exception {
+		// Spring requirement
+		WikidataMolecule mol = new WikidataMolecule("http://www.wikidata.org/entity/Q37129");
+		assertNotNull(mol);
+		assertEquals("http://www.wikidata.org/entity/Q37129", mol.getId());
+		assertNotSame(0, mol.toSMILES().length());
+		assertNotSame(0, mol.toSMILES().length());
 	}
 
 	@Test
