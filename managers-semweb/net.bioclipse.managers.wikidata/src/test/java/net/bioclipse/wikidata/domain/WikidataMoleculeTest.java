@@ -17,12 +17,19 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.List;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import net.bioclipse.cdk.domain.ICDKMolecule;
 import net.bioclipse.core.domain.IMolecule;
 
 public class WikidataMoleculeTest {
+
+	@BeforeEach
+	public void slowDown() throws InterruptedException {
+		// keep the Wikidata Query Service happy
+		Thread.sleep(150);
+	}
 
 	@Test
 	public void testConstructor() {
