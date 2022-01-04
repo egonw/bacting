@@ -20,6 +20,7 @@ import java.util.List;
 
 import org.eclipse.core.runtime.CoreException;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import net.bioclipse.core.business.BioclipseException;
@@ -34,6 +35,12 @@ public class ChemspiderManagerTest {
 		String tmpPath = Files.createTempDirectory("chemspidertestws").toString();
 		System.out.println("tmpPath: " + tmpPath);
 		chemspider = new ChemspiderManager(tmpPath);
+	}
+
+	@BeforeEach
+	public void slowDown() throws InterruptedException {
+		// keep ChemSpider happy
+		Thread.sleep(150);
 	}
 
 	@Test
