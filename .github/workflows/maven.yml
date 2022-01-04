@@ -20,15 +20,15 @@ jobs:
       uses: actions/setup-java@v1
       with:
         java-version: ${{ matrix.java }}
+    - name: Build with Maven
+      run: mvn clean install -Dgpg.skip -Dmaven.javadoc.skip=true
 
-  coverage:
-   runs-on: ubuntu-latest
+  build:
+    runs-on: ubuntu-latest
     strategy:
       matrix:
         java: [ 11 ]
-    name: Java ${{ matrix.java }}
-    - name: Build with Maven
-      run: mvn clean install -Dgpg.skip -Dmaven.javadoc.skip=true
+    name: Coverage testing
 
     steps:
     - uses: actions/checkout@v2
