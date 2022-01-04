@@ -47,7 +47,8 @@ import org.apache.jena.shex.ShexReport;
 import org.apache.jena.shex.ShexSchema;
 import org.apache.jena.shex.ShexValidator;
 import org.apache.jena.shex.sys.ShexLib;
-import org.apache.jena.sparql.engine.http.QueryEngineHTTP;
+import org.apache.jena.sparql.exec.http.QueryExecutionHTTP;
+import org.apache.jena.sparql.exec.http.QueryExecutionHTTPBuilder;
 import org.apache.jena.ttl.turtle.TurtleParseException;
 import org.apache.jena.vocabulary.RDF;
 import org.eclipse.core.runtime.CoreException;
@@ -380,17 +381,16 @@ public class RDFManager {
             String serviceURL,
             String sparqlQueryString) {
          Query query = QueryFactory.create(sparqlQueryString);
-         QueryEngineHTTP qexec = (QueryEngineHTTP)QueryExecutionFactory.sparqlService(serviceURL, query);
-         qexec.addParam("timeout", "" + CONNECT_TIME_OUT);
+         QueryExecutionHTTPBuilder qexecBuilder = QueryExecutionHTTPBuilder.service(serviceURL)
+             .param("timeout", "" + CONNECT_TIME_OUT).query(query);
          PrefixMapping prefixMap = query.getPrefixMapping();
 
          StringMatrix table = null;
          try {
+        	 QueryExecution qexec = qexecBuilder.build();
              ResultSet results = qexec.execSelect();
              table = StringMatrixHelper.convertIntoTable(prefixMap, results);
-         } finally {
-             qexec.close();
-         }
+         } finally {}
          return table;
      }
 
