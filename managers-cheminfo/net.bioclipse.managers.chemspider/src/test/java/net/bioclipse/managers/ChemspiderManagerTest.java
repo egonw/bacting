@@ -21,6 +21,7 @@ import java.util.List;
 import org.eclipse.core.runtime.CoreException;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
 import net.bioclipse.core.business.BioclipseException;
@@ -56,6 +57,7 @@ public class ChemspiderManagerTest {
 	}
 
 	@Test
+	@Tag("chemspider")
 	public void testResolve() throws IOException, BioclipseException, CoreException {
 		List<Integer> hits = chemspider.resolve("QTBSBXVTEAMEQO-UHFFFAOYSA-N");
 		assertNotNull(hits);
@@ -63,12 +65,14 @@ public class ChemspiderManagerTest {
 	}
 
 	@Test
+	@Tag("chemspider")
 	public void testDownloadAsString() throws IOException, BioclipseException, CoreException {
 		String mol = chemspider.downloadAsString(171);
 		assertTrue(mol.contains("<StdInChI>"));
 	}
 
 	@Test
+	@Tag("chemspider")
 	public void testDownload() throws IOException, BioclipseException, CoreException {
 		IMolecule mol = chemspider.download(171);
 		assertNotNull(mol);
