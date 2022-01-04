@@ -67,6 +67,9 @@ public class WikidataMoleculeTest {
 		adapter = mol.getAdapter(IWikidataMolecule.class);
 		assertNotNull(adapter);
 		assertTrue(adapter instanceof WikidataMolecule);
+		adapter = mol.getAdapter(IMolecule.class);
+		assertNotNull(adapter);
+		assertTrue(adapter instanceof IMolecule);
 	}
 
 	@Test
