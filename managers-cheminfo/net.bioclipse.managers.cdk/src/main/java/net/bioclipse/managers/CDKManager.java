@@ -69,8 +69,6 @@ import org.openscience.cdk.stereo.Stereocenters.Type;
 import org.openscience.cdk.tools.manipulator.ChemFileManipulator;
 import org.openscience.cdk.tools.manipulator.MolecularFormulaManipulator;
 
-import com.google.common.collect.Lists;
-
 import io.github.egonw.bacting.IBactingManager;
 import net.bioclipse.cdk.domain.CDKMolecule;
 import net.bioclipse.cdk.domain.ICDKMolecule;
@@ -455,8 +453,7 @@ public class CDKManager implements IBactingManager {
     public Set<IAtom> getAtomsWithDefinedStereo(IMolecule molecule) throws BioclipseException {
     	Set<IAtom> stereoAtoms = new HashSet<IAtom>();
     	IAtomContainer container = asCDKMolecule(molecule).getAtomContainer();
-    	List<IStereoElement> stereoInfo = Lists.newArrayList(container.stereoElements());
-    	for (IStereoElement elem : stereoInfo) {
+    	for (IStereoElement elem : container.stereoElements()) {
 			IChemObject focus = elem.getFocus();
 			if (focus instanceof IAtom) {
 				stereoAtoms.add((IAtom)focus);

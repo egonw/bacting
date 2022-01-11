@@ -22,16 +22,15 @@ import org.openscience.cdk.interfaces.IAtom;
 import org.openscience.cdk.interfaces.IAtomContainer;
 import org.openscience.cdk.interfaces.IBond;
 
+import io.github.dan2097.jnainchi.InchiCheckStatus;
+import io.github.dan2097.jnainchi.InchiFlag;
+import io.github.dan2097.jnainchi.InchiKeyCheckStatus;
+import io.github.dan2097.jnainchi.InchiStatus;
+import io.github.dan2097.jnainchi.JnaInchi;
 import io.github.egonw.bacting.IBactingManager;
 import net.bioclipse.core.business.BioclipseException;
 import net.bioclipse.core.domain.IMolecule;
 import net.bioclipse.inchi.InChI;
-import net.sf.jniinchi.INCHI_KEY_STATUS;
-import net.sf.jniinchi.INCHI_OPTION;
-import net.sf.jniinchi.INCHI_RET;
-import net.sf.jniinchi.INCHI_STATUS;
-import net.sf.jniinchi.JniInchiException;
-import net.sf.jniinchi.JniInchiWrapper;
 
 /**
  * Bioclipse manager that provides functionality to create and
@@ -80,7 +79,7 @@ public class InChIManager implements IBactingManager {
 
     public List<String> options() {
     	List<String> options = new ArrayList<String>();
-    	for (INCHI_OPTION option : INCHI_OPTION.values()) {
+    	for (InchiFlag option : InchiFlag.values()) {
     		options.add("" + option);
     	}
     	return options;
@@ -109,9 +108,8 @@ public class InChIManager implements IBactingManager {
             for (IBond bond : clone.bonds())
                 bond.setFlag(CDKConstants.ISAROMATIC, false);
             InChIGenerator gen = factory.getInChIGenerator(clone, options);
-            INCHI_RET status = gen.getReturnStatus();
-            if (status == INCHI_RET.OKAY ||
-            		status == INCHI_RET.WARNING) {
+            InchiStatus status = gen.getStatus();
+            if (status == InchiStatus.SUCCESS) {
             	InChI inchi = new InChI();
             	inchi.setValue(gen.getInchi());
             	inchi.setKey(gen.getInchiKey());
@@ -151,9 +149,8 @@ public class InChIManager implements IBactingManager {
             for (IBond bond : clone.bonds())
                 bond.setFlag(CDKConstants.ISAROMATIC, false);
             InChIGenerator gen = factory.getInChIGenerator(clone);
-            INCHI_RET status = gen.getReturnStatus();
-            if (status == INCHI_RET.OKAY ||
-            		status == INCHI_RET.WARNING) {
+            InchiStatus status = gen.getStatus();
+            if (status == InchiStatus.SUCCESS) {
             	InChI inchi = new InChI();
             	inchi.setValue(gen.getInchi());
             	inchi.setKey(gen.getInchiKey());
@@ -188,13 +185,8 @@ public class InChIManager implements IBactingManager {
      * @throws BioclipseException
      */
     public boolean checkKey(String inchikey) throws BioclipseException {
-    	INCHI_KEY_STATUS status;
-		try {
-			status = JniInchiWrapper.checkInchiKey(inchikey);
-		} catch (JniInchiException exception) {
-			throw new BioclipseException("Error while validating the inchi: " + exception.getMessage(), exception);
-		}
-    	if (status == INCHI_KEY_STATUS.VALID_STANDARD || status == INCHI_KEY_STATUS.VALID_NON_STANDARD)
+    	InchiKeyCheckStatus status = JnaInchi.checkInchiKey(inchikey);
+    	if (status == InchiKeyCheckStatus.VALID_STANDARD || status == InchiKeyCheckStatus.VALID_NON_STANDARD)
     		return true;
     	// everything else is false
     	return false;
@@ -208,13 +200,8 @@ public class InChIManager implements IBactingManager {
      * @throws BioclipseException
      */
     public boolean check(String inchi) throws BioclipseException {
-    	INCHI_STATUS status;
-		try {
-			status = JniInchiWrapper.checkInchi(inchi, false);
-		} catch (JniInchiException exception) {
-			throw new BioclipseException("Error while validating the inchi: " + exception.getMessage(), exception);
-		}
-    	if (status == INCHI_STATUS.VALID_STANDARD || status == INCHI_STATUS.VALID_NON_STANDARD)
+    	InchiCheckStatus status = JnaInchi.checkInchi(inchi, false);
+    	if (status == InchiCheckStatus.VALID_STANDARD || status == InchiCheckStatus.VALID_NON_STANDARD)
     		return true;
     	// everything else is false
     	return false;
@@ -228,13 +215,8 @@ public class InChIManager implements IBactingManager {
      * @throws BioclipseException
      */
     public boolean checkStrict(String inchi) throws BioclipseException {
-    	INCHI_STATUS status;
-		try {
-			status = JniInchiWrapper.checkInchi(inchi, true);
-		} catch (JniInchiException exception) {
-			throw new BioclipseException("Error while validating the inchi: " + exception.getMessage(), exception);
-		}
-    	if (status == INCHI_STATUS.VALID_STANDARD || status == INCHI_STATUS.VALID_NON_STANDARD)
+    	InchiCheckStatus status = JnaInchi.checkInchi(inchi, true);
+    	if (status == InchiCheckStatus.VALID_STANDARD || status == InchiCheckStatus.VALID_NON_STANDARD)
     		return true;
     	// everything else is false
     	return false;
