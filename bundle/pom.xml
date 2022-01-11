@@ -5,7 +5,7 @@
     <parent>
         <artifactId>bacting</artifactId>
         <groupId>io.github.egonw.bacting</groupId>
-        <version>0.0.31-SNAPSHOT</version>
+        <version>0.0.31</version>
     </parent>
 
     <artifactId>bacting-bundle</artifactId>
@@ -15,77 +15,77 @@
         <dependency>
             <groupId>io.github.egonw.bacting</groupId>
             <artifactId>bacting-core</artifactId>
-            <version>0.0.31-SNAPSHOT</version>
+            <version>0.0.31</version>
         </dependency>
         <dependency>
             <groupId>io.github.egonw.bacting</groupId>
             <artifactId>managers-ui</artifactId>
-            <version>0.0.31-SNAPSHOT</version>
+            <version>0.0.31</version>
         </dependency>
         <dependency>
             <groupId>io.github.egonw.bacting</groupId>
             <artifactId>managers-rdf</artifactId>
-            <version>0.0.31-SNAPSHOT</version>
+            <version>0.0.31</version>
         </dependency>
         <dependency>
             <groupId>io.github.egonw.bacting</groupId>
             <artifactId>managers-xml</artifactId>
-            <version>0.0.31-SNAPSHOT</version>
+            <version>0.0.31</version>
         </dependency>
         <dependency> 
             <groupId>io.github.egonw.bacting</groupId>
             <artifactId>net.bioclipse.managers.wikidata</artifactId>
-            <version>0.0.31-SNAPSHOT</version>
+            <version>0.0.31</version>
         </dependency>
         <dependency>
             <groupId>io.github.egonw.bacting</groupId>
             <artifactId>managers-bridgedb</artifactId>
-            <version>0.0.31-SNAPSHOT</version>
+            <version>0.0.31</version>
         </dependency>
         <dependency>
             <groupId>io.github.egonw.bacting</groupId>
             <artifactId>managers-biojava</artifactId>
-            <version>0.0.31-SNAPSHOT</version>
+            <version>0.0.31</version>
         </dependency>
         <dependency>
             <groupId>io.github.egonw.bacting</groupId>
             <artifactId>managers-cdk</artifactId>
-            <version>0.0.31-SNAPSHOT</version>
+            <version>0.0.31</version>
         </dependency>
         <dependency>
             <groupId>io.github.egonw.bacting</groupId>
             <artifactId>managers-cdkdebug</artifactId>
-            <version>0.0.31-SNAPSHOT</version>
+            <version>0.0.31</version>
         </dependency>
         <dependency>
             <groupId>io.github.egonw.bacting</groupId>
             <artifactId>managers-chemspider</artifactId>
-            <version>0.0.31-SNAPSHOT</version>
+            <version>0.0.31</version>
         </dependency>
         <dependency>
             <groupId>io.github.egonw.bacting</groupId>
             <artifactId>managers-inchi</artifactId>
-            <version>0.0.31-SNAPSHOT</version>
+            <version>0.0.31</version>
         </dependency>
         <dependency>
             <groupId>io.github.egonw.bacting</groupId>
             <artifactId>managers-opsin</artifactId>
-            <version>0.0.31-SNAPSHOT</version>
+            <version>0.0.31</version>
         </dependency>
         <dependency>
             <groupId>io.github.egonw.bacting</groupId>
             <artifactId>managers-oscar</artifactId>
-            <version>0.0.31-SNAPSHOT</version>
+            <version>0.0.31</version>
         </dependency>
         <dependency>
             <groupId>io.github.egonw.bacting</groupId>
             <artifactId>managers-pubchem</artifactId>
-            <version>0.0.31-SNAPSHOT</version>
+            <version>0.0.31</version>
         </dependency>
         <dependency>
             <groupId>io.github.egonw.bacting</groupId>
             <artifactId>managers-excel</artifactId>
-            <version>0.0.31-SNAPSHOT</version>
+            <version>0.0.31</version>
         </dependency>
     </dependencies>
 
