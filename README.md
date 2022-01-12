@@ -132,7 +132,7 @@ Full code examples can be found in the following sources:
 * Open Notebooks for Wikidata, including:
   * [script that compares a SMILES string with Wikidata, and creates QuickStatements for missing information](https://github.com/egonw/ons-wikidata/blob/master/Wikidata/createWDitemsFromSMILES.groovy)
   * [script that reads melting points from an Excel spreadsheet to enter into Wikidata](https://github.com/egonw/ons-wikidata/blob/master/MeltingPoints/createQuickStatements.groovy)
-* Open Notebooks for WikiPathays:
+* Open Notebooks for WikiPathways:
   * [script to recognize IUPAC names in WikiPathways](https://github.com/egonw/ons-wikipathways/blob/master/WikiPathways/getLabelsWithIUPACNames.groovy)
 * Some examples from [A lot of Bioclipse Scripting Language examples](https://bioclipse.github.io/bioclipse.scripting/):
   * [FullPathWikiPathways.groovy](https://bioclipse.github.io/bioclipse.scripting/code/FullPathWikiPathways.code.html)
