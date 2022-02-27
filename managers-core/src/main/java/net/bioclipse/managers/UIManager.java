@@ -113,11 +113,21 @@ public class UIManager implements IBactingManager {
 	 * @param toWrite the content to append to the new file
 	 */
     public void append(String path, String toWrite) {
+        this.append(path, toWrite.getBytes());
+    }
+
+	/**
+	 * Appends the new content to write to a new or existing file in the Bioclipse workspace.
+	 *
+	 * @param path    the location of the file in the Bioclipse workspace
+	 * @param toWrite the content to append to the new file
+	 */
+    public void append(String path, byte[] toWrite) {
     	try {
     		if (fileExists(path)) {
-    			Files.write(Paths.get(workspaceRoot + path), toWrite.getBytes(), StandardOpenOption.APPEND);
+                Files.write(Paths.get(workspaceRoot + path), toWrite, StandardOpenOption.APPEND);
     		} else {
-    			Files.write(Paths.get(workspaceRoot + path), toWrite.getBytes(), StandardOpenOption.CREATE);
+                Files.write(Paths.get(workspaceRoot + path), toWrite, StandardOpenOption.CREATE);
     		}
     	} catch (Exception exception) {
     		throw new RuntimeException(
