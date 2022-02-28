@@ -17,11 +17,13 @@ import net.bioclipse.core.business.BioclipseException;
 import net.bioclipse.core.domain.BioObject;
 import net.bioclipse.core.domain.IMolecule;
 import net.bioclipse.core.domain.IStringMatrix;
+import net.bioclipse.managers.BioclipseManager;
 import net.bioclipse.managers.CDKManager;
 import net.bioclipse.managers.RDFManager;
 
 public class WikidataMolecule extends BioObject implements IWikidataMolecule {
 
+	private static BioclipseManager bioclipse = new BioclipseManager(null);
 	private static RDFManager rdf = new RDFManager(null);
 	private static CDKManager cdk = new CDKManager(null);
 
@@ -54,9 +56,10 @@ public class WikidataMolecule extends BioObject implements IWikidataMolecule {
 	        + "SELECT ?smiles WHERE {"
 	        + "  <" + this.entityID + "> wdt:P233 ?smiles . "
 	        + "}";
-	    IStringMatrix results = rdf.sparqlRemote(
-	    	"https://query.wikidata.org/sparql", hasMoleculeByInChI
-	    );
+    	byte[] resultRaw = bioclipse.sparqlRemote(
+      		"https://query.wikidata.org/sparql", hasMoleculeByInChI
+        );
+        IStringMatrix results = rdf.processSPARQLXML(resultRaw, hasMoleculeByInChI);
 	    if (results.getRowCount() == 0) {
 	    	this.SMILES = null;
 	    	return "";

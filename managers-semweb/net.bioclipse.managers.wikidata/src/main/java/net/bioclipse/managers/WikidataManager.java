@@ -29,6 +29,7 @@ import net.bioclipse.wikidata.domain.WikidataMolecule;
 public class WikidataManager implements IBactingManager {
 
 	static RDFManager rdf;
+	static BioclipseManager bioclipse;
 
 	private String workspaceRoot;
 
@@ -40,6 +41,7 @@ public class WikidataManager implements IBactingManager {
     public WikidataManager(String workspaceRoot) {
 		this.workspaceRoot = workspaceRoot;
 		rdf = new RDFManager(workspaceRoot);
+		bioclipse = new BioclipseManager(workspaceRoot);
 	}
 
     /**
@@ -54,9 +56,10 @@ public class WikidataManager implements IBactingManager {
     	   	+ "SELECT ?compound WHERE {"
     	    + "  ?compound wdt:P235 \"" + inchi.getKey() + "\" ."
     	    + "}";
-    	IStringMatrix results = rdf.sparqlRemote(
+    	byte[] resultRaw = bioclipse.sparqlRemote(
     		"https://query.wikidata.org/sparql", hasMoleculeByInChI
     	);
+    	IStringMatrix results = rdf.processSPARQLXML(resultRaw, hasMoleculeByInChI);
     	return (results.getRowCount() > 0);
     }
 
@@ -72,9 +75,10 @@ public class WikidataManager implements IBactingManager {
         	+ "SELECT ?compound WHERE {"
         	+ "  ?compound wdt:P235  \"" + inchi.getKey() + "\" ."
         	+ "}";
-    	IStringMatrix results = rdf.sparqlRemote(
-    		"https://query.wikidata.org/sparql", hasMoleculeByInChI
-        );
+    	byte[] resultRaw = bioclipse.sparqlRemote(
+       		"https://query.wikidata.org/sparql", hasMoleculeByInChI
+       	);
+       	IStringMatrix results = rdf.processSPARQLXML(resultRaw, hasMoleculeByInChI);
     	if (results.getRowCount() == 0)
     		throw new BioclipseException("No molecule in Wikidata with the InChI: " + inchi);
     	if (results.getRowCount() > 1)
@@ -101,9 +105,10 @@ public class WikidataManager implements IBactingManager {
         	+ "  ?compound wdt:P235 ?inchikey ."
         	+ "}";
     	System.out.println(query);
-    	IStringMatrix results = rdf.sparqlRemote(
-    		"https://query.wikidata.org/sparql", query
-        );
+    	byte[] resultRaw = bioclipse.sparqlRemote(
+       		"https://query.wikidata.org/sparql", query
+       	);
+       	IStringMatrix results = rdf.processSPARQLXML(resultRaw, query);
     	Map<String,String> mappings = new HashMap<>();
     	for (int i=0; i<results.getRowCount(); i++) {
     		mappings.put(results.get(i, "inchikey"), results.get(i, "compound"));
