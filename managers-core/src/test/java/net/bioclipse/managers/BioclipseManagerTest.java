@@ -1,4 +1,4 @@
-/* Copyright (c) 2020  Egon Willighagen <egon.willighagen@gmail.com>
+/* Copyright (c) 2020-2022  Egon Willighagen <egon.willighagen@gmail.com>
  *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
@@ -18,6 +18,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.IOException;
 import java.nio.file.Files;
+import java.util.HashMap;
 import java.util.List;
 
 import org.junit.jupiter.api.BeforeAll;
@@ -161,6 +162,16 @@ public class BioclipseManagerTest {
 		String results = bioclipse.download(
 			"https://wikidata.org/entity/Q5",
 			"text/n3"
+		);
+		assertTrue(results.contains("Q5"));
+		assertTrue(results.contains("rdfs:label"));
+	}
+
+	@Test
+	public void testDownload_WithHeaders() throws BioclipseException {
+		String results = bioclipse.download(
+			"https://wikidata.org/entity/Q5",
+			"text/n3", new HashMap<>()
 		);
 		assertTrue(results.contains("Q5"));
 		assertTrue(results.contains("rdfs:label"));

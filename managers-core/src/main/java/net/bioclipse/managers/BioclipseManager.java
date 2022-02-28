@@ -185,6 +185,48 @@ public class BioclipseManager implements IBactingManager {
      * Downloads the content of the page located by the given URL string as
      * a Java {@link String} in the given mimetype (if provided by the webserver).
      *
+     * @param url          {@link String} version of the URL of the document to download
+     * @param mimeType     the mimetype in which the content should be returned, e.g. text/n3
+     * @param extraHeaders additional HTTP headers, e.g. useful if authentication is needed
+     * @return             a {@link String} with the content of the webpage
+     * @throws BioclipseException when there was a downloading problem
+     */
+    public String download(String url, String mimeType, Map<String,String> extraHeaders) throws BioclipseException {
+    	StringBuffer content = new StringBuffer();
+    	URLConnection rawConn;
+    	try {
+    		rawConn = createURL(url).openConnection();
+    		if (extraHeaders != null) {
+    			for (String header : extraHeaders.keySet()) {
+    				rawConn.addRequestProperty(header, extraHeaders.get(header));
+    			}
+    			if (!extraHeaders.containsKey("User-Agent"))
+    				rawConn.addRequestProperty("User-Agent", "Bacting (https://joss.theoj.org/papers/10.21105/joss.02558)");
+    		} else {
+        		rawConn.addRequestProperty("User-Agent", "Bacting (https://joss.theoj.org/papers/10.21105/joss.02558)");
+    		}
+    		if (mimeType != null)
+    			rawConn.addRequestProperty("Accept", mimeType);
+    		BufferedReader reader = new BufferedReader(
+    			new InputStreamReader(rawConn.getInputStream())
+    		);
+    		String line = reader.readLine();
+    		while (line != null) {
+    			content.append(line).append('\n');
+    			line = reader.readLine();
+    		}
+    	} catch (IOException exception) {
+    		throw new BioclipseException(
+    			"Error while downloading from URL.", exception
+    		);
+    	}
+    	return content.toString();
+    }
+
+    /**
+     * Downloads the content of the page located by the given URL string as
+     * a Java {@link String} in the given mimetype (if provided by the webserver).
+     *
      * @param url      {@link String} version of the URL of the document to download
      * @param mimeType the mimetype in which the content should be returned, e.g. text/n3
      * @return         a {@link String} with the content of the webpage
@@ -195,6 +237,7 @@ public class BioclipseManager implements IBactingManager {
     	URLConnection rawConn;
     	try {
     		rawConn = createURL(url).openConnection();
+    		rawConn.addRequestProperty("User-Agent", "Bacting (https://joss.theoj.org/papers/10.21105/joss.02558)");
     		if (mimeType != null)
     			rawConn.addRequestProperty("Accept", mimeType);
     		BufferedReader reader = new BufferedReader(
