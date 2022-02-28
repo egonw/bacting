@@ -47,6 +47,7 @@
         <module>managers-bioinfo</module>
         <module>managers-cheminfo</module>
         <module>managers-excel</module>
+        <module>managers-search</module>
         <module>bundle</module>
     </modules>
 
