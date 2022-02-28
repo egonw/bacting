@@ -9,6 +9,7 @@
  */
 package net.bioclipse.managers;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -127,4 +128,23 @@ public class UIManagerTest {
 		assertFalse(Files.exists(Paths.get(workspaceRoot + newFile)));
 	}
 
+	@Test
+	public void readFile() throws Exception {
+		String newFile = ui.newFile("/NewFiles/toRead.txt");
+		ui.append(newFile, "test append content\nfoo");
+		assertTrue(Files.exists(Paths.get(workspaceRoot + newFile)));
+		String content = ui.readFile("/NewFiles/toRead.txt");
+		assertTrue(content.contains("test append"));
+	}
+
+	@Test
+	public void readFileIntoArray() throws Exception {
+		String newFile = ui.newFile("/NewFiles/toReadArray.txt");
+		ui.append(newFile, "test append content\nfoo");
+		assertTrue(Files.exists(Paths.get(workspaceRoot + newFile)));
+		String[] content = ui.readFileIntoArray("/NewFiles/toReadArray.txt");
+		assertEquals(2, content.length);
+		assertTrue(content[0].contains("test append"));
+		assertTrue(content[1].equals("foo"));
+	}
 }

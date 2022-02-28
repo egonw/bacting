@@ -13,10 +13,13 @@
  */
 package net.bioclipse.managers;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -25,6 +28,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import io.github.egonw.bacting.IBactingManager;
+import net.bioclipse.core.business.BioclipseException;
 
 /**
  * Bioclipse manager providing core functionality, focusing on
@@ -178,6 +182,61 @@ public class UIManager implements IBactingManager {
         if (fileExists(name)) return name;
         Files.createDirectory(Paths.get(workspaceRoot + name));
         return name;
+    }
+
+    /**
+     * Read a file line by line into memory.
+     *
+     * @param file IFile to read from
+     * @return String with contents
+     * @throws BioclipseException
+     */
+    public String readFile(String path) throws BioclipseException {
+        if (!fileExists(path)) throw new BioclipseException("File '"
+                                         + path + "' does not exit.");
+
+        try {
+        	BufferedReader reader = new BufferedReader(
+        		new InputStreamReader(new FileInputStream(workspaceRoot + path)));
+            StringBuffer buffer=new StringBuffer();
+            String line=reader.readLine();
+            while ( line  != null ) {
+                buffer.append( line + "\n");
+                line=reader.readLine();
+            }
+            reader.close();
+            return buffer.toString();
+        } catch ( Exception e ) {
+            throw new BioclipseException("Error opening/reading file: "
+                                         + path, e);
+        }
+    }
+
+    /**
+     * Read a file line by line into memory.
+     *
+     * @param file IFile to read from
+     * @return String[] with one entry per line
+     * @throws BioclipseException
+     */
+    public String[] readFileIntoArray(String path) throws BioclipseException{
+        if (!fileExists(path)) throw new BioclipseException("File '"
+                                         + path + "' does not exit.");
+
+        List<String> lines=new ArrayList<String>();
+        try {
+        	BufferedReader reader = new BufferedReader(
+            		new InputStreamReader(new FileInputStream(workspaceRoot + path)));
+            String line=reader.readLine();
+            while ( line  != null ) {
+                lines.add(line);
+                line=reader.readLine();
+            }
+            reader.close();
+            return lines.toArray(new String[0]);
+        } catch ( Exception e ) {
+            throw new BioclipseException("Error opening/reading file: " + path, e);
+        }
     }
 
 	@Override
