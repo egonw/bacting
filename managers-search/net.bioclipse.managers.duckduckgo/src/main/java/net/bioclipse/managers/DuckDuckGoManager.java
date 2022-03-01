@@ -52,11 +52,9 @@ public class DuckDuckGoManager implements IBactingManager {
     	String results;
 		try {
 			String url = "https://duckduckgo.com/html/?ia=web&q=" + URLEncoder.encode(query, StandardCharsets.UTF_8.toString());
-			System.out.println("URL: " + url);
 			Map<String,String> headers = new HashMap<>();
 			headers.put("User-Agent", "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/98.0.4758.102 Safari/537.36");
 			results = bioclipse.download(url, "text/html", headers);
-			System.out.println("" + results);
 			Document jsoupDoc = jsoup.parseString(results);
 	    	Elements finds = jsoup.select(jsoupDoc, ".result__extras__url .result__url");
 	    	for (Element find : finds) {
