@@ -76,6 +76,11 @@ public class BioclipseManagerTest {
 	}
 
 	@Test
+	public void testLogfile() {
+		assertSame("", bioclipse.logfileLocation()); // not supported at this moment
+	}
+
+	@Test
 	public void testRequireVersion() throws Exception {
 		bioclipse.requireVersion("2.7.9.RC1");
 		bioclipse.requireVersion("2.8.0");
