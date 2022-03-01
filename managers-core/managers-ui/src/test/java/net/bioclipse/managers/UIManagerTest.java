@@ -87,6 +87,7 @@ public class UIManagerTest {
 		String newFile = "/NewFiles/append.txt";
         ui.append(newFile, "test append content");
 		assertTrue(Files.exists(Paths.get(workspaceRoot + newFile)));
+        ui.append(newFile, " and more content");
 	}
 
 	@Test
@@ -102,12 +103,13 @@ public class UIManagerTest {
 		String newFile = "/NewFiles/append.txt";
         ui.append(newFile, new ByteArrayInputStream("test append content".getBytes()));
 		assertTrue(Files.exists(Paths.get(workspaceRoot + newFile)));
+		ui.append(newFile, new ByteArrayInputStream(" and more content".getBytes()));
 	}
 
 	@Test
 	public void testAppendInputStreamToNotExists() throws IOException {
 		Assertions.assertThrows(Exception.class, () -> {
-			String newFile = "/DoesNotExist/append.txt";
+			String newFile = "/DoesNotExist/append2.txt";
 	        ui.append(newFile, new ByteArrayInputStream("test append content".getBytes()));
 			assertTrue(Files.exists(Paths.get(workspaceRoot + newFile)));
 		});
