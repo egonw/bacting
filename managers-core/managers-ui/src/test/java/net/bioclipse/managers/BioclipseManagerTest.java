@@ -20,6 +20,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -167,6 +168,18 @@ public class BioclipseManagerTest {
 		String results = bioclipse.download(
 			"https://wikidata.org/entity/Q5",
 			"text/n3"
+		);
+		assertTrue(results.contains("Q5"));
+		assertTrue(results.contains("rdfs:label"));
+	}
+
+	@Test
+	public void testDownload_Headers() throws BioclipseException {
+		Map<String,String> headers = new HashMap<>();
+		headers.put("User-Agent", "Bacting (https://joss.theoj.org/papers/10.21105/joss.02558)");
+		String results = bioclipse.download(
+			"https://wikidata.org/entity/Q5",
+			"text/n3", headers
 		);
 		assertTrue(results.contains("Q5"));
 		assertTrue(results.contains("rdfs:label"));
