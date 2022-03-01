@@ -26,6 +26,8 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
+import net.bioclipse.core.business.BioclipseException;
+
 public class UIManagerTest {
 
 	static UIManager ui;
@@ -100,7 +102,7 @@ public class UIManagerTest {
 
 	@Test
 	public void testAppendInputStream() throws IOException {
-		String newFile = "/NewFiles/append.txt";
+		String newFile = "/NewFiles/append_bytes.txt";
         ui.append(newFile, new ByteArrayInputStream("test append content".getBytes()));
 		assertTrue(Files.exists(Paths.get(workspaceRoot + newFile)));
 		ui.append(newFile, new ByteArrayInputStream(" and more content".getBytes()));
@@ -148,5 +150,23 @@ public class UIManagerTest {
 		assertEquals(2, content.length);
 		assertTrue(content[0].contains("test append"));
 		assertTrue(content[1].equals("foo"));
+	}
+
+	@Test
+	public void readFile_Nonexisting() {
+		BioclipseException exception = Assertions.assertThrows(BioclipseException.class, () -> {
+			ui.readFile("DoesNotExist/append2.txt");
+		});
+		assertNotNull(exception);
+		assertTrue(exception.getMessage().contains("does not exit"));
+	}
+
+	@Test
+	public void readFileIntoArray_readFile_Nonexisting() {
+		BioclipseException exception = Assertions.assertThrows(BioclipseException.class, () -> {
+			ui.readFileIntoArray("DoesNotExist/append2.txt");
+		});
+		assertNotNull(exception);
+		assertTrue(exception.getMessage().contains("does not exit"));
 	}
 }
