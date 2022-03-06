@@ -109,7 +109,7 @@ public class InChIManager implements IBactingManager {
                 bond.setFlag(CDKConstants.ISAROMATIC, false);
             InChIGenerator gen = factory.getInChIGenerator(clone, options);
             InchiStatus status = gen.getStatus();
-            if (status == InchiStatus.SUCCESS) {
+            if (status == InchiStatus.SUCCESS || status == InchiStatus.WARNING) {
             	InChI inchi = new InChI();
             	inchi.setValue(gen.getInchi());
             	inchi.setKey(gen.getInchiKey());
@@ -150,7 +150,7 @@ public class InChIManager implements IBactingManager {
                 bond.setFlag(CDKConstants.ISAROMATIC, false);
             InChIGenerator gen = factory.getInChIGenerator(clone);
             InchiStatus status = gen.getStatus();
-            if (status == InchiStatus.SUCCESS) {
+            if (status == InchiStatus.SUCCESS || status == InchiStatus.WARNING) {
             	InChI inchi = new InChI();
             	inchi.setValue(gen.getInchi());
             	inchi.setKey(gen.getInchiKey());
