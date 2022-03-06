@@ -43,11 +43,12 @@ Before making a release, update the version number in this `README.md` and in `C
 
 Releases are created by the release manager and requires permission to submit the release to Maven Central
 (using an approved Sonatype ([oss.sonatype.org](http://oss.sonatype.org/)) account).
-If these requirements are fulfilled then the following two commands to the job:
+If these requirements are fulfilled then the following commands to the job:
 
 ```shell
 export MAVEN_OPTS="--add-opens=java.base/java.util=ALL-UNNAMED --add-opens=java.base/java.lang.reflect=ALL-UNNAMED --add-opens=java.base/java.text=ALL-UNNAMED --add-opens=java.desktop/java.awt.font=ALL-UNNAMED"
 mvn versions:set -DnewVersion=0.0.31
+git commit -m "New release" -a
 mvn deploy -P release
 ```
 
