@@ -4,7 +4,7 @@
   <parent>
     <artifactId>managers-search</artifactId>
     <groupId>io.github.egonw.bacting</groupId>
-    <version>0.0.33-SNAPSHOT</version>
+    <version>0.0.33</version>
   </parent>
 
   <artifactId>net.bioclipse.managers.duckduckgo</artifactId>
@@ -35,17 +35,17 @@
     <dependency>
       <groupId>io.github.egonw.bacting</groupId>
       <artifactId>bacting-core</artifactId>
-      <version>0.0.33-SNAPSHOT</version>
+      <version>0.0.33</version>
     </dependency>
     <dependency>
       <groupId>io.github.egonw.bacting</groupId>
       <artifactId>managers-ui</artifactId>
-      <version>0.0.33-SNAPSHOT</version>
+      <version>0.0.33</version>
     </dependency>
     <dependency>
       <groupId>io.github.egonw.bacting</groupId>
       <artifactId>net.bioclipse.managers.jsoup</artifactId>
-      <version>0.0.33-SNAPSHOT</version>
+      <version>0.0.33</version>
     </dependency>
     <dependency>
         <groupId>org.junit.jupiter</groupId>
