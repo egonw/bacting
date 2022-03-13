@@ -39,6 +39,7 @@
       <bioclipse.version>2.8.0.12</bioclipse.version>
       <junit5.excludeGroups>pubchem,chemspider</junit5.excludeGroups>
       <junit.version>5.8.2</junit.version>
+      <xom.version>1.3.7</xom.version>
     </properties>
 
     <modules>
