@@ -51,12 +51,12 @@
     <dependency>
       <groupId>org.biojava</groupId>
       <artifactId>core</artifactId>
-      <version>1.9.4</version>
+      <version>${biojava.version}</version>
     </dependency>
     <dependency>
       <groupId>org.biojava</groupId>
       <artifactId>sequencing</artifactId>
-      <version>1.9.4</version>
+      <version>${biojava.version}</version>
     </dependency>
   </dependencies>
 </project>
