@@ -366,6 +366,20 @@ public class CDKManagerTest {
     }
 
     @Test
+    public void testCalculateMass() throws Exception {
+    	ICDKMolecule mol = cdk.fromSMILES("NC(=O)NO");
+        double mass = cdk.calculateMass(mol);
+        assertEquals(76.05474, mass, 0.001, "Unexpected mass");
+    }
+
+    @Test
+    public void testCalculateMajorIsotopeMass() throws Exception {
+    	ICDKMolecule mol = cdk.fromSMILES("NC(=O)NO");
+        double mass = cdk.calculateMajorIsotopeMass(mol);
+        assertEquals(76.02728, mass, 0.0001, "Unexpected mass");
+    }
+
+    @Test
     public void testTotalFormalCharge() throws Exception {
         ICDKMolecule mol = cdk.fromSMILES("O=C(CC)[O-].[Na+]");
         assertEquals(0, cdk.totalFormalCharge(mol));

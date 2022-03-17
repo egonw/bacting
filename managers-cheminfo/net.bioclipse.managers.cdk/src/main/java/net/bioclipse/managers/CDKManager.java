@@ -603,6 +603,39 @@ public class CDKManager implements IBactingManager {
         return totalCharge;
     }
 
+    public double calculateMass(IMolecule molecule) throws BioclipseException {
+        ICDKMolecule cdkmol = null;
+
+        if (molecule instanceof ICDKMolecule) {
+            cdkmol = (ICDKMolecule) molecule;
+        } else {
+            cdkmol = asCDKMolecule(molecule);
+        }
+
+        IMolecularFormula mf = molecularFormulaObject( cdkmol );
+        // use four digits in the precision
+        double mass = MolecularFormulaManipulator.getNaturalExactMass(mf);
+        mass = (Math.round(mass*10000.0))/10000.0;
+
+        return mass;
+    }
+
+    public double calculateMajorIsotopeMass(IMolecule molecule) throws BioclipseException {
+        ICDKMolecule cdkmol = null;
+
+        if (molecule instanceof ICDKMolecule) {
+            cdkmol = (ICDKMolecule) molecule;
+        } else {
+            cdkmol = asCDKMolecule(molecule);
+        }
+
+        IMolecularFormula mf = molecularFormulaObject( cdkmol );
+        // use six digits in the precision
+        double mass = MolecularFormulaManipulator.getMajorIsotopeMass(mf);
+        mass = (Math.round(mass*1000000.0))/1000000.0;
+        return mass;
+    }
+
     @Override
 	public String getManagerName() {
 		return "cdk";
