@@ -497,4 +497,38 @@ public class CDKManagerTest {
         Assert.assertEquals("[CH2]C", cdk.calculateSMILES(mcssCDKMol));
     }
 
+	@Test
+	public void testMCSS_TooFew() {
+		Exception exception = assertThrows(
+			BioclipseException.class, () ->
+			{
+				List<IMolecule> list = new ArrayList<IMolecule>();
+		        list.add(cdk.fromSMILES("CCC"));
+		        cdk.mcss(list);
+			}
+		);
+		assertTrue(exception.getMessage().contains("at least two"));
+	}
+
+	@Test
+	public void testMCSS_Null() {
+		Exception exception = assertThrows(
+			BioclipseException.class, () ->
+			{
+				List<IMolecule> list = new ArrayList<IMolecule>();
+		        list.add(cdk.fromSMILES("CCC"));
+		        list.add(cdk.fromSMILES("N#N"));
+		        list.add(cdk.fromSMILES("C"));
+		        cdk.mcss(list);
+			}
+		);
+		assertTrue(exception.getMessage().contains("because of molecule"));
+	}
+
+	@Test
+    public void testNewMolecule() throws Exception {
+        IMolecule mol = cdk.newMolecule();
+        Assert.assertNotNull(mol);
+    }
+
 }
