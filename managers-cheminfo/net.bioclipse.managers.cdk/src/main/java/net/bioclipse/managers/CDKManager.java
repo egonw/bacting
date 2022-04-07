@@ -60,6 +60,7 @@ import org.openscience.cdk.io.formats.CMLFormat;
 import org.openscience.cdk.io.formats.IChemFormat;
 import org.openscience.cdk.io.formats.IChemFormatMatcher;
 import org.openscience.cdk.io.formats.IResourceFormat;
+import org.openscience.cdk.isomorphism.UniversalIsomorphismTester;
 import org.openscience.cdk.silent.ChemFile;
 import org.openscience.cdk.silent.SilentChemObjectBuilder;
 import org.openscience.cdk.smiles.SmilesGenerator;
@@ -634,6 +635,63 @@ public class CDKManager implements IBactingManager {
         double mass = MolecularFormulaManipulator.getMajorIsotopeMass(mf);
         mass = (Math.round(mass*1000000.0))/1000000.0;
         return mass;
+    }
+
+    public ICDKMolecule mcss(List<IMolecule> molecules) throws BioclipseException {
+        if (molecules.size() < 2)
+            throw new BioclipseException("List must contain at least two " +
+                "molecules.");
+
+        ICDKMolecule firstMolecule = asCDKMolecule(molecules.get(0));
+        IAtomContainer mcss = firstMolecule.getAtomContainer();
+        int counter = 1;
+        for (IMolecule mol : molecules) {
+            ICDKMolecule followupMolecule = asCDKMolecule(mol);
+            counter++;
+            try {
+                mcss = new UniversalIsomorphismTester().getOverlaps(
+                    mcss, followupMolecule.getAtomContainer()
+                ).get(0);
+            } catch (CDKException exception) {
+                throw new BioclipseException("Could not determine MCSS, " +
+                    "because of molecule " + counter + ": " +
+                    exception.getMessage());
+            }
+        }
+        ICDKMolecule newMolecule = newMolecule(mcss.getBuilder());
+        newMolecule.getAtomContainer().add(mcss);
+        return newMolecule;
+    }
+
+    /**
+     * Creates a new {@link CDKMolecule}.
+     *
+     * @return     an {@link ICDKMolecule} created using the CDK {@link SilentChemObjectBuilder}.
+     * @deprecated use {@link #newMolecule(IChemObjectBuilder)} or {@link #newMolecule(IAtomContainer)} instead
+     */
+    public ICDKMolecule newMolecule() {
+        IChemObjectBuilder scob = SilentChemObjectBuilder.getInstance();
+        return newMolecule(scob);
+    }
+
+    /**
+     * Creates a new {@link CDKMolecule}.
+     *
+     * @param  builder the {@link IChemObjectBuilder} to use to create a CDK {@link IAtomContainer}
+     * @return         an {@link ICDKMolecule} created using the given {@link IChemObjectBuilder}
+     */
+    public ICDKMolecule newMolecule(IChemObjectBuilder builder) {
+        return newMolecule( builder.newInstance( IAtomContainer.class ) );
+    }
+
+    /**
+     * Creates a new {@link CDKMolecule} from the given {@link IAtomContainer}.
+     *
+     * @param  atomContainer the {@link IAtomContainer}
+     * @return               an {@link ICDKMolecule} for the given {@link IAtomContainer}
+     */
+    public ICDKMolecule newMolecule(IAtomContainer atomContainer) {
+        return new CDKMolecule(atomContainer);
     }
 
     @Override
