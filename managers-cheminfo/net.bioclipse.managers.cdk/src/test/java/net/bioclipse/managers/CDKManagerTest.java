@@ -22,13 +22,16 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
 import org.eclipse.core.resources.IResource;
+import org.junit.Assert;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.openscience.cdk.interfaces.IAtom;
+import org.openscience.cdk.interfaces.IAtomContainer;
 import org.openscience.cdk.interfaces.IMolecularFormula;
 import org.openscience.cdk.io.formats.CDKSourceCodeFormat;
 import org.openscience.cdk.io.formats.IChemFormat;
@@ -479,5 +482,19 @@ public class CDKManagerTest {
 		}
 
 	}
+
+    @Test
+    public void testMCSS() throws Exception {
+        List<IMolecule> list = new ArrayList<IMolecule>();
+        list.add(cdk.fromSMILES("CCC"));
+        list.add(cdk.fromSMILES("CCO"));
+        list.add(cdk.fromSMILES("NCC"));
+        ICDKMolecule mcssCDKMol = cdk.mcss(list);
+        IAtomContainer mcss = mcssCDKMol.getAtomContainer();
+        Assert.assertNotNull(mcss);
+        Assert.assertEquals(2, mcss.getAtomCount());
+        Assert.assertEquals(1, mcss.getBondCount());
+        Assert.assertEquals("[CH2]C", cdk.calculateSMILES(mcssCDKMol));
+    }
 
 }
