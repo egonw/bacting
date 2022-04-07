@@ -660,7 +660,7 @@ public class CDKManager implements IBactingManager {
                 mcss = new UniversalIsomorphismTester().getOverlaps(
                     mcss, followupMolecule.getAtomContainer()
                 ).get(0);
-            } catch (CDKException exception) {
+            } catch (Exception exception) {
                 throw new BioclipseException("Could not determine MCSS, " +
                     "because of molecule " + counter + ": " +
                     exception.getMessage());
