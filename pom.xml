@@ -36,11 +36,12 @@
 
     <properties>
       <cdk.version>2.7.1</cdk.version>
-      <bioclipse.version>2.8.0.13</bioclipse.version>
+      <bioclipse.version>2.8.0.14-SNAPSHOT</bioclipse.version>
       <junit5.excludeGroups>pubchem,chemspider</junit5.excludeGroups>
       <junit.version>5.8.2</junit.version>
       <xom.version>1.3.7</xom.version>
       <biojava.version>1.9.5</biojava.version>
+      <jena.version>4.5.0</jena.version>
     </properties>
 
     <modules>
