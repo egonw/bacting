@@ -4,7 +4,7 @@
   <parent>
     <artifactId>managers-cheminfo</artifactId>
     <groupId>io.github.egonw.bacting</groupId>
-    <version>0.0.36</version>
+    <version>0.0.37</version>
   </parent>
 
   <artifactId>managers-cdk</artifactId>
@@ -34,13 +34,13 @@
     <dependency>
       <groupId>io.github.egonw.bacting</groupId>
       <artifactId>bacting-core</artifactId>
-      <version>0.0.36</version>
+      <version>0.0.37</version>
     </dependency>
     <dependency>
       <groupId>io.github.egonw.bacting</groupId>
       <artifactId>managers-ui</artifactId>
         <scope>test</scope>
-      <version>0.0.36</version>
+      <version>0.0.37</version>
     </dependency>
     <dependency>
       <groupId>xom</groupId>
