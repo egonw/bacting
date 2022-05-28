@@ -408,7 +408,7 @@ public class BridgedbManager implements IBactingManager {
 		try {
 			return BridgeDb.connect("idmapper-pgdb:" + location);
 		} catch (IDMapperException exception) {
-			throw new BioclipseException("Could not the database at this location: " + location, exception);
+			throw new BioclipseException("Could not find the database at this location: " + location, exception);
 		}
 	}
 
