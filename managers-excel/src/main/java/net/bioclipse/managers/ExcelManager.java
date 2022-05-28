@@ -62,9 +62,9 @@ public class ExcelManager implements IBactingManager {
 					if (hasHeader && row == 1) {
 						results.setColumnName(col, currentCell.getStringCellValue());
 					} else {
-						if (currentCell.getCellTypeEnum() == CellType.STRING) {
+						if (currentCell.getCellType() == CellType.STRING) {
 							results.set(row, col, currentCell.getStringCellValue());
-						} else if (currentCell.getCellTypeEnum() == CellType.NUMERIC) {
+						} else if (currentCell.getCellType() == CellType.NUMERIC) {
 							results.set(row, col, "" + currentCell.getNumericCellValue());
 						}
 					}
