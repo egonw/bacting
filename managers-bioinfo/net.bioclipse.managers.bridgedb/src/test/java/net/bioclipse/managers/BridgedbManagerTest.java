@@ -67,6 +67,12 @@ public class BridgedbManagerTest {
 	}
 
 	@Test
+	public void testGetSourceByPrefix() throws BioclipseException {
+		DataSource source = bridgedb.getSourceByPrefix("wikidata");
+		assertNotNull(source);
+	}
+
+	@Test
 	public void testListAllSources() throws BioclipseException {
 		List<String> sourceCodes = bridgedb.listAllSources();
 		assertNotNull(sourceCodes);
@@ -87,6 +93,12 @@ public class BridgedbManagerTest {
 	@Test
 	public void testXref() throws BioclipseException {
 		Xref xref = bridgedb.xref("L:1234");
+		assertTrue("L:1234:T".equals(xref.toString()));
+	}
+
+	@Test
+	public void testCompactIdentifier() throws BioclipseException {
+		Xref xref = bridgedb.compactIdentifier("ncbigene:1234");
 		assertTrue("L:1234:T".equals(xref.toString()));
 	}
 

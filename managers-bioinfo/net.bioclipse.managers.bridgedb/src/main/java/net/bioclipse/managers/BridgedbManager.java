@@ -48,6 +48,17 @@ public class BridgedbManager implements IBactingManager {
 	}
 
 	/**
+	 * Looks up the {@link DataSource} for the given Bioregistry.io prefix.
+	 *
+	 * @param source  the system code
+	 * @return        the matching {@link DataSource}
+	 * @throws BioclipseException
+	 */
+    public DataSource getSourceByPrefix(String source) throws BioclipseException {
+        return DataSource.getExistingByBioregistryPrefix(source);
+    }
+
+	/**
 	 * Looks up the {@link DataSource} for the given system code.
 	 *
 	 * @param source  the system code
@@ -57,7 +68,7 @@ public class BridgedbManager implements IBactingManager {
     public DataSource getSource(String source) throws BioclipseException {
         return DataSource.getExistingBySystemCode(source);
     }
-    
+
 	/**
 	 * Looks up the {@link DataSource} for the given full name.
 	 *
@@ -292,6 +303,22 @@ public class BridgedbManager implements IBactingManager {
     	for (Xref dest : dests)
     	    results.add(dest.getMiriamURN());
 		return results;
+	}
+
+    /**
+     * Creates a {@link Xref} object for the given Bioregistry.io compact identifier.
+     *
+     * @param sourcedIdentifier  the identifier
+     * @return                   an {@link Xref} object
+     * @throws BioclipseException
+     */
+	public Xref compactIdentifier(String compactIdentifier) throws BioclipseException {
+		int index = compactIdentifier.indexOf(':');
+		if (index < 0) throw new BioclipseException("Unexpected format. Use something like \"ncbigene:12345\".");
+
+		String identifier = compactIdentifier.substring(index + 1);
+		String source = compactIdentifier.substring(0, index);
+		return new Xref(identifier, getSourceByPrefix(source));
 	}
 
     /**
