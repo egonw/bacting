@@ -115,6 +115,18 @@ public class BridgedbManagerTest {
 	}
 
 	@Test
+	public void testCompactIdentifier_bad() throws BioclipseException {
+		Exception exception = assertThrows(
+			BioclipseException.class, () ->
+			{
+				bridgedb.compactIdentifier("ncbigene1234");
+			}
+		);
+		assertNotNull(exception);
+		assertTrue(exception.getMessage().contains("Unexpected format"));
+	}
+
+	@Test
 	public void testXref_bad() throws BioclipseException {
 		Exception exception = assertThrows(
 			BioclipseException.class, () ->
@@ -124,6 +136,34 @@ public class BridgedbManagerTest {
 		);
 		assertNotNull(exception);
 		assertTrue(exception.getMessage().contains("Unexpected format"));
+	}
+
+	@Test
+	public void testMap() throws BioclipseException {
+		List<String> map = bridgedb.map(mapper, "P0DTF1", "S");
+		assertNotNull(map);
+		assertNotEquals(0, map.size());
+	}
+
+	@Test
+	public void testMap_Target() throws BioclipseException {
+		List<String> map = bridgedb.map(mapper, "P0DTF1", "S", "Wd");
+		assertNotNull(map);
+		assertNotEquals(0, map.size());
+	}
+
+	@Test
+	public void testMap_CompactIdentifier() throws BioclipseException {
+		Set<Xref> map = bridgedb.map(mapper, bridgedb.compactIdentifier("uniprot:P0DTF1"));
+		assertNotNull(map);
+		assertNotEquals(0, map.size());
+	}
+
+	@Test
+	public void testMap_CompactIdentifier_Target() throws BioclipseException {
+		Set<Xref> map = bridgedb.map(mapper, bridgedb.compactIdentifier("uniprot:P0DTF1"), "Wd");
+		assertNotNull(map);
+		assertNotEquals(0, map.size());
 	}
 
 	@Test
