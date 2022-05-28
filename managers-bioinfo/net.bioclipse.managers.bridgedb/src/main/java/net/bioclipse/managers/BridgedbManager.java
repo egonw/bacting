@@ -159,6 +159,23 @@ public class BridgedbManager implements IBactingManager {
     }
 
     /**
+     * Using the given connection string, it returns mappings for the given identifier.
+     *
+     * @param restService the connection string
+     * @param identifier  the identifier to return mappings for
+     * @return            a Java {@link List} of mapped identifiers
+     * @throws BioclipseException
+     */
+    public Set<Xref> map(String restService, Xref identifier) throws BioclipseException {
+        try {
+			Class.forName ("org.bridgedb.webservice.bridgerest.BridgeRest");
+		} catch (ClassNotFoundException e) {
+			throw new BioclipseException("Could not load the BridgeDb REST client: " + e.getMessage(), e);
+		}
+        return map(restService, identifier, null);
+    }
+
+    /**
      * Using the given {@link IDMapper} string, it returns mappings for the given identifier.
      *
      * @param database    the {@link IDMapper} to get the mappings from
@@ -195,6 +212,32 @@ public class BridgedbManager implements IBactingManager {
 		} catch (IDMapperException exception) {
 			throw new BioclipseException("Could not connect to the REST service at: " + restService, exception);
 		}		
+    }
+
+    /**
+     * Using the given connection string, it returns mappings for the given identifier, but only for the
+     * given target data source.
+     *
+     * @param restService the connection string
+     * @param identifier  the identifier to return mappings for
+     * @param source      the data source of the identifier to return mappings for
+     * @param target      the data source for which to return mappings
+     * @return            a Java {@link List} of mapped identifiers
+     * @throws BioclipseException
+     */
+    public Set<Xref> map(String restService, Xref identifier, String target) throws BioclipseException {
+        // now we connect to the driver and create a IDMapper instance.
+		try {
+			IDMapper mapper;
+			if (restService.startsWith("idmapper-bridgerest:")) {
+				mapper = BridgeDb.connect(restService);
+			} else {
+				mapper = BridgeDb.connect("idmapper-bridgerest:" + restService);
+			}
+			return map(mapper, identifier, target);
+		} catch (IDMapperException exception) {
+			throw new BioclipseException("Could not connect to the REST service at: " + restService, exception);
+		}
     }
 
     /**

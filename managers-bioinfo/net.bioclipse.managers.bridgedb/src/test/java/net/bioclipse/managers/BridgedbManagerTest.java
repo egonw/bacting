@@ -19,6 +19,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.List;
+import java.util.Set;
 
 import org.bridgedb.DataSource;
 import org.bridgedb.IDMapper;
@@ -128,6 +129,45 @@ public class BridgedbManagerTest {
         );
         assertNotNull(map);
         assertNotEquals(0, map.size());
+	}
+
+	@Test
+	public void testMapREST_Target() throws BioclipseException {
+		List<String> map = bridgedb.map(
+			"https://webservice.bridgedb.org/Human",
+			"1234", "L", "En"
+		);
+		assertNotNull(map);
+		assertNotEquals(0, map.size());
+		// and check full provider style link
+        map = bridgedb.map(
+            "idmapper-bridgerest:https://webservice.bridgedb.org/Human",
+            "1234", "L", "En"
+        );
+        assertNotNull(map);
+        assertNotEquals(0, map.size());
+	}
+
+	@Test
+	public void testMapREST_CompactIdentifier() throws BioclipseException {
+		Set<Xref> map = bridgedb.map(
+			"https://webservice.bridgedb.org/Human",
+			bridgedb.compactIdentifier("ncbigene:1234")
+		);
+		assertNotNull(map);
+		assertNotEquals(0, map.size());
+	}
+
+	@Test
+	public void testMapREST_CompactIdentifierTarget() throws BioclipseException {
+		Set<Xref> map = bridgedb.map(
+			"https://webservice.bridgedb.org/Human",
+			bridgedb.compactIdentifier("ncbigene:1234"),
+			"En"
+		);
+		System.out.println(map);
+		assertNotNull(map);
+		assertNotEquals(0, map.size());
 	}
 
 	@Test
