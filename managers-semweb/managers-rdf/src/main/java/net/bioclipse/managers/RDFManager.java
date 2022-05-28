@@ -47,7 +47,6 @@ import org.apache.jena.shex.ShexReport;
 import org.apache.jena.shex.ShexSchema;
 import org.apache.jena.shex.ShexValidator;
 import org.apache.jena.shex.sys.ShexLib;
-import org.apache.jena.sparql.exec.http.QueryExecutionHTTP;
 import org.apache.jena.sparql.exec.http.QueryExecutionHTTPBuilder;
 import org.apache.jena.ttl.turtle.TurtleParseException;
 import org.apache.jena.vocabulary.RDF;
