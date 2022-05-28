@@ -207,6 +207,13 @@ public class BridgedbManagerTest {
 		);
 		assertNotNull(map);
 		assertNotEquals(0, map.size());
+		// and check full provider style link
+        map = bridgedb.map(
+            "idmapper-bridgerest:https://webservice.bridgedb.org/Human",
+            bridgedb.compactIdentifier("ncbigene:1234")
+        );
+        assertNotNull(map);
+        assertNotEquals(0, map.size());
 	}
 
 	@Test
@@ -218,6 +225,14 @@ public class BridgedbManagerTest {
 		);
 		assertNotNull(map);
 		assertNotEquals(0, map.size());
+		// and check full provider style link
+        map = bridgedb.map(
+            "idmapper-bridgerest:https://webservice.bridgedb.org/Human",
+            bridgedb.compactIdentifier("ncbigene:1234"),
+			"En"
+        );
+        assertNotNull(map);
+        assertNotEquals(0, map.size());
 	}
 
 	@Test
