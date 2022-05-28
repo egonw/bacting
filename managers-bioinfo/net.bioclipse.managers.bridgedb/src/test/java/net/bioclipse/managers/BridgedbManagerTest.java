@@ -81,13 +81,13 @@ public class BridgedbManagerTest {
 	@Test
 	public void testXref2() throws BioclipseException {
 		Xref xref = bridgedb.xref("1234", "L");
-		assertTrue("L:1234".equals(xref.toString()));
+		assertTrue("L:1234:T".equals(xref.toString()));
 	}
 
 	@Test
 	public void testXref() throws BioclipseException {
 		Xref xref = bridgedb.xref("L:1234");
-		assertTrue("L:1234".equals(xref.toString()));
+		assertTrue("L:1234:T".equals(xref.toString()));
 	}
 
 	@Test
