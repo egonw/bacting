@@ -216,7 +216,6 @@ public class BridgedbManagerTest {
 			bridgedb.compactIdentifier("ncbigene:1234"),
 			"En"
 		);
-		System.out.println(map);
 		assertNotNull(map);
 		assertNotEquals(0, map.size());
 	}
