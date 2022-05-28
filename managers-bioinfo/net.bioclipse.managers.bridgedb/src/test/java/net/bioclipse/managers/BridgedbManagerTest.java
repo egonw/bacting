@@ -16,8 +16,9 @@ import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.Set;
 
@@ -32,15 +33,25 @@ import net.bioclipse.core.business.BioclipseException;
 
 public class BridgedbManagerTest {
 
+	static UIManager ui;
+	static IDMapper mapper;
 	static BridgedbManager bridgedb;
 
 	@BeforeAll
-	static void setupManager() throws IOException {
+	static void setupManager() throws Exception {
 		String tmpPath = Files.createTempDirectory("bridgedbtestws").toString();
 		System.out.println("tmpPath: " + tmpPath);
 		bridgedb = new BridgedbManager(tmpPath);
+		ui = new UIManager(tmpPath);
 		bridgedb.registerDataSource("U", "UniGene");
 		bridgedb.registerDataSource("UUU", "Unknown data source"); // something in the old Ensembl ID mapping database that BridgeDb 3.0.10 doesn't like
+
+		InputStream stream = BridgedbManagerTest.class.getClassLoader().getResourceAsStream("humancorona-2021-11-27.bridge");
+		ui.newProject("/DerbyFiles/");
+		String newFile = ui.newFile("/DerbyFiles/humancorona-2021-11-27.bridge");
+		ui.append(newFile, stream);
+		String fullPath = Paths.get(tmpPath + "/" + newFile).toFile().getAbsolutePath();
+		mapper = bridgedb.loadRelationalDatabase(fullPath);
 	}
 
 	@Test
