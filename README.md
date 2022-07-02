@@ -31,7 +31,7 @@ the source code.
 ## From the source code
 
 First, you need a working [Maven installation](https://www.google.nl/search?q=install+maven) and the code is tested with
-Java 11, and 14, and can be installed with:
+Java 11, 14, and 17, and can be installed with:
 
 ```shell
 mvn clean install -Dgpg.skip -Dmaven.javadoc.skip=true
@@ -47,7 +47,7 @@ If these requirements are fulfilled then the following commands to the job:
 
 ```shell
 export MAVEN_OPTS="--add-opens=java.base/java.util=ALL-UNNAMED --add-opens=java.base/java.lang.reflect=ALL-UNNAMED --add-opens=java.base/java.text=ALL-UNNAMED --add-opens=java.desktop/java.awt.font=ALL-UNNAMED"
-mvn versions:set -DnewVersion=0.0.37
+mvn versions:set -DnewVersion=0.0.38
 git commit -m "New release" -a
 mvn deploy -P release
 ```
@@ -83,7 +83,7 @@ itself), and then converts a [SMILES](https://en.wikipedia.org/wiki/Simplified_m
 string to a Bioclipse `IMolecule` data object:
 
 ```groovy
-@Grab(group='io.github.egonw.bacting', module='managers-cdk', version='0.0.37')
+@Grab(group='io.github.egonw.bacting', module='managers-cdk', version='0.0.38')
 
 workspaceRoot = "."
 def cdk = new net.bioclipse.managers.CDKManager(workspaceRoot);
@@ -117,7 +117,7 @@ The code example looks like:
 
 ```python
 from scyjava import config, jimport
-config.add_endpoints('io.github.egonw.bacting:managers-cdk:0.0.37')
+config.add_endpoints('io.github.egonw.bacting:managers-cdk:0.0.38')
 
 workspaceRoot = "."
 cdkClass = jimport("net.bioclipse.managers.CDKManager")
