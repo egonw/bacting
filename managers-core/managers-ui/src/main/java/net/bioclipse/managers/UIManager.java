@@ -62,7 +62,7 @@ public class UIManager implements IBactingManager {
 	 *
 	 * @param path the location of the file in the Bioclipse workspace
 	 * @return     the location of the file in the Bioclipse workspace
-	 * @throws IOException
+	 * @throws IOException when the file could not be created
 	 */
 	public String newFile(String path) throws IOException {
     	return newFile(path, "");
@@ -74,7 +74,7 @@ public class UIManager implements IBactingManager {
 	 *
 	 * @param file the location of the file in the Bioclipse workspace
 	 * @return     the location of the file in the Bioclipse workspace
-	 * @throws IOException
+	 * @throws IOException when the file could not be created
 	 */
 	public String renewFile(String file) throws IOException {
 		if (fileExists(file)) remove(file);
@@ -88,7 +88,7 @@ public class UIManager implements IBactingManager {
 	 * @param path    the location of the file in the Bioclipse workspace
 	 * @param content the content of the new file
 	 * @return        the location of the file in the Bioclipse workspace
-	 * @throws IOException
+	 * @throws IOException when the file could not be created
 	 */
     public String newFile(String path, String content) throws IOException {
     	File file = new File(workspaceRoot + path);
@@ -165,7 +165,7 @@ public class UIManager implements IBactingManager {
     /**
      * Not currently implemented.
      *
-     * @param object
+     * @param object the object to be opened in Bioclipse
      */
     public void open(final Object object) {
     	System.out.println("Cannot open file on the command line");
@@ -176,7 +176,7 @@ public class UIManager implements IBactingManager {
 	 *
 	 * @param name the location of the project in the Bioclipse workspace
 	 * @return     the location of the project in the Bioclipse workspace
-	 * @throws IOException
+	 * @throws IOException when the project could not be created
 	 */
     public String newProject(String name) throws IOException {
         if (fileExists(name)) return name;
@@ -185,11 +185,11 @@ public class UIManager implements IBactingManager {
     }
 
     /**
-     * Read a file line by line into memory.
+     * Read a file content line by line into memory.
      *
-     * @param file IFile to read from
-     * @return String with contents
-     * @throws BioclipseException
+     * @param path IFile to read from
+     * @return     String with contents
+     * @throws BioclipseException when the file does not exist or could not be opened or read
      */
     public String readFile(String path) throws BioclipseException {
         if (!fileExists(path)) throw new BioclipseException("File '"
@@ -215,9 +215,9 @@ public class UIManager implements IBactingManager {
     /**
      * Read a file line by line into memory.
      *
-     * @param file IFile to read from
-     * @return String[] with one entry per line
-     * @throws BioclipseException
+     * @param path IFile to read from
+     * @return     String[] with one entry per line
+     * @throws BioclipseException when the file does not exist or could not be opened or read
      */
     public String[] readFileIntoArray(String path) throws BioclipseException{
         if (!fileExists(path)) throw new BioclipseException("File '"

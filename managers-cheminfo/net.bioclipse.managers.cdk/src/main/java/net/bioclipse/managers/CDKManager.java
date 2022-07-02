@@ -641,7 +641,7 @@ public class CDKManager implements IBactingManager {
      * Calculates the maximum common substructure (mcss) starting of two or more molecules
      * starting with the mcss of the first two molecules.
      *
-     * @param molecules  an {@link List} of <IMolecule>
+     * @param molecules  an {@link List} of {@link IMolecule}
      * @return           the mcss as an {@link ICDKMolecule}
      * @throws BioclipseException when the mcss cannot be computed from the input
      */

@@ -219,11 +219,10 @@ public class BridgedbManager implements IBactingManager {
      * given target data source.
      *
      * @param restService the connection string
-     * @param identifier  the identifier to return mappings for
-     * @param source      the data source of the identifier to return mappings for
+     * @param identifier  the {@link Xref} identifier to return mappings for
      * @param target      the data source for which to return mappings
      * @return            a Java {@link List} of mapped identifiers
-     * @throws BioclipseException
+     * @throws BioclipseException when the connection to the REST service failed
      */
     public Set<Xref> map(String restService, Xref identifier, String target) throws BioclipseException {
         // now we connect to the driver and create a IDMapper instance.
@@ -351,9 +350,9 @@ public class BridgedbManager implements IBactingManager {
     /**
      * Creates a {@link Xref} object for the given Bioregistry.io compact identifier.
      *
-     * @param sourcedIdentifier  the identifier
+     * @param compactIdentifier  the identifier
      * @return                   an {@link Xref} object
-     * @throws BioclipseException
+     * @throws BioclipseException when the compact identifier format is not recognized
      */
 	public Xref compactIdentifier(String compactIdentifier) throws BioclipseException {
 		int index = compactIdentifier.indexOf(':');
