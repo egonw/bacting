@@ -350,16 +350,16 @@ public class BridgedbManager implements IBactingManager {
     /**
      * Creates a {@link Xref} object for the given Bioregistry.io compact identifier.
      *
-     * @param compactIdentifier  the identifier
-     * @return                   an {@link Xref} object
+     * @param curie  the identifier
+     * @return       an {@link Xref} object
      * @throws BioclipseException when the compact identifier format is not recognized
      */
-	public Xref compactIdentifier(String compactIdentifier) throws BioclipseException {
-		int index = compactIdentifier.indexOf(':');
+	public Xref curie(String curie) throws BioclipseException {
+		int index = curie.indexOf(':');
 		if (index < 0) throw new BioclipseException("Unexpected format. Use something like \"ncbigene:12345\".");
 
-		String identifier = compactIdentifier.substring(index + 1);
-		String source = compactIdentifier.substring(0, index);
+		String identifier = curie.substring(index + 1);
+		String source = curie.substring(0, index);
 		return new Xref(identifier, getSourceByPrefix(source));
 	}
 

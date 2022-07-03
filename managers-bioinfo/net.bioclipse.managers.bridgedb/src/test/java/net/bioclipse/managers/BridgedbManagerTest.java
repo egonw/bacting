@@ -110,7 +110,7 @@ public class BridgedbManagerTest {
 
 	@Test
 	public void testCompactIdentifier() throws BioclipseException {
-		Xref xref = bridgedb.compactIdentifier("ncbigene:1234");
+		Xref xref = bridgedb.curie("ncbigene:1234");
 		assertTrue("L:1234:T".equals(xref.toString()));
 	}
 
@@ -119,7 +119,7 @@ public class BridgedbManagerTest {
 		Exception exception = assertThrows(
 			BioclipseException.class, () ->
 			{
-				bridgedb.compactIdentifier("ncbigene1234");
+				bridgedb.curie("ncbigene1234");
 			}
 		);
 		assertNotNull(exception);
@@ -154,14 +154,14 @@ public class BridgedbManagerTest {
 
 	@Test
 	public void testMap_CompactIdentifier() throws BioclipseException {
-		Set<Xref> map = bridgedb.map(mapper, bridgedb.compactIdentifier("uniprot:P0DTF1"));
+		Set<Xref> map = bridgedb.map(mapper, bridgedb.curie("uniprot:P0DTF1"));
 		assertNotNull(map);
 		assertNotEquals(0, map.size());
 	}
 
 	@Test
 	public void testMap_CompactIdentifier_Target() throws BioclipseException {
-		Set<Xref> map = bridgedb.map(mapper, bridgedb.compactIdentifier("uniprot:P0DTF1"), "Wd");
+		Set<Xref> map = bridgedb.map(mapper, bridgedb.curie("uniprot:P0DTF1"), "Wd");
 		assertNotNull(map);
 		assertNotEquals(0, map.size());
 	}
@@ -203,14 +203,14 @@ public class BridgedbManagerTest {
 	public void testMapREST_CompactIdentifier() throws BioclipseException {
 		Set<Xref> map = bridgedb.map(
 			"https://webservice.bridgedb.org/Human",
-			bridgedb.compactIdentifier("ncbigene:1234")
+			bridgedb.curie("ncbigene:1234")
 		);
 		assertNotNull(map);
 		assertNotEquals(0, map.size());
 		// and check full provider style link
         map = bridgedb.map(
             "idmapper-bridgerest:https://webservice.bridgedb.org/Human",
-            bridgedb.compactIdentifier("ncbigene:1234")
+            bridgedb.curie("ncbigene:1234")
         );
         assertNotNull(map);
         assertNotEquals(0, map.size());
@@ -220,7 +220,7 @@ public class BridgedbManagerTest {
 	public void testMapREST_CompactIdentifierTarget() throws BioclipseException {
 		Set<Xref> map = bridgedb.map(
 			"https://webservice.bridgedb.org/Human",
-			bridgedb.compactIdentifier("ncbigene:1234"),
+			bridgedb.curie("ncbigene:1234"),
 			"En"
 		);
 		assertNotNull(map);
@@ -228,7 +228,7 @@ public class BridgedbManagerTest {
 		// and check full provider style link
         map = bridgedb.map(
             "idmapper-bridgerest:https://webservice.bridgedb.org/Human",
-            bridgedb.compactIdentifier("ncbigene:1234"),
+            bridgedb.curie("ncbigene:1234"),
 			"En"
         );
         assertNotNull(map);
