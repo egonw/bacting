@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <artifactId>bacting</artifactId>
+        <groupId>io.github.egonw.bacting</groupId>
+        <version>0.0.39-SNAPSHOT</version>
+    </parent>
+
+    <artifactId>managers-literature</artifactId>
+    <name>Bacting Literature</name>
+    <packaging>pom</packaging>
+
+    <modules>
+        <module>net.bioclipse.managers.pubchem</module>
+        <module>net.bioclipse.managers.doi</module>
+    </modules>
+
+</project>
