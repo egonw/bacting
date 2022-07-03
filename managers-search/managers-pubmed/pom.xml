@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
-    <artifactId>managers-core</artifactId>
+    <artifactId>managers-search</artifactId>
     <groupId>io.github.egonw.bacting</groupId>
     <version>0.0.39-SNAPSHOT</version>
   </parent>
