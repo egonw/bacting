@@ -4,7 +4,7 @@
   <parent>
     <artifactId>managers-semweb</artifactId>
     <groupId>io.github.egonw.bacting</groupId>
-    <version>0.0.40</version>
+    <version>0.0.41</version>
   </parent>
 
   <artifactId>net.bioclipse.managers.wikidata</artifactId>
@@ -40,22 +40,22 @@
     <dependency>
       <groupId>io.github.egonw.bacting</groupId>
       <artifactId>managers-ui</artifactId>
-      <version>0.0.40</version>
+      <version>0.0.41</version>
     </dependency>
     <dependency>
       <groupId>io.github.egonw.bacting</groupId>
       <artifactId>managers-rdf</artifactId>
-      <version>0.0.40</version>
+      <version>0.0.41</version>
     </dependency>
     <dependency>
       <groupId>io.github.egonw.bacting</groupId>
       <artifactId>managers-inchi</artifactId>
-      <version>0.0.40</version>
+      <version>0.0.41</version>
     </dependency>
     <dependency>
       <groupId>io.github.egonw.bacting</groupId>
       <artifactId>managers-cdk</artifactId>
-      <version>0.0.40</version>
+      <version>0.0.41</version>
     </dependency>
     <dependency>
         <groupId>org.junit.jupiter</groupId>
