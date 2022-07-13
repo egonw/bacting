@@ -45,12 +45,12 @@
     <dependency>
       <groupId>org.apache.httpcomponents</groupId>
       <artifactId>httpclient</artifactId>
-      <version>4.5.13</version>
+      <version>${httpclient.version}</version>
     </dependency>
     <dependency>
       <groupId>com.github.egonw</groupId>
       <artifactId>jqudt</artifactId>
-      <version>1.4.0</version>
+      <version>${jqudt.version}</version>
     </dependency>
     <dependency>
         <groupId>org.junit.jupiter</groupId>

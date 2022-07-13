@@ -43,6 +43,8 @@
       <biojava.version>1.9.5</biojava.version>
       <jena.version>4.5.0</jena.version>
       <bridgedb.version>3.0.15</bridgedb.version>
+      <httpclient.version>4.5.13</httpclient.version>
+      <jqudt.version>1.4.0</jqudt.version>
     </properties>
 
     <modules>
