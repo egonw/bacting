@@ -55,6 +55,32 @@
         <groupId>org.bridgedb</groupId>
         <artifactId>org.bridgedb.rdb</artifactId>
         <version>${bridgedb.version}</version>
+        <exclusions>
+            <exclusion>
+                <groupId>mysql</groupId>
+                <artifactId>mysql-connector-java</artifactId>
+            </exclusion>
+        </exclusions>
+    </dependency>
+    <dependency>
+        <groupId>org.apache.derby</groupId>
+        <artifactId>derby</artifactId>
+        <version>${derby.version}</version>
+    </dependency>
+    <dependency>
+        <groupId>org.apache.derby</groupId>
+        <artifactId>derbytools</artifactId>
+        <version>${derby.version}</version>
+    </dependency>
+    <dependency>
+        <groupId>org.apache.derby</groupId>
+        <artifactId>derbyshared</artifactId>
+        <version>${derby.version}</version>
+    </dependency>
+    <dependency>
+        <groupId>org.apache.derby</groupId>
+        <artifactId>derbyclient</artifactId>
+        <version>${derby.version}</version>
     </dependency>
     <dependency>
         <groupId>org.junit.jupiter</groupId>
