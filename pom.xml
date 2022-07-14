@@ -44,7 +44,8 @@
       <jena.version>4.5.0</jena.version>
       <bridgedb.version>3.0.15</bridgedb.version>
       <httpclient.version>4.5.13</httpclient.version>
-      <jqudt.version>1.4.0</jqudt.version>
+      <jqudt.version>1.5.0</jqudt.version>
+      <commonsio.version>2.11.0</commonsio.version>
     </properties>
 
     <modules>

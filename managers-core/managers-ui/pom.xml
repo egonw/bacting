@@ -51,6 +51,17 @@
       <groupId>com.github.egonw</groupId>
       <artifactId>jqudt</artifactId>
       <version>${jqudt.version}</version>
+      <exclusions>
+        <exclusion>
+          <groupId>commons-io</groupId>
+          <artifactId>commons-io</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>commons-io</groupId>
+      <artifactId>commons-io</artifactId>
+      <version>${commonsio.version}</version>
     </dependency>
     <dependency>
         <groupId>org.junit.jupiter</groupId>
