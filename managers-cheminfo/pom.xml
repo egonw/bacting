@@ -20,6 +20,7 @@
         <module>net.bioclipse.managers.opsin</module>
         <module>net.bioclipse.managers.oscar</module>
         <module>net.bioclipse.managers.pubchem</module>
+        <module>net.bioclipse.managers.nm</module>
     </modules>
 
 </project>
