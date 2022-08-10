@@ -47,7 +47,7 @@ If these requirements are fulfilled then the following commands to the job:
 
 ```shell
 export MAVEN_OPTS="--add-opens=java.base/java.util=ALL-UNNAMED --add-opens=java.base/java.lang.reflect=ALL-UNNAMED --add-opens=java.base/java.text=ALL-UNNAMED --add-opens=java.desktop/java.awt.font=ALL-UNNAMED"
-mvn versions:set -DnewVersion=0.0.42
+mvn versions:set -DnewVersion=0.0.43
 git commit -m "New release" -a
 mvn deploy -P release
 ```
@@ -55,7 +55,7 @@ mvn deploy -P release
 ### Making snapshots
 
 ```shell
-mvn versions:set -DnewVersion=0.0.43-SNAPSHOT
+mvn versions:set -DnewVersion=0.0.44-SNAPSHOT
 mvn deploy
 ```
 

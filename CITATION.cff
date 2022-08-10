@@ -5,8 +5,8 @@ authors:
     given-names: Egon
     orcid: https://orcid.org/0000-0001-7542-0286
 title: Bacting
-version: 0.0.42
-date-released: 2022-07-10
+version: 0.0.43
+date-released: 2022-08-10
 doi: 10.5281/zenodo.2638709
 url: "https://github.com/egonw/bacting"
 preferred-citation:
