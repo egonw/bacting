@@ -13,7 +13,10 @@ import static org.junit.Assert.assertNotSame;
 import static org.junit.Assert.assertNull;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.io.ByteArrayInputStream;
 import java.nio.file.Files;
 import java.util.List;
 import java.util.Set;
@@ -50,7 +53,25 @@ public class NanoManagerTest {
 		Assert.assertNotNull(material);
 		assertSame(MaterialType.METALOXIDE, material.getType());
 	}
-	
+
+	@Test
+	public void testNewMaterialWithNullType() throws BioclipseException {
+		Exception exception = assertThrows(BioclipseException.class, () ->
+		{
+			nm.newMaterial(null);
+		});
+		assertTrue(exception.getMessage().contains("Unknown material type"));
+	}
+
+	@Test
+	public void testNewMaterialWithUnknownType() throws BioclipseException {
+		Exception exception = assertThrows(BioclipseException.class, () ->
+		{
+			nm.newMaterial("metal sulfide");
+		});
+		assertTrue(exception.getMessage().contains("Unknown material type"));
+	}
+
 	@Test
 	public void testNewMaterialWithComposition() throws BioclipseException {
 		IMaterial material = nm.newMaterial("metal oxide", "TiO2");
