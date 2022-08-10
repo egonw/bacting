@@ -1,4 +1,4 @@
-/* Copyright (c) 2020  Egon Willighagen <egon.willighagen@gmail.com>
+/* Copyright (c) 2020-2022  Egon Willighagen <egon.willighagen@gmail.com>
  *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
@@ -10,6 +10,7 @@
 package net.bioclipse.managers;
 
 import static org.junit.Assert.assertNotSame;
+import static org.junit.Assert.assertNull;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertSame;
 
@@ -38,6 +39,13 @@ public class NanoManagerTest {
 
 	@Test
 	public void testNewMaterial() throws BioclipseException {
+		IMaterial material = nm.newMaterial();
+		Assert.assertNotNull(material);
+		assertNull(material.getType());
+	}
+
+	@Test
+	public void testNewMaterialWithType() throws BioclipseException {
 		IMaterial material = nm.newMaterial("metal oxide");
 		Assert.assertNotNull(material);
 		assertSame(MaterialType.METALOXIDE, material.getType());

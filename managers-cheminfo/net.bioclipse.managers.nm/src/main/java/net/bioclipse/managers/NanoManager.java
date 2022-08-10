@@ -47,7 +47,11 @@ public class NanoManager implements IBactingManager {
     	put(MaterialType.METAL.getLabel(), MaterialType.METAL);
     	put(MaterialType.METALOXIDE.getLabel(), MaterialType.METALOXIDE);
     }};
-    
+
+    public IMaterial newMaterial() throws BioclipseException {
+        return new Material();
+    }
+
     public IMaterial newMaterial(String type) throws BioclipseException {
     	MaterialType material = materialTypes.get(type);
     	if (material == null)
