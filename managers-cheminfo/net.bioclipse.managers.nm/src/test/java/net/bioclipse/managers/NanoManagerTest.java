@@ -21,10 +21,12 @@ import java.nio.file.Files;
 import java.util.List;
 import java.util.Set;
 
+import org.eclipse.core.resources.IResource;
 import org.junit.Assert;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
+import com.github.jqudt.onto.UnitFactory;
 import com.github.jqudt.onto.units.LengthUnit;
 
 import io.github.egonw.nanojava.data.Material;
@@ -100,6 +102,48 @@ public class NanoManagerTest {
 			nm.generateInChI(material);
 		});
 		assertTrue(exception.getMessage().contains("without at least one chemical composition"));
+	}
+
+	@Test
+	public void testGenerateInChI_WrongImplementation() throws Exception {
+		Exception exception = assertThrows(BioclipseException.class, () ->
+		{
+			nm.generateInChI(new IMaterial() {
+				public <T> T getAdapter(Class<T> adapter) { return null; }
+				public void setResource(IResource resource) {}
+				public String getUID() { return null; }
+				public IResource getResource() { return null; }
+				public MaterialType getType() { return null; }
+			});
+		});
+		assertTrue(exception.getMessage().contains("Unsupported IMaterial implementation"));
+	}
+
+	@Test
+	public void testGenerateInChI_UnsupportedMaterialType() throws Exception {
+		Exception exception = assertThrows(IllegalArgumentException.class, () ->
+		{
+			Material material = MaterialBuilder.type("METALZ")
+				.componentFromSMILES(2, "[Au]", "SHELL", new ErrorlessMeasurementValue(EndPoints.THICKNESS, 2, LengthUnit.NM))
+				.asMaterial();
+			IMaterial iMaterial = nm.newMaterial(material);
+			nm.generateInChI(iMaterial);
+		});
+		assertTrue(exception.getMessage().contains("Unsupported MaterialType"));
+	}
+
+	@Test
+	public void testGenerateInChI_UnsupportedUnit() throws Exception {
+		Exception exception = assertThrows(BioclipseException.class, () ->
+		{
+			Material material = MaterialBuilder.type("METAL")
+				.componentFromSMILES(2, "[Au]", "SHELL", new ErrorlessMeasurementValue(
+					EndPoints.THICKNESS, 0.02, UnitFactory.getInstance().getUnit("http://qudt.org/vocab/unit#Micrometer"))
+				).asMaterial();
+			IMaterial iMaterial = nm.newMaterial(material);
+			nm.generateInChI(iMaterial);
+		});
+		assertTrue(exception.getMessage().contains("Yet unsupported unit type"));
 	}
 
 	@Test
