@@ -69,6 +69,12 @@
         <scope>test</scope>
         <version>${junit.version}</version>
     </dependency>
+    <dependency>
+        <groupId>org.blueobelisk</groupId>
+        <artifactId>cmlxom</artifactId>
+        <scope>test</scope>
+        <version>4.3</version>
+    </dependency>
   </dependencies>
 
 </project>
