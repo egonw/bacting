@@ -47,6 +47,7 @@
       <httpclient.version>4.5.13</httpclient.version>
       <jqudt.version>1.5.0</jqudt.version>
       <commonsio.version>2.11.0</commonsio.version>
+      <xerces.version>2.12.2</xerces.version>
     </properties>
 
     <modules>
