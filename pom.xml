@@ -35,7 +35,7 @@
     </scm>
 
     <properties>
-      <cdk.version>2.7.1</cdk.version>
+      <cdk.version>2.8-SNAPSHOT</cdk.version>
       <bioclipse.version>2.8.0.20-SNAPSHOT</bioclipse.version>
       <junit5.excludeGroups>pubchem,chemspider</junit5.excludeGroups>
       <junit.version>5.9.0</junit.version>
