@@ -27,7 +27,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.eclipse.core.resources.IResource;
-import org.junit.Assert;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.openscience.cdk.interfaces.IAtom;
@@ -491,10 +491,10 @@ public class CDKManagerTest {
         list.add(cdk.fromSMILES("NCC"));
         ICDKMolecule mcssCDKMol = cdk.mcss(list);
         IAtomContainer mcss = mcssCDKMol.getAtomContainer();
-        Assert.assertNotNull(mcss);
-        Assert.assertEquals(2, mcss.getAtomCount());
-        Assert.assertEquals(1, mcss.getBondCount());
-        Assert.assertEquals("[CH2]C", cdk.calculateSMILES(mcssCDKMol));
+        Assertions.assertNotNull(mcss);
+        Assertions.assertEquals(2, mcss.getAtomCount());
+        Assertions.assertEquals(1, mcss.getBondCount());
+        Assertions.assertEquals("[CH2]C", cdk.calculateSMILES(mcssCDKMol));
     }
 
 	@Test
@@ -528,7 +528,7 @@ public class CDKManagerTest {
 	@Test
     public void testNewMolecule() throws Exception {
         IMolecule mol = cdk.newMolecule();
-        Assert.assertNotNull(mol);
+        Assertions.assertNotNull(mol);
     }
 
 }
