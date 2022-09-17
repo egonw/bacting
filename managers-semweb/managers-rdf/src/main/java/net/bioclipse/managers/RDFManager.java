@@ -48,7 +48,6 @@ import org.apache.jena.shex.ShexSchema;
 import org.apache.jena.shex.ShexValidator;
 import org.apache.jena.shex.sys.ShexLib;
 import org.apache.jena.sparql.exec.http.QueryExecutionHTTPBuilder;
-import org.apache.jena.ttl.turtle.TurtleParseException;
 import org.apache.jena.vocabulary.RDF;
 import org.eclipse.core.runtime.CoreException;
 
@@ -517,12 +516,6 @@ public class RDFManager {
             	"Unknown file format. Supported are \"RDF/XML\", " +
             	"\"N-TRIPLE\", \"TURTLE\" and \"N3\".",
             	exception
-        	);
-        } catch (TurtleParseException exception) {
-        	throw new BioclipseException(
-                "Error while parsing file: " +
-                exception.getMessage(),
-                exception
         	);
         }
         return store;

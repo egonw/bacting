@@ -43,6 +43,11 @@
       <version>${jena.version}</version>
     </dependency>
     <dependency>
+      <groupId>org.apache.jena</groupId>
+      <artifactId>jena-base</artifactId>
+      <version>${jena.version}</version>
+    </dependency>
+    <dependency>
       <groupId>io.github.egonw.bacting</groupId>
       <artifactId>bioclipse-core</artifactId>
       <version>${bioclipse.version}</version>
