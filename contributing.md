@@ -14,7 +14,7 @@ for that.
 
 Developing Bioclipse is not trivial. Developing Bacting is easier but still has a learning curve.
 It is recommended to do all code development in branches, allowing others to suggest improvements
-and generally do peer review. If you fork the repository, it is suggested to keep your `master`
+and generally do peer review. If you fork the repository, it is suggested to keep your `main`
 branch identical to the upstream version.
 
 ### Porting Bioclipse managers
@@ -26,7 +26,7 @@ from Maven Central. However, there is plenty of work that can still be done.
 
 Once you decided it is needed to port a manager, one easy way
 to start a new manager is to just copy/paste the full folder of a simple manager, like that of OPSIN
-found [here](https://github.com/egonw/bacting/tree/master/managers-cheminfo/net.bioclipse.managers.opsin).
+found [here](https://github.com/egonw/bacting/tree/main/managers-cheminfo/net.bioclipse.managers.opsin).
 The copied files can then be updated with a text editor to have unique names.
 
 With the folder structure in place, you can start copy/pasting manager content from the Bioclipse project.

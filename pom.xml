@@ -14,7 +14,7 @@
     <licenses>
       <license>
         <name>Eclipse Public License v1.0 + GPL Exception</name>
-        <url>https://github.com/egonw/bacting/blob/master/LICENSE.md</url>
+        <url>https://github.com/egonw/bacting/blob/main/LICENSE.md</url>
       </license>
     </licenses>
 
@@ -30,7 +30,7 @@
     <scm>
       <connection>scm:git:git://github.com/egonw/bacting.git</connection>
       <developerConnection>scm:git:ssh://git@github.com/egonw/bacting.git</developerConnection>
-      <url>http://github.com/egonw/bacting/tree/master</url>
+      <url>http://github.com/egonw/bacting/tree/main</url>
       <tag>HEAD</tag>
     </scm>
 

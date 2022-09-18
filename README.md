@@ -4,7 +4,7 @@
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.2638709.svg)](https://doi.org/10.5281/zenodo.2638709)
 [![build](https://github.com/egonw/bacting/workflows/build/badge.svg)](https://github.com/egonw/bacting/actions?query=workflow%3Abuild)
 [![Maven Central](https://img.shields.io/maven-central/v/io.github.egonw.bacting/bacting.svg?label=Maven%20Central)](https://search.maven.org/search?q=g:%22io.github.egonw.bacting%22%20AND%20a:%22bacting%22)
-[![codecov](https://codecov.io/gh/egonw/bacting/branch/master/graph/badge.svg?token=E1NGWVWL04)](https://codecov.io/gh/egonw/bacting)
+[![codecov](https://codecov.io/gh/egonw/bacting/branch/main/graph/badge.svg?token=E1NGWVWL04)](https://codecov.io/gh/egonw/bacting)
 
 Bacting := acting as the Bioclipse TNG (The Next Generation)
 
