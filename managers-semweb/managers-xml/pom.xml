@@ -4,7 +4,7 @@
   <parent>
     <artifactId>managers-semweb</artifactId>
     <groupId>io.github.egonw.bacting</groupId>
-    <version>0.1.1</version>
+    <version>0.1.2-SNAPSHOT</version>
   </parent>
 
   <artifactId>managers-xml</artifactId>
@@ -35,7 +35,7 @@
     <dependency>
       <groupId>io.github.egonw.bacting</groupId>
       <artifactId>bacting-core</artifactId>
-      <version>0.1.1</version>
+      <version>0.1.2-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>xom</groupId>
@@ -73,7 +73,7 @@
         <groupId>io.github.egonw.bacting</groupId>
         <artifactId>managers-ui</artifactId>
         <scope>test</scope>
-        <version>0.1.1</version>
+        <version>0.1.2-SNAPSHOT</version>
     </dependency>
   </dependencies>
 
