@@ -46,6 +46,12 @@
       <groupId>org.apache.jena</groupId>
       <artifactId>jena-base</artifactId>
       <version>${jena.version}</version>
+      <exclusions>
+        <exclusion>
+          <groupId>org.slf4j</groupId>
+          <artifactId>slf4j-api</artifactId>
+        </exclusion>
+      </exclusions>
     </dependency>
     <dependency>
       <groupId>io.github.egonw.bacting</groupId>

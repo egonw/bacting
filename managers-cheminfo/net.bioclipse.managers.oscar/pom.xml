@@ -40,6 +40,12 @@
       <groupId>uk.ac.cam.ch.wwmm.oscar</groupId>
       <artifactId>oscar4-all</artifactId>
       <version>5.2.0</version>
+      <exclusions>
+        <exclusion>
+          <groupId>org.apache.logging.log4j</groupId>
+          <artifactId>log4j-slf4j-impl</artifactId>
+        </exclusion>
+      </exclusions>
     </dependency>
     <dependency>
         <groupId>org.junit.jupiter</groupId>
