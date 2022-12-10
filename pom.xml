@@ -45,14 +45,14 @@
       <xom.version>1.3.8</xom.version>
       <biojava.version>1.9.5</biojava.version>
       <jena.version>4.6.1</jena.version>
-      <bridgedb.version>3.0.17</bridgedb.version>
+      <bridgedb.version>3.0.18</bridgedb.version>
       <derby.version>10.15.2.0</derby.version>
       <httpclient.version>4.5.13</httpclient.version>
       <jqudt.version>1.5.0</jqudt.version>
       <commonsio.version>2.11.0</commonsio.version>
       <xerces.version>2.12.2</xerces.version>
       <json.version>20220924</json.version>
-      <slf4j.version>2.0.3</slf4j.version>
+      <slf4j.version>2.0.5</slf4j.version>
     </properties>
 
     <modules>
