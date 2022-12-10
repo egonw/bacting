@@ -47,7 +47,7 @@
       <jena.version>4.6.1</jena.version>
       <bridgedb.version>3.0.18</bridgedb.version>
       <derby.version>10.15.2.0</derby.version>
-      <httpclient.version>4.5.13</httpclient.version>
+      <httpclient.version>4.5.14</httpclient.version>
       <jqudt.version>1.5.0</jqudt.version>
       <commonsio.version>2.11.0</commonsio.version>
       <xerces.version>2.12.2</xerces.version>
