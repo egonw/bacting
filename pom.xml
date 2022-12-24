@@ -52,7 +52,7 @@
       <commonsio.version>2.11.0</commonsio.version>
       <xerces.version>2.12.2</xerces.version>
       <json.version>20220924</json.version>
-      <slf4j.version>2.0.5</slf4j.version>
+      <slf4j.version>2.0.6</slf4j.version>
     </properties>
 
     <modules>
