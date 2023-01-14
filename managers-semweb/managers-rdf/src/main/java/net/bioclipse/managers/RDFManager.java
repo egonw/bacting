@@ -41,8 +41,8 @@ import org.apache.jena.shared.PrefixMapping;
 import org.apache.jena.shared.SyntaxError;
 import org.apache.jena.shared.impl.PrefixMappingImpl;
 import org.apache.jena.shex.Shex;
-import org.apache.jena.shex.ShexMap;
-import org.apache.jena.shex.ShexMap.Builder;
+import org.apache.jena.shex.ShapeMap;
+import org.apache.jena.shex.ShapeMap.Builder;
 import org.apache.jena.shex.ShexReport;
 import org.apache.jena.shex.ShexSchema;
 import org.apache.jena.shex.ShexValidator;
@@ -677,10 +677,10 @@ public class RDFManager {
 
         Graph dataGraph = ((IJenaStore)store).getModel().getGraph();
         ShexSchema shapes = Shex.readSchema(workspaceRoot + shexFile);
-        Builder shapeMapBuilder = ShexMap.newBuilder();
+        Builder shapeMapBuilder = ShapeMap.newBuilder();
         Triple instance = Triple.create(Shex.FOCUS, RDF.type.asNode(), NodeFactory.createURI(type));
         shapeMapBuilder.add(instance, NodeFactory.createURI(shapeURI));
-        ShexMap shapeMap = shapeMapBuilder.build();
+        ShapeMap shapeMap = shapeMapBuilder.build();
 
         return ShexValidator.get().validate(dataGraph, shapes, shapeMap);
     }
