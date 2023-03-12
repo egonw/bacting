@@ -24,6 +24,8 @@ jobs:
     - name: Build with Maven
       run: mvn clean install -Dgpg.skip -Dmaven.javadoc.skip=true -Dmaven.test.failure.ignore=true -Djunit5.excludeGroups=
     - name: push JaCoCo stats to codecov.io
-      run: bash <(curl -s https://codecov.io/bash)
+      uses: codecov/codecov-action@v3
+      env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
     - name: Build with Maven
       run: mvn clean install -Dgpg.skip -Dmaven.javadoc.skip=true
