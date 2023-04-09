@@ -5,3 +5,4 @@
 **/derby.log
 target/
 bundle/dependency-reduced-pom.xml
+deps.log
