@@ -73,7 +73,7 @@
         <groupId>org.blueobelisk</groupId>
         <artifactId>cmlxom</artifactId>
         <scope>test</scope>
-        <version>4.4</version>
+        <version>4.5</version>
     </dependency>
   </dependencies>
 
