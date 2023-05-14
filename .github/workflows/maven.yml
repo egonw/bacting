@@ -27,6 +27,7 @@ jobs:
   coverage:
     runs-on: ubuntu-latest
     needs: build
+    steps:
     - name: push JaCoCo stats to codecov.io
       uses: codecov/codecov-action@v3
       env:
@@ -37,5 +38,6 @@ jobs:
   dependencies:
     runs-on: ubuntu-latest
     needs: build
+    steps:
     - name: Submit Dependency Snapshot
       uses: advanced-security/maven-dependency-submission-action@v3
