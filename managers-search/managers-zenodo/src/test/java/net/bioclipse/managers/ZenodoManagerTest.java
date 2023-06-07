@@ -9,13 +9,14 @@
  */
 package net.bioclipse.managers;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.io.ByteArrayInputStream;
 import java.util.List;
 
-import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
@@ -29,6 +30,22 @@ public class ZenodoManagerTest {
 	@BeforeAll
 	static void setupManager() throws Exception {
 		zenodo = new ZenodoManager(workspaceRoot);
+	}
+
+	@Test
+	public void testGetOAIPMHData() throws Exception {
+		String oaipmhXML = zenodo.getOAIPMHData("10.5281/zenodo.7990214");
+		assertNotNull(oaipmhXML);
+	}
+
+	@Test
+	public void testGetOAIPMHData_InvalidDOI() throws Exception {
+		Exception exception = assertThrows(BioclipseException.class, () ->
+		{
+			zenodo.getOAIPMHData("10.0000/something.7990214");
+		});
+		assertTrue(exception.getMessage().contains("10.5281/zenodo"));
+		assertTrue(exception.getMessage().contains("Zenodo DOI and does not start with"));
 	}
 
 	@Test

@@ -13,6 +13,7 @@ import java.util.Collections;
 import java.util.List;
 
 import io.github.egonw.bacting.IBactingManager;
+import net.bioclipse.core.business.BioclipseException;
 
 public class ZenodoManager implements IBactingManager {
 
@@ -30,7 +31,15 @@ public class ZenodoManager implements IBactingManager {
 		this.bioclipse = new BioclipseManager(workspaceRoot);
 	}
 
-    @Override
+	public String getOAIPMHData(String doi) throws BioclipseException {
+		if (doi.startsWith("10.5281/zenodo.")) {
+			int recordID = Integer.valueOf(doi.substring(15));
+			return this.bioclipse.download("https://zenodo.org/oai2d?verb=GetRecord&metadataPrefix=oai_datacite&identifier=oai:zenodo.org:" + recordID);
+		}
+		throw new BioclipseException("This does not seem to be a Zenodo DOI and does not start with '10.5281/zenodo'.");
+	}
+
+	@Override
 	public String getManagerName() {
 		return "zenodo";
 	}
