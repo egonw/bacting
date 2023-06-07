@@ -16,6 +16,7 @@
         <module>net.bioclipse.managers.duckduckgo</module>
         <module>managers-doi</module>
         <module>managers-pubmed</module>
+        <module>managers-zenodo</module>
     </modules>
 
 </project>
