@@ -1,4 +1,4 @@
-/* Copyright (c) 2015-2022  Egon Willighagen <egon.willighagen@gmail.com>
+/* Copyright (c) 2015-2023  Egon Willighagen <egon.willighagen@gmail.com>
  *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
@@ -37,6 +37,14 @@ public class JSoupManagerTest {
     	assertNotNull(doc);
     };
 
+	@Test
+    public void removeHTMLTags() {
+    	String html = "<html><body><h3 id=\"foo\">Header</h3></body></html>";
+    	String text = jsoup.removeHTMLTags(html);
+    	assertNotNull(text);
+    	assertEquals("Header", text);
+    }
+	
 	@Test
     public void select() {
     	Document doc = jsoup.parseString("<html><body><h3 id=\"foo\" /></body></html>");

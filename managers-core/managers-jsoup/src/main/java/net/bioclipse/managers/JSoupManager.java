@@ -1,4 +1,4 @@
-/* Copyright (c) 2015-2022  Egon Willighagen <egonw@users.sf.net>
+/* Copyright (c) 2015-2023  Egon Willighagen <egonw@users.sf.net>
  *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
@@ -35,6 +35,10 @@ public class JSoupManager implements IBactingManager {
     public Document parseString(String htmlString) {
     	Document doc = Jsoup.parse(htmlString);
     	return doc;
+    };
+
+    public String removeHTMLTags(String htmlString) {
+    	return Jsoup.parse(htmlString).text();
     };
 
     public Elements select(Element doc, String cssSelector) {
