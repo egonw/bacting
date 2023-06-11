@@ -8,7 +8,7 @@
     <description>Bacting := acting as the Bioclipse TNG. Bioclipse version that can be used
        from the command line, e.g. with Groovy.</description>
     <url>http://www.github.com/egonw/bacting</url>
-    <version>0.3.3-SNAPSHOT</version>
+    <version>0.3.3</version>
     <packaging>pom</packaging>
 
     <licenses>
@@ -40,7 +40,7 @@
       <junit5.excludeGroups>pubchem,chemspider</junit5.excludeGroups>
       <junit.version>5.9.3</junit.version>
 
-      <bioclipse.version>2.8.0.23-SNAPSHOT</bioclipse.version>
+      <bioclipse.version>2.8.0.23</bioclipse.version>
 
       <cdk.version>2.8</cdk.version>
       <xom.version>1.3.9</xom.version>
