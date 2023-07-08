@@ -5,7 +5,7 @@
     <parent>
         <artifactId>bacting</artifactId>
         <groupId>io.github.egonw.bacting</groupId>
-        <version>0.3.4-SNAPSHOT</version>
+        <version>0.3.4</version>
     </parent>
 
     <artifactId>managers-bioinfo</artifactId>
