@@ -23,6 +23,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import net.bioclipse.core.business.BioclipseException;
+import nu.xom.Document;
 
 public class XMLManagerTest {
 
@@ -67,6 +68,20 @@ public class XMLManagerTest {
 	}
 
 	@Test
+	public void testReadWellFormed() throws Exception {
+		Document doc = xml.readWellFormed("/XMLTests/pom.xml");
+		assertNotNull(doc);
+		assertSame("project", doc.getRootElement().getLocalName());
+	}
+
+	@Test
+	public void testReadValid() throws Exception {
+		Document doc = xml.readValid("/XMLTests/pom.xml");
+		assertNotNull(doc);
+		assertSame("project", doc.getRootElement().getLocalName());
+	}
+
+	@Test
 	public void testIsNotWellFormed() throws Exception {
 		boolean isWellFormed = xml.isWellFormed("/XMLTests/notWellFormed.xml");
 		assertFalse(isWellFormed);
@@ -85,6 +100,18 @@ public class XMLManagerTest {
 	}
 
 	@Test
+	public void testReadWellFormed_NoFile() {
+		Exception exception = assertThrows(
+			BioclipseException.class, () ->
+			{
+				xml.readWellFormed("/XMLTests/doesnotexist.xml");
+			}
+		);
+		assertNotNull(exception);
+		assertTrue(exception.getMessage().contains("Error while reading file"));
+	}
+
+	@Test
 	public void testIsValid() throws Exception {
 		assertTrue(xml.isValid("/XMLTests/pom.xml"));
 	}
@@ -99,6 +126,18 @@ public class XMLManagerTest {
 		);
 		assertNotNull(exception);
 		assertTrue(exception.getMessage().contains("Error while opening file"));
+	}
+
+	@Test
+	public void testReadValid_NotFound() throws Exception {
+		Exception exception = assertThrows(
+			BioclipseException.class, () ->
+			{
+				xml.readValid("/DoesNotExist/pom.xml");
+			}
+		);
+		assertNotNull(exception);
+		assertTrue(exception.getMessage().contains("Error while reading file"));
 	}
 
 	@Test

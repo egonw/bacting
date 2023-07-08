@@ -30,6 +30,7 @@ import net.bioclipse.core.business.BioclipseException;
 import net.bioclipse.xml.business.DummyErrorHandler;
 import net.bioclipse.xml.business.NamespaceAggregator;
 import nu.xom.Builder;
+import nu.xom.Document;
 import nu.xom.ParsingException;
 import nu.xom.ValidityException;
 
@@ -120,6 +121,46 @@ public class XMLManager implements IBactingManager {
             );
         }
         return true;
+    }
+
+    public Document readValid(String file)
+    throws BioclipseException, CoreException {
+		File xmlFile = new File(workspaceRoot + file);
+		try {
+            XMLReader xerces = XMLReaderFactory.createXMLReader("org.apache.xerces.parsers.SAXParser"); 
+            xerces.setFeature("http://apache.org/xml/features/validation/schema", true);                         
+
+            Builder builder = new Builder(xerces, true);
+            return builder.build(new FileInputStream(xmlFile));
+        } catch (Exception exception) {
+            throw new BioclipseException(
+                "Error while reading file: " + exception.getMessage(),
+                exception
+            );
+        }
+    }
+
+    public Document readWellFormed(String file)
+    throws BioclipseException, CoreException {
+		File xmlFile = new File(workspaceRoot + file);
+		try {
+			SAXParserFactory factory = SAXParserFactory.newInstance();
+			factory.setValidating(false);
+			factory.setNamespaceAware(true);
+
+			SAXParser parser = factory.newSAXParser();
+
+			XMLReader reader = parser.getXMLReader();
+			reader.setErrorHandler(new DummyErrorHandler());
+
+			Builder builder = new Builder(reader);
+            return builder.build(new FileInputStream(xmlFile));
+        } catch (Exception exception) {
+            throw new BioclipseException(
+                "Error while reading file: " + exception.getMessage(),
+                exception
+            );
+        }
     }
 
     public List<String> listNamespaces(String file) throws BioclipseException {
