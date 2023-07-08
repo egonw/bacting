@@ -9,6 +9,7 @@
  */
 package net.bioclipse.managers;
 
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
@@ -23,7 +24,7 @@ import nu.xom.Element;
 import nu.xom.Elements;
 
 /**
- * Bioclipse manager that helps work with <a href="https://www.sitemaps.org/>sitemaps</a>.
+ * Bioclipse manager that helps work with <a href="https://www.sitemaps.org/">sitemaps</a>.
  */
 public class SitemapManager implements IBactingManager {
 
@@ -46,7 +47,7 @@ public class SitemapManager implements IBactingManager {
     /**
      * Extracts the URLs in a sitemap, each as a String representation.
      * 
-     * @param sitemapURL
+     * @param sitemapURL {@link URL} of the <code>sitemap.xml</code> to parse
      * @return a {@link List} of {@link String}s of URLs
      */
     public List<String> parse(String sitemapURL) throws BioclipseException {
