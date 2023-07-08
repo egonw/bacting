@@ -55,6 +55,7 @@
       <json.version>20230618</json.version>
       <slf4j.version>2.0.7</slf4j.version>
       <cmlxom>4.5</cmlxom>
+      <guava.version>32.1.1-jre</guava.version>
     </properties>
 
     <modules>
