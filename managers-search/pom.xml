@@ -17,6 +17,7 @@
         <module>managers-doi</module>
         <module>managers-pubmed</module>
         <module>managers-zenodo</module>
+        <module>managers-find</module>
     </modules>
 
 </project>
