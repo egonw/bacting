@@ -82,6 +82,22 @@ public class XMLManagerTest {
 	}
 
 	@Test
+	public void testReadValidString() throws Exception {
+		String xmlContent = bioclipse.download("https://raw.githubusercontent.com/egonw/bacting/master/pom.xml");
+		Document doc = xml.readValidString(xmlContent);
+		assertNotNull(doc);
+		assertSame("project", doc.getRootElement().getLocalName());
+	}
+
+	@Test
+	public void testReadString() throws Exception {
+		String xmlContent = bioclipse.download("https://raw.githubusercontent.com/egonw/bacting/master/pom.xml");
+		Document doc = xml.readString(xmlContent);
+		assertNotNull(doc);
+		assertSame("project", doc.getRootElement().getLocalName());
+	}
+
+	@Test
 	public void testIsNotWellFormed() throws Exception {
 		boolean isWellFormed = xml.isWellFormed("/XMLTests/notWellFormed.xml");
 		assertFalse(isWellFormed);

@@ -9,6 +9,7 @@
  */
 package net.bioclipse.managers;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -132,6 +133,44 @@ public class XMLManager implements IBactingManager {
 
             Builder builder = new Builder(xerces, true);
             return builder.build(new FileInputStream(xmlFile));
+        } catch (Exception exception) {
+            throw new BioclipseException(
+                "Error while reading file: " + exception.getMessage(),
+                exception
+            );
+        }
+    }
+
+    public Document readValidString(String xmlContent)
+    throws BioclipseException, CoreException {
+		try {
+            XMLReader xerces = XMLReaderFactory.createXMLReader("org.apache.xerces.parsers.SAXParser"); 
+            xerces.setFeature("http://apache.org/xml/features/validation/schema", true);                         
+
+            Builder builder = new Builder(xerces, true);
+            return builder.build(new ByteArrayInputStream(xmlContent.getBytes()));
+        } catch (Exception exception) {
+            throw new BioclipseException(
+                "Error while reading file: " + exception.getMessage(),
+                exception
+            );
+        }
+    }
+
+    public Document readString(String xmlContent)
+    throws BioclipseException, CoreException {
+		try {
+			SAXParserFactory factory = SAXParserFactory.newInstance();
+			factory.setValidating(false);
+			factory.setNamespaceAware(true);
+
+			SAXParser parser = factory.newSAXParser();
+
+			XMLReader reader = parser.getXMLReader();
+			reader.setErrorHandler(new DummyErrorHandler());
+
+			Builder builder = new Builder(reader);
+            return builder.build(new ByteArrayInputStream(xmlContent.getBytes()));
         } catch (Exception exception) {
             throw new BioclipseException(
                 "Error while reading file: " + exception.getMessage(),
