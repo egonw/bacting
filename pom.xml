@@ -56,7 +56,7 @@
       <slf4j.version>2.0.9</slf4j.version>
       <cmlxom.version>4.6</cmlxom.version>
       <guava.version>32.1.2-jre</guava.version>
-      <opsin.version>2.7.0</opsin.version>
+      <opsin.version>2.8.0</opsin.version>
     </properties>
 
     <modules>
