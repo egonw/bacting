@@ -47,7 +47,7 @@
       <biojava.version>1.9.7</biojava.version>
       <jena.version>4.10.0</jena.version>
       <bridgedb.version>3.0.25</bridgedb.version>
-      <derby.version>10.15.2.0</derby.version>
+      <derby.version>10.17.1.0</derby.version>
       <httpclient.version>4.5.14</httpclient.version>
       <jqudt.version>1.5.0</jqudt.version>
       <commonsio.version>2.15.1</commonsio.version>
