@@ -4,7 +4,7 @@
   <parent>
     <artifactId>managers-search</artifactId>
     <groupId>io.github.egonw.bacting</groupId>
-    <version>0.4.1-SNAPSHOT</version>
+    <version>0.4.1</version>
   </parent>
 
   <artifactId>net.bioclipse.managers.find</artifactId>
@@ -35,7 +35,7 @@
     <dependency>
       <groupId>io.github.egonw.bacting</groupId>
       <artifactId>managers-ui</artifactId>
-      <version>0.4.1-SNAPSHOT</version>
+      <version>0.4.1</version>
     </dependency>
     <dependency>
         <groupId>org.junit.jupiter</groupId>
@@ -52,7 +52,7 @@
     <dependency>
     	<groupId>io.github.egonw.bacting</groupId>
     	<artifactId>managers-xml</artifactId>
-    	<version>0.4.1-SNAPSHOT</version>
+    	<version>0.4.1</version>
     </dependency>
   </dependencies>
 
