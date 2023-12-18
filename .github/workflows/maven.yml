@@ -29,6 +29,11 @@ jobs:
     needs: build
     steps:
     - uses: actions/checkout@v3
+    - name: Set up Java
+      uses: actions/setup-java@v3
+      with:
+        distribution: temurin
+        java-version: 17
     - name: Build with Maven
       run: mvn clean install -Dgpg.skip -Dmaven.javadoc.skip=true -Dmaven.test.failure.ignore=true -Djunit5.excludeGroups=
     - name: push JaCoCo stats to codecov.io
