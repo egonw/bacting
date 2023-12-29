@@ -62,7 +62,7 @@ public class WikidataManagerTest {
 		exception = assertThrows(
 			BioclipseException.class, () ->
 			{
-				wikidata.getEntityID(null);
+				wikidata.getEntityID((InChI)null);
 			}
 		);
 		assertTrue(exception.getMessage().contains("You must give an InChI"));
