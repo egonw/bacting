@@ -11,6 +11,7 @@ package net.bioclipse.managers;
 
 import static org.junit.Assert.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -128,6 +129,17 @@ public class WikidataManagerTest {
 	}
 
 	@Test
+	public void testGetEntityIDsForType_Null() throws Exception {
+		Exception exception = assertThrows(
+			BioclipseException.class, () ->
+			{
+				wikidata.getEntityIDsForType(null);
+			}
+		);
+		assertTrue(exception.getMessage().contains("You must give a valid Wikidata identifier"));
+	}
+
+	@Test
 	public void testNotInWikidata() {
 		Exception exception = assertThrows(
 			BioclipseException.class, () ->
@@ -139,6 +151,19 @@ public class WikidataManagerTest {
 		);
 		assertTrue(exception.getMessage().contains("No molecule in Wikidata with the InChI"));
 	}
+
+	@Test
+	public void testIsValidQIdentifier() {
+		assertTrue(wikidata.isValidQIdentifier("Q5"));
+		assertTrue(wikidata.isValidQIdentifier("Q566666666"));
+		assertFalse(wikidata.isValidQIdentifier("Q5x"));
+		assertFalse(wikidata.isValidQIdentifier("Q"));
+		assertFalse(wikidata.isValidQIdentifier("P5"));
+		assertFalse(wikidata.isValidQIdentifier("Px"));
+		assertFalse(wikidata.isValidQIdentifier("P"));
+		assertFalse(wikidata.isValidQIdentifier(null));
+	}
+
 	@Test
 	public void testDOIs() {
 		List<String> dois = wikidata.doi();
