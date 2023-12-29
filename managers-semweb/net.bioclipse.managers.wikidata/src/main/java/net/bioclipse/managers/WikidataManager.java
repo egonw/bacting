@@ -106,7 +106,6 @@ public class WikidataManager implements IBactingManager {
         	+ values
         	+ "  ?compound wdt:P235 ?inchikey ."
         	+ "}";
-    	System.out.println(query);
     	byte[] resultRaw = bioclipse.sparqlRemote(
        		"https://query.wikidata.org/sparql", query
        	);
