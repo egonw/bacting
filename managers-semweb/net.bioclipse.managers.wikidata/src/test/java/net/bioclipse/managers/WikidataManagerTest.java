@@ -18,6 +18,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -137,6 +138,53 @@ public class WikidataManagerTest {
 			}
 		);
 		assertTrue(exception.getMessage().contains("You must give a valid Wikidata identifier"));
+	}
+
+	@Test
+	public void testGetEntityIDsForDOIs() throws Exception {
+		Map<String,String> entityIDs = wikidata.getEntityIDsForDOIs(Arrays.asList(new String[] { "10.1186/S13321-023-00780-2" }));
+		assertNotNull(entityIDs);
+		assertEquals(1, entityIDs.size());
+	}
+
+	@Test
+	public void testGetEntityIDsForDOIs_Null() throws Exception {
+		Exception exception = assertThrows(
+			BioclipseException.class, () ->
+			{
+				wikidata.getEntityIDsForDOIs(null);
+			}
+		);
+		assertTrue(exception.getMessage().contains("You must give a list of DOIs"));
+	}
+
+	@Test
+	public void testGetEntityID_DOI() throws Exception {
+		String entityID = wikidata.getEntityID("10.1186/S13321-023-00780-2");
+		assertNotNull(entityID);
+		assertTrue(entityID.startsWith("http://www.wikidata.org/entity/Q"));
+	}
+
+	@Test
+	public void testGetEntityID_NonExistingDOI() throws Exception {
+		Exception exception = assertThrows(
+			BioclipseException.class, () ->
+			{
+				wikidata.getEntityID("99.1186/S13321-023-00780-2");
+			}
+		);
+		assertTrue(exception.getMessage().contains("No work in Wikidata with the DOI"));
+	}
+
+	@Test
+	public void testGetEntityIDs_DOI_Null() throws Exception {
+		Exception exception = assertThrows(
+			BioclipseException.class, () ->
+			{
+				wikidata.getEntityID((String)null);
+			}
+		);
+		assertTrue(exception.getMessage().contains("You must give a DOI"));
 	}
 
 	@Test
