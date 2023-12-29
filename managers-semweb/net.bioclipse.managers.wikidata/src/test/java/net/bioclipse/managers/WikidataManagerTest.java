@@ -201,6 +201,24 @@ public class WikidataManagerTest {
 	}
 
 	@Test
+	public void testGetEntityIDsForType() throws Exception {
+		List<String> entityIDs = wikidata.getEntityIDsForType("Q7316896");
+		assertNotNull(entityIDs);
+		assertTrue(entityIDs.size() > 0);
+	}
+
+	@Test
+	public void testGetEntityIDsForType_InvalidType() throws Exception {
+		Exception exception = assertThrows(
+			BioclipseException.class, () ->
+			{
+				wikidata.getEntityIDsForType("P31");
+			}
+		);
+		assertTrue(exception.getMessage().contains("You must give a valid Wikidata identifier"));
+	}
+
+	@Test
 	public void testIsValidQIdentifier() {
 		assertTrue(wikidata.isValidQIdentifier("Q5"));
 		assertTrue(wikidata.isValidQIdentifier("Q566666666"));
