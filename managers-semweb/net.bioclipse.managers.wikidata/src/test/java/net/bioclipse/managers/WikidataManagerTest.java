@@ -53,6 +53,13 @@ public class WikidataManagerTest {
 	}
 
 	@Test
+	public void testHasVeryLongAlkane() throws Exception {
+		IMolecule methane = cdk.fromSMILES("CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC");
+		InChI inchiObj = inchi.generate(methane);
+		assertFalse(wikidata.hasMolecule(inchiObj));
+	}
+
+	@Test
 	public void testNull() {
 		Exception exception = assertThrows(
 			BioclipseException.class, () ->
