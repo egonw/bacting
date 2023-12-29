@@ -217,6 +217,7 @@ public class WikidataManager implements IBactingManager {
      * @return true, if the identifier is valid
      */
 	public boolean isValidQIdentifier(String identifier) {
+		if (identifier == null) return false;
     	if (identifier.length() < 2) return false;
     	if (!identifier.startsWith("Q")) return false;
     	try { Integer.valueOf(identifier.substring(1)); } catch (Exception exception) { return false; } 
