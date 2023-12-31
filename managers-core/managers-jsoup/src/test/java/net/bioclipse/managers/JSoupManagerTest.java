@@ -13,29 +13,44 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertSame;
 
+import java.io.IOException;
+import java.nio.file.Files;
 import java.util.List;
 
-import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
+import net.bioclipse.core.business.BioclipseException;
+
 public class JSoupManagerTest {
 
 	static JSoupManager jsoup;
+	static UIManager ui;
 	static String workspaceRoot;
 
 	@BeforeAll
 	static void setupManager() throws Exception {
+		workspaceRoot = Files.createTempDirectory("jsouptestws").toString();
 		jsoup = new JSoupManager(workspaceRoot);
+		ui = new UIManager(workspaceRoot);
+		ui.newProject("/JSoupTests/");
 	}
 
-	@Test
+    @Test
     public void parseString() {
-    	Document doc = Jsoup.parse("<html />");
-    	assertNotNull(doc);
+        Document doc = jsoup.parseString("<html />");
+        assertNotNull(doc);
     };
+
+    @Test
+    public void parseFile() throws IOException, BioclipseException {
+        String html = "<html><body><h3 id=\"foo\">Header</h3></body></html>";
+        String newFile = ui.newFile("/JSoupTests/test1.txt", html);
+        Document doc = jsoup.parse(newFile);
+        assertNotNull(doc);
+    }
 
 	@Test
     public void removeHTMLTags() {

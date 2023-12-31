@@ -18,10 +18,12 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import io.github.egonw.bacting.IBactingManager;
+import net.bioclipse.core.business.BioclipseException;
 
 public class JSoupManager implements IBactingManager {
 
 	private String workspaceRoot;
+	static UIManager ui;
 
 	/**
      * Creates a new {@link JSoupManager}.
@@ -30,11 +32,17 @@ public class JSoupManager implements IBactingManager {
      */
     public JSoupManager(String workspaceRoot) {
 		this.workspaceRoot = workspaceRoot;
+		ui = new UIManager(workspaceRoot);
 	}
 
     public Document parseString(String htmlString) {
     	Document doc = Jsoup.parse(htmlString);
     	return doc;
+    };
+
+    public Document parse(String htmlFile) throws BioclipseException {
+        String htmlString = ui.readFile(htmlFile);
+        return parseString(htmlString);
     };
 
     public String removeHTMLTags(String htmlString) {
