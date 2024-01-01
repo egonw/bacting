@@ -33,7 +33,6 @@ public class MwmblManagerTest {
 	public void testSearch() throws BioclipseException {
 		List<String> foundPages = mwmbl.search("acetic acid");
 		assertNotNull(foundPages);
-		System.out.println(foundPages);
 	}
 
 	@Test

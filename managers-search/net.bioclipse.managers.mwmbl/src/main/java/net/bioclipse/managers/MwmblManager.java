@@ -52,7 +52,6 @@ public class MwmblManager implements IBactingManager {
 		try {
 			String url = "https://mwmbl.org/api/v1/search/?s=" + URLEncoder.encode(query, StandardCharsets.UTF_8.toString());
 	    	String jsonContent = bioclipse.download(url);
-	    	System.out.println(jsonContent);
 	    	JSONArray json = new JSONArray(jsonContent);
 	    	json.forEach(
 	    		object -> {
