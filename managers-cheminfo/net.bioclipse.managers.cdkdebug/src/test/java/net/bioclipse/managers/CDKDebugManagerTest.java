@@ -63,6 +63,13 @@ public class CDKDebugManagerTest {
 		assertNotNull(types);
 		assertTrue(types.contains("C.3"));
 		assertTrue(types.contains("O.3"));
+
+		mol = cdk.fromSMILES("c1cc[nH]c1");
+		types = cdx.perceiveSybylAtomTypes(mol);
+		System.out.println(types);
+		assertNotNull(types);
+		assertTrue(types.contains("C.ar"));
+		assertTrue(types.contains("N.ar"));
 	}
 
 	@Test
