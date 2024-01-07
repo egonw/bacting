@@ -21,6 +21,9 @@ import java.util.List;
 import org.eclipse.core.resources.IResource;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.openscience.cdk.io.formats.CMLFormat;
+import org.openscience.cdk.io.formats.IChemFormat;
+import org.openscience.cdk.io.formats.MDLV2000Format;
 
 import net.bioclipse.cdk.domain.ICDKMolecule;
 import net.bioclipse.core.business.BioclipseException;
@@ -50,6 +53,15 @@ public class CDKDebugManagerTest {
 	@Test
 	public void testManagerName() {
 		assertSame("cdx", cdx.getManagerName());
+	}
+
+	@Test
+	public void testPerceiveSybylAtomTypes() throws Exception {
+		IMolecule mol = cdk.fromSMILES("COC");
+		String types = cdx.perceiveSybylAtomTypes(mol);
+		assertNotNull(types);
+		assertTrue(types.contains("C.3"));
+		assertTrue(types.contains("O.3"));
 	}
 
 	@Test
@@ -98,6 +110,26 @@ public class CDKDebugManagerTest {
         ICDKMolecule mol1 = (ICDKMolecule)cdk.fromSMILES("C");
         ICDKMolecule mol2 = (ICDKMolecule)cdk.fromSMILES("C");
         cdx.diff(mol1, mol2);
+    }
+
+    @Test
+    public void testDebug() throws Exception {
+        ICDKMolecule mol1 = (ICDKMolecule)cdk.fromSMILES("C");
+        String output = cdx.debug(mol1);
+        assertTrue(output.contains("AtomContainer("));
+        assertTrue(output.contains("S:C"));
+    }
+
+    @Test
+    public void testListReaderOptions() {
+    	String options = cdx.listReaderOptions((IChemFormat)MDLV2000Format.getInstance());
+    	assertTrue(options.contains("[AddStereoElements]"));
+    }
+
+    @Test
+    public void testListWriterOptions() {
+    	String options = cdx.listWriterOptions((IChemFormat)MDLV2000Format.getInstance());
+    	assertTrue(options.contains("[WriteAromaticBondTypes]"));
     }
 
 }
