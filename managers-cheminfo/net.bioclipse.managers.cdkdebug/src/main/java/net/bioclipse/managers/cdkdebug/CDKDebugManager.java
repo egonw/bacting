@@ -20,7 +20,6 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.core.runtime.Platform;
 import org.openscience.cdk.CDKConstants;
 import org.openscience.cdk.aromaticity.Aromaticity;
 import org.openscience.cdk.aromaticity.ElectronDonation;

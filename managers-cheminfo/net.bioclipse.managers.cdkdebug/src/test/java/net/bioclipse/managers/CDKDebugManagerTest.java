@@ -21,6 +21,7 @@ import java.util.List;
 import org.eclipse.core.resources.IResource;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.openscience.cdk.io.formats.CACheFormat;
 import org.openscience.cdk.io.formats.CMLFormat;
 import org.openscience.cdk.io.formats.IChemFormat;
 import org.openscience.cdk.io.formats.MDLV2000Format;
@@ -89,6 +90,22 @@ public class CDKDebugManagerTest {
 	}
 
 	@Test
+	public void testPerceiveSyblAtomTypes_FakeIMolecule() throws Exception {
+		IMolecule mol = new IMolecule() {
+			public <T> T getAdapter(Class<T> adapter) { return null; }
+			public void setResource(IResource resource) {}
+			public String getUID() { return null; }
+			public IResource getResource() { return null; }
+			public String toSMILES() throws BioclipseException { return null; }
+			public String toCML() throws BioclipseException { return null; }
+			public List<IMolecule> getConformers() { return null; }
+		};
+		assertThrows(NullPointerException.class, () -> {
+			cdx.perceiveSybylAtomTypes(mol);
+		});
+	}
+
+	@Test
 	public void testPerceiveCDKAtomTypes_FakeIMolecule2() throws Exception {
 		IMolecule mol = new IMolecule() {
 			public <T> T getAdapter(Class<T> adapter) { return null; }
@@ -132,4 +149,22 @@ public class CDKDebugManagerTest {
     	assertTrue(options.contains("[WriteAromaticBondTypes]"));
     }
 
+    @Test
+    public void testListReaderOptions_noOptions() {
+    	String options = cdx.listReaderOptions((IChemFormat)CMLFormat.getInstance());
+    	assertTrue(options.contains("does not have options"));
+    }
+
+    @Test
+    public void testListReaderOptions_noReader() {
+    	String options = cdx.listReaderOptions((IChemFormat)CACheFormat.getInstance());
+    	assertTrue(options.contains("No reader avaiable for this format"));
+    }
+
+    @Test
+    public void testListWriterOptions_noWriter() {
+    	String options = cdx.listWriterOptions((IChemFormat)CACheFormat.getInstance());
+    	System.out.println(options);
+    	assertTrue(options.contains("No writer avaiable for this format"));
+    }
 }
