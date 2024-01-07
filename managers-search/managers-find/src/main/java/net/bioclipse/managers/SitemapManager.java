@@ -49,6 +49,7 @@ public class SitemapManager implements IBactingManager {
      * 
      * @param sitemapURL {@link URL} of the <code>sitemap.xml</code> to parse
      * @return a {@link List} of {@link String}s of URLs
+     * @throws BioclipseException when the sitemap XML is not valid
      */
     public List<String> parse(String sitemapURL) throws BioclipseException {
     	List<String> urls = new ArrayList<>();

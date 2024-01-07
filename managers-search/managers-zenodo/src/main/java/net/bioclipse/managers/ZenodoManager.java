@@ -1,4 +1,4 @@
-/* Copyright (c) 2023  Egon Willighagen <egonw@users.sf.net>
+/* Copyright (c) 2023-2024  Egon Willighagen <egonw@users.sf.net>
  *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
@@ -15,6 +15,9 @@ import java.util.List;
 import io.github.egonw.bacting.IBactingManager;
 import net.bioclipse.core.business.BioclipseException;
 
+/**
+ * Manager to help get metadata about Zenodo deposits.
+ */
 public class ZenodoManager implements IBactingManager {
 
 	private String workspaceRoot;
@@ -31,6 +34,13 @@ public class ZenodoManager implements IBactingManager {
 		this.bioclipse = new BioclipseManager(workspaceRoot);
 	}
 
+    /**
+     * Returns the OAIPMH metadata for the given Zenodo DOI.
+     *
+     * @param doi the digital object identifier
+     * @return the OAIPMH metadata as string
+     * @throws BioclipseException when the DOI is not recognized as Zenodo DOI.
+     */
 	public String getOAIPMHData(String doi) throws BioclipseException {
 		if (doi.startsWith("10.5281/zenodo.")) {
 			int recordID = Integer.valueOf(doi.substring(15));

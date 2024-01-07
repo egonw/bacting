@@ -1,4 +1,4 @@
-/* Copyright (c) 2022  Egon Willighagen <egonw@users.sf.net>
+/* Copyright (c) 2022-2024  Egon Willighagen <egonw@users.sf.net>
  *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
@@ -17,6 +17,9 @@ import org.json.JSONObject;
 import io.github.egonw.bacting.IBactingManager;
 import net.bioclipse.core.business.BioclipseException;
 
+/**
+ * Manager to help interact with PubMed.
+ */
 public class PubmedManager implements IBactingManager {
 
 	private String workspaceRoot;
@@ -33,6 +36,13 @@ public class PubmedManager implements IBactingManager {
 		this.bioclipse = new BioclipseManager(workspaceRoot);
 	}
 
+    /**
+     * Returns metadata about the given PubMed identifier.
+     *
+     * @param pubmed the identifier
+     * @return the metadata as {@link JSONObject}
+     * @throws BioclipseException when the passed identifier is not an integer
+     */
     public JSONObject fetchInfo(String pubmed) throws BioclipseException {
     	try {
     		Integer.parseInt(pubmed);
