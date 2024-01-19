@@ -105,7 +105,6 @@ public class CDKDebugManager implements IBactingManager {
 		} 
 		catch (BioclipseException e) {
 			System.out.println("Error converting cdk10 to cdk");
-			e.printStackTrace();
 			throw new InvocationTargetException(e);
 		}
 
@@ -193,7 +192,6 @@ public class CDKDebugManager implements IBactingManager {
 			cdkmol = cdk.asCDKMolecule(mol);
 		} 
 		catch ( BioclipseException e ) {
-			e.printStackTrace();
 			throw new InvocationTargetException(
 					e, "Error while creating a ICDKMolecule" );
 		}

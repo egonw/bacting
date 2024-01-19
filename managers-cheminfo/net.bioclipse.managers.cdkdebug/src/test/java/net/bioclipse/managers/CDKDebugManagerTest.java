@@ -66,7 +66,6 @@ public class CDKDebugManagerTest {
 
 		mol = cdk.fromSMILES("c1cc[nH]c1");
 		types = cdx.perceiveSybylAtomTypes(mol);
-		System.out.println(types);
 		assertNotNull(types);
 		assertTrue(types.contains("C.ar"));
 		assertTrue(types.contains("N.ar"));
@@ -171,7 +170,6 @@ public class CDKDebugManagerTest {
     @Test
     public void testListWriterOptions_noWriter() {
     	String options = cdx.listWriterOptions((IChemFormat)CACheFormat.getInstance());
-    	System.out.println(options);
     	assertTrue(options.contains("No writer avaiable for this format"));
     }
 }
