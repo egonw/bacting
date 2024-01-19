@@ -27,18 +27,43 @@ import io.github.egonw.bacting.IBactingManager;
 import net.bioclipse.core.business.BioclipseException;
 import net.bioclipse.core.domain.StringMatrix;
 
+/**
+ * Manager that add support for Excel spreadsheet files, using Apache POI. 
+ */
 public class ExcelManager implements IBactingManager {
 
 	private String workspaceRoot;
 
+	/**
+	 * Creates a new {@link ExcelManager} for the given workspace.
+	 *
+	 * @param workspaceRoot Local path to the Bioclipse workspace.
+	 */
 	public ExcelManager(String workspaceRoot) {
 		this.workspaceRoot = workspaceRoot;
 	}
 
+	/**
+	 * Reads one sheet from file. It assumes the first row is not a header.
+	 *
+	 * @param filename            filename of the Excel spreadsheet file
+	 * @param sheetNumber         the number from the sheet
+	 * @return                    the sheet as {@link StringMatrix}
+	 * @throws BioclipseException when an IO exception happened
+	 */
 	public StringMatrix getSheet(String filename, int sheetNumber) throws BioclipseException {
 		return getSheet(filename, sheetNumber, false);
 	}
 
+	/**
+	 * Reads one sheet from file. Optionally, the first row is read as a header for the remaining spreadsheet.
+	 *
+	 * @param filename            filename of the Excel spreadsheet file
+	 * @param sheetNumber         the number from the sheet
+	 * @param hasHeader           if true, then the first row is read as a header
+	 * @return                    the sheet as {@link StringMatrix}
+	 * @throws BioclipseException when an IO exception happened
+	 */
 	public StringMatrix getSheet(String filename, int sheetNumber, boolean hasHeader) throws BioclipseException {
         Workbook workbook;
 		try {
