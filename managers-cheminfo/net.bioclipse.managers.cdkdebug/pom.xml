@@ -4,7 +4,7 @@
   <parent>
     <artifactId>managers-cheminfo</artifactId>
     <groupId>io.github.egonw.bacting</groupId>
-    <version>0.5.1</version>
+    <version>0.5.2-SNAPSHOT</version>
   </parent>
 
   <artifactId>managers-cdkdebug</artifactId>
@@ -34,7 +34,7 @@
     <dependency>
       <groupId>io.github.egonw.bacting</groupId>
       <artifactId>managers-cdk</artifactId>
-      <version>0.5.1</version>
+      <version>0.5.2-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>org.openscience.cdk</groupId>

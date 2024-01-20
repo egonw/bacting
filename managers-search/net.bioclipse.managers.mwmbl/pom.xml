@@ -4,7 +4,7 @@
   <parent>
     <artifactId>managers-search</artifactId>
     <groupId>io.github.egonw.bacting</groupId>
-    <version>0.5.1</version>
+    <version>0.5.2-SNAPSHOT</version>
   </parent>
 
   <artifactId>net.bioclipse.managers.mwmbl</artifactId>
