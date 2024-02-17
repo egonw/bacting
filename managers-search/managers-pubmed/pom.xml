@@ -4,7 +4,7 @@
   <parent>
     <artifactId>managers-search</artifactId>
     <groupId>io.github.egonw.bacting</groupId>
-    <version>0.5.2-SNAPSHOT</version>
+    <version>0.5.2</version>
   </parent>
 
   <artifactId>net.bioclipse.managers.pubmed</artifactId>
@@ -35,7 +35,7 @@
     <dependency>
       <groupId>io.github.egonw.bacting</groupId>
       <artifactId>managers-ui</artifactId>
-      <version>0.5.2-SNAPSHOT</version>
+      <version>0.5.2</version>
     </dependency>
     <dependency>
       <groupId>org.json</groupId>
