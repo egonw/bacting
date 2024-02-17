@@ -57,9 +57,9 @@
       <commonslogging.version>1.3.0</commonslogging.version>
       <xerces.version>2.12.2</xerces.version>
       <json.version>20240205</json.version>
-      <slf4j.version>2.0.9</slf4j.version>
+      <slf4j.version>2.0.12</slf4j.version>
       <log4j.version>2.22.1</log4j.version>
-      <cmlxom.version>4.7</cmlxom.version>
+      <cmlxom.version>4.8</cmlxom.version>
       <guava.version>33.0.0-jre</guava.version>
       <opsin.version>2.8.0</opsin.version>
     </properties>
