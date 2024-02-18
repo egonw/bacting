@@ -9,6 +9,7 @@
  */
 package net.bioclipse.managers;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -51,6 +52,26 @@ public class XMLManagerTest {
 		ui.newFile("/XMLTests/doubleNamespace.xml",
 			"<xml xmlns:ns=\"http://examples.org/\" xmlns:ns2=\"http://examples.org/\" />"
 		);
+		ui.newFile("/XMLTests/xmlWithDTD.xml",
+			"<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
+			"<!DOCTYPE root [\n" +
+			"  <!ELEMENT root (leave)>\n" +
+			"  <!ELEMENT leave (#PCDATA)>\n" +
+			"]>\n" +
+			"<root>\n" +
+			"<leave>Green leave</leave>\n" +
+			"</root>"
+		);
+		ui.newFile("/XMLTests/invalidXmlWithDTD.xml",
+				"<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
+				"<!DOCTYPE root [\n" +
+				"  <!ELEMENT root (leave)>\n" +
+				"  <!ELEMENT leave (#PCDATA)>\n" +
+				"]>\n" +
+				"<root>\n" +
+				"<leaf>Green leave</leaf>\n" +
+				"</root>"
+			);
 	}
 
 	@Test
@@ -157,7 +178,7 @@ public class XMLManagerTest {
 
 	@Test
 	public void testValidate() throws Exception {
-		List<XMLError> errors = xml.validate("/XMLTests/pom.xml");
+		List<XMLError> errors = xml.validate("/XMLTests/xmlWithDTD.xml");
 		assertNotNull(errors);
 		assertSame(0, errors.size());
 	}
@@ -178,14 +199,23 @@ public class XMLManagerTest {
 	public void testValidate_NotWellFormed() throws Exception {
 		List<XMLError> errors = xml.validate("/XMLTests/notWellFormed.xml");
 		assertNotNull(errors);
-		assertNotSame(0, errors.size());
+		assertSame(1, errors.size());
+		assertEquals(
+			"XML document structures must start and end within the same entity.",
+			errors.get(0).toString()
+		);
 	}
 
 	@Test
-	public void testValidate_JustWrong() throws Exception {
-		List<XMLError> errors = xml.validate("/XMLTests/justWrong.xml");
+	public void testValidate_NotValid() throws Exception {
+		List<XMLError> errors = xml.validate("/XMLTests/invalidXmlWithDTD.xml");
 		assertNotNull(errors);
-		assertNotSame(0, errors.size());
+		assertSame(2, errors.size());
+		for (XMLError error : errors) {
+			assertTrue(error.toString().contains("type"));
+			assertTrue(error.toString().contains("must"));
+			assertTrue(error.toString().contains("lea"));
+		}
 	}
 
 	@Test
@@ -196,6 +226,7 @@ public class XMLManagerTest {
 	@Test
 	public void testNotValid() throws Exception {
 		assertFalse(xml.isValid("/XMLTests/justWrong.xml"));
+		assertFalse(xml.isValid("/XMLTests/invalidXmlWithDTD.xml"));
 	}
 
 	@Test
