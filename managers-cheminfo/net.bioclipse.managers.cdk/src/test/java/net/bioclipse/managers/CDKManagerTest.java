@@ -538,6 +538,7 @@ public class CDKManagerTest {
 		assertNull(cdk.getProperty(mol, "prop"));
 		cdk.setProperty(mol, "prop", "value");
 		assertNotNull(cdk.getProperty(mol, "prop"));
+		assertSame("value", cdk.setProperty(mol, "prop", "value2"));
 	}
 
 	@Test
