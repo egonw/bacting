@@ -30,6 +30,7 @@ import io.github.egonw.bacting.IBactingManager;
 import net.bioclipse.core.business.BioclipseException;
 import net.bioclipse.xml.business.DummyErrorHandler;
 import net.bioclipse.xml.business.NamespaceAggregator;
+import net.bioclipse.xml.business.XMLError;
 import nu.xom.Builder;
 import nu.xom.Document;
 import nu.xom.ParsingException;
@@ -220,4 +221,41 @@ public class XMLManager implements IBactingManager {
             );
         }
     }
+
+    public List<XMLError> validate(String file)
+    throws BioclipseException {
+    	File xmlFile = new File(workspaceRoot + file);
+        List<XMLError> errors = new ArrayList<XMLError>();
+        try {
+            XMLReader xerces = XMLReaderFactory.createXMLReader(
+                "org.apache.xerces.parsers.SAXParser"
+            ); 
+            xerces.setFeature(
+                "http://apache.org/xml/features/validation/schema",
+                true
+            );                         
+
+            Builder parser = new Builder(xerces, true);
+            parser.build(new FileInputStream(xmlFile));
+        } catch (ValidityException exception) {
+            int errorCount = exception.getErrorCount();
+            for (int i=0; i<errorCount; i++) {
+                errors.add(new XMLError(exception.getValidityError(i)));
+            }
+        } catch (ParsingException exception) {
+            errors.add(new XMLError(exception.getMessage()));
+        } catch (IOException exception) {
+            throw new BioclipseException(
+                    "Error while opening file",
+                    exception
+            );
+        } catch (SAXException exception) {
+            throw new BioclipseException(
+                "Error creating Xerces parser",
+                exception
+            );
+        }
+        return errors;
+    }
+
 }
