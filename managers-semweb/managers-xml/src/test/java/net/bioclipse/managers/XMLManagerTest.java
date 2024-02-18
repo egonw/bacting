@@ -12,6 +12,7 @@ package net.bioclipse.managers;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNotSame;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -133,6 +134,25 @@ public class XMLManagerTest {
 		List<XMLError> errors = xml.validate("/XMLTests/pom.xml");
 		assertNotNull(errors);
 		assertSame(0, errors.size());
+	}
+
+	@Test
+	public void testValidate_NotFound() throws Exception {
+		Exception exception = assertThrows(
+			BioclipseException.class, () ->
+			{
+				xml.validate("/DoesNotExist/pom.xml");
+			}
+		);
+		assertNotNull(exception);
+		assertTrue(exception.getMessage().contains("Error while opening file"));
+	}
+
+	@Test
+	public void testValidate_NotWellFormed() throws Exception {
+		List<XMLError> errors = xml.validate("/XMLTests/notWellFormed.xml");
+		assertNotNull(errors);
+		assertNotSame(0, errors.size());
 	}
 
 	@Test
