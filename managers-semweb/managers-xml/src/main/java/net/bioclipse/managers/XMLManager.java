@@ -91,7 +91,7 @@ public class XMLManager implements IBactingManager {
 			);
 		} catch (ParserConfigurationException exception) {
 			throw new BioclipseException(
-				"Error while setting up validatin engine",
+				"Error while setting up validation engine",
 				exception
 			);
 		}
