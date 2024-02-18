@@ -76,6 +76,10 @@ public class RDFManagerTest {
 	            "ex:shape {\n" +
 	            "  ex:predicate [ @nl~ ] ; \n" +
 	            "}\n");
+		ui.newFile("/RDFTests/classes.ttl",
+	            "PREFIX ex:    <https://example.org/>\n" +
+	            "PREFIX xsd:   <http://www.w3.org/2001/XMLSchema#>\n" +
+	            "ex:shape a ex:ClassOne ; a ex:ClassTwo . \n");
 	}
 
 	// mock class, aimed to be not supported
@@ -436,4 +440,17 @@ public class RDFManagerTest {
 			rdf.validateAllOfType(new Store(), "/RDFTests/exampleContent.shex", "https://example.org/shape", "https://example.org/type");
 		});
 	}
+
+    @Test
+    public void allClasses() throws Exception {
+        IRDFStore store = rdf.createInMemoryStore(true);
+        store = rdf.importFile(store, "/RDFTests/classes.ttl", "TURTLE");
+        List<String> classes = rdf.allClasses(store);
+        System.out.println(classes);
+        assertNotNull(classes);
+        assertNotSame(0, classes.size());
+        for (String clazz : classes) {
+            if (clazz.equals("https://example.org/ClassOne")) return;
+        }
+    }
 }

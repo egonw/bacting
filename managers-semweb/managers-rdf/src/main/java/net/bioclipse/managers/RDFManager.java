@@ -697,4 +697,33 @@ public class RDFManager {
         return output.toString();
     }
 
+    /**
+     * Lists all existing classes.
+     *
+     * @param store    the {@link IRDFStore}
+     * @return         a {@link List} with all unique classes
+     *
+     * @throws BioclipseException when the {@link IRDFStore} could not be queried
+     */
+    public List<String> allClasses(IRDFStore store) throws BioclipseException {
+        try {
+			StringMatrix results = sparql(store,
+				"SELECT DISTINCT ?class WHERE {" +
+				" [] a ?class" +
+				"}"
+			);
+			return results.getColumn("class");
+		} catch (IOException exception) {
+			throw new BioclipseException(
+			    "Could not query to store: " + exception.getMessage(),
+			    exception
+			);
+		} catch (CoreException exception) {
+			throw new BioclipseException(
+				"Could not query to store: " + exception.getMessage(),
+				exception
+			);
+		}
+    }
+
 }
