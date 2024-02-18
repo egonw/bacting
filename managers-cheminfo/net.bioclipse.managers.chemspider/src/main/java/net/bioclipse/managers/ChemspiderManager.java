@@ -14,6 +14,9 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
@@ -38,6 +41,7 @@ public class ChemspiderManager implements IBactingManager {
 
     private String workspaceRoot;
 
+	private BioclipseManager bioclipse;
 	private CDKManager cdk;
 
     /**
@@ -48,6 +52,7 @@ public class ChemspiderManager implements IBactingManager {
     public ChemspiderManager(String workspaceRoot) {
 		this.workspaceRoot = workspaceRoot;
 		this.cdk = new CDKManager(workspaceRoot);
+		this.bioclipse = new BioclipseManager(workspaceRoot);
 	}
 
     /**
@@ -64,7 +69,7 @@ public class ChemspiderManager implements IBactingManager {
 
 		Set<Integer> results = new HashSet<Integer>();
 
-		URL url = new URL("http://www.chemspider.com/InChIKey/" + inchiKey);
+		URL url = new URL("https://www.chemspider.com/InChIKey/" + inchiKey);
 		BufferedReader reader = new BufferedReader(
 			new InputStreamReader(
 				url.openConnection().getInputStream()
@@ -93,34 +98,11 @@ public class ChemspiderManager implements IBactingManager {
 	 *
 	 * @param csid  the ChemSpider identifiers
 	 * @return      the molecule as {@link String}
-	 * @throws IOException
-	 * @throws BioclipseException
-	 * @throws CoreException
+	 * @throws BioclipseException when there was a downloading problem
 	 */
 	public String downloadAsString(Integer csid)
-	throws IOException, BioclipseException, CoreException {
-		StringBuffer fileContent = new StringBuffer(); 
-		try {                
-			URL url = new URL("http://www.chemspider.com/mol/" + csid);
-			BufferedReader reader = new BufferedReader(
-					new InputStreamReader(
-							url.openConnection().getInputStream()
-					)
-			);
-			String line = reader.readLine();
-			while (line != null) {
-				fileContent.append(line).append('\n');
-				line = reader.readLine();
-			}
-			reader.close();
-		} catch (PatternSyntaxException exception) {
-			exception.printStackTrace();
-			throw new BioclipseException("Invalid Pattern.", exception);
-		} catch (MalformedURLException exception) {
-			exception.printStackTrace();
-			throw new BioclipseException("Invalid URL.", exception);
-		}
-		return fileContent.toString();
+	throws BioclipseException {
+		return bioclipse.download("https://www.chemspider.com/mol/" + csid);
 	}
 
 	/**
@@ -139,6 +121,23 @@ public class ChemspiderManager implements IBactingManager {
 
 		ICDKMolecule molecule = cdk.fromString(molstring);
 		return molecule;
+	}
+
+	/**
+	 * Loads the ChemSpider MDL molfile with the given ChemSpider ID (csid) to the given path.
+	 *
+	 * @param csid    the ChemSpider ID
+	 * @param target  filename of MDL molfile from ChemSpider to write to
+	 */
+	public String loadCompound(int csid, String target)
+	throws IOException, BioclipseException, CoreException {
+		URL url = new URL("https://www.chemspider.com/mol/" + csid);
+		Files.copy(
+			url.openConnection().getInputStream(),
+			Paths.get(workspaceRoot + target),
+			StandardCopyOption.REPLACE_EXISTING
+		);
+		return target;
 	}
 
 	@Override

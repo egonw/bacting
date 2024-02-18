@@ -1,7 +1,7 @@
 /* Copyright (c) 2008-2009  Ola Spjuth
  *               2008-2012  Jonathan Alvarsson
  *               2008-2009  Stefan Kuhn
- *               2008-2020  Egon Willighagen <egonw@users.sf.net>
+ *               2008-2024  Egon Willighagen <egonw@users.sf.net>
  *               2013       John May <jwmay@users.sf.net>
  *
  * All rights reserved. This program and the accompanying materials
@@ -700,6 +700,43 @@ public class CDKManager implements IBactingManager {
      */
     public ICDKMolecule newMolecule(IAtomContainer atomContainer) {
         return new CDKMolecule(atomContainer);
+    }
+
+    /**
+     * Gets the property on the {@link ICDKMolecule}.
+     *
+     * @param molecule     the molecule to get the property from
+     * @param propertyName the name of the property
+     * @return             the value of the property
+     */
+    public Object getProperty(ICDKMolecule molecule, Object propertyName) {
+        IAtomContainer container = molecule.getAtomContainer();
+        if (container == null) {
+            throw new IllegalArgumentException(
+                "Passed ICDKMolecule has a null IAtomContainer."
+            );
+        }
+        return container.getProperty(propertyName);
+    }
+
+    /**
+     * Sets the property on the {@link ICDKMolecule}.
+     *
+     * @param molecule      the molecule to get the property from
+     * @param propertyName  the name of the property
+     * @param propertyValue the value of the property
+     */
+    public Object setProperty(ICDKMolecule molecule, Object propertyName,
+            Object propertyValue) {
+        IAtomContainer container = molecule.getAtomContainer();
+        if (container == null) {
+            throw new IllegalArgumentException(
+                "Passed ICDKMolecule has a null IAtomContainer."
+            );
+        }
+        Object oldValue = container.getProperty(propertyName);
+        container.setProperty(propertyName, propertyValue);
+        return oldValue;
     }
 
     @Override

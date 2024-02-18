@@ -77,4 +77,16 @@ public class ChemspiderManagerTest {
 		IMolecule mol = chemspider.download(171);
 		assertNotNull(mol);
 	}
+
+	@Test
+	@Tag("chemspider")
+	public void testLoadCompound() throws IOException, BioclipseException, CoreException {
+		String results = chemspider.loadCompound(
+			171,
+			"/Download/cs171.mol"
+		);
+		assertTrue(results.equals("/Download/cs171.mol"));
+		// should also test the file content
+	}
+
 }
