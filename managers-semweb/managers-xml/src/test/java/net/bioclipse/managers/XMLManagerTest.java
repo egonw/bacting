@@ -23,6 +23,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import net.bioclipse.core.business.BioclipseException;
+import net.bioclipse.xml.business.XMLError;
 import nu.xom.Document;
 
 public class XMLManagerTest {
@@ -125,6 +126,13 @@ public class XMLManagerTest {
 		);
 		assertNotNull(exception);
 		assertTrue(exception.getMessage().contains("Error while reading file"));
+	}
+
+	@Test
+	public void testValidate() throws Exception {
+		List<XMLError> errors = xml.validate("/XMLTests/pom.xml");
+		assertNotNull(errors);
+		assertSame(0, errors.size());
 	}
 
 	@Test
