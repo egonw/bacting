@@ -1,4 +1,4 @@
-/* Copyright (c) 2020  Egon Willighagen <egon.willighagen@gmail.com>
+/* Copyright (c) 2020-2024  Egon Willighagen <egon.willighagen@gmail.com>
  *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
@@ -85,11 +85,36 @@ public class XMLManagerTest {
 	}
 
 	@Test
+	public void testReadValid_NotValid() throws Exception {
+		Exception exception = assertThrows(
+			BioclipseException.class, () ->
+			{
+				xml.readValid("/XMLTests/justWrong.xml");
+			}
+		);
+		assertNotNull(exception);
+		assertTrue(exception.getMessage().contains("must be terminated by the matching end-tag"));
+	}
+
+	@Test
 	public void testReadValidString() throws Exception {
 		String xmlContent = bioclipse.download("https://raw.githubusercontent.com/egonw/bacting/master/pom.xml");
 		Document doc = xml.readValidString(xmlContent);
 		assertNotNull(doc);
 		assertSame("project", doc.getRootElement().getLocalName());
+	}
+
+	@Test
+	public void testReadValidString_NotValid() throws Exception {
+		Exception exception = assertThrows(
+			BioclipseException.class, () ->
+			{
+				String xmlContent = bioclipse.download("https://raw.githubusercontent.com/egonw/bacting/master/pom.xml");
+				xml.readValidString(xmlContent.substring(10));
+			}
+		);
+		assertNotNull(exception);
+		assertTrue(exception.getMessage().contains("Content is not allowed in prolog."));
 	}
 
 	@Test
