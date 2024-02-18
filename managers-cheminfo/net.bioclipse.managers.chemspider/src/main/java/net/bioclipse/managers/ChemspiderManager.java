@@ -67,7 +67,7 @@ public class ChemspiderManager implements IBactingManager {
 
 		Set<Integer> results = new HashSet<Integer>();
 
-		URL url = new URL("http://www.chemspider.com/InChIKey/" + inchiKey);
+		URL url = new URL("https://www.chemspider.com/InChIKey/" + inchiKey);
 		BufferedReader reader = new BufferedReader(
 			new InputStreamReader(
 				url.openConnection().getInputStream()
@@ -104,7 +104,7 @@ public class ChemspiderManager implements IBactingManager {
 	throws IOException, BioclipseException, CoreException {
 		StringBuffer fileContent = new StringBuffer(); 
 		try {                
-			URL url = new URL("http://www.chemspider.com/mol/" + csid);
+			URL url = new URL("https://www.chemspider.com/mol/" + csid);
 			BufferedReader reader = new BufferedReader(
 					new InputStreamReader(
 							url.openConnection().getInputStream()
