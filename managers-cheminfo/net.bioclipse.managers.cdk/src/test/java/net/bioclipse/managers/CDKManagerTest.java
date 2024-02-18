@@ -551,4 +551,15 @@ public class CDKManagerTest {
 		assertTrue(exception.getMessage().contains("Passed ICDKMolecule has a null IAtomContainer"));
 	}
 
+	@Test
+	public void testGetProperty_NullMolecule() {
+		Exception exception = assertThrows(
+			IllegalArgumentException.class, () ->
+			{
+				cdk.getProperty(new CDKMolecule(null), "prop");
+			}
+		);
+		assertTrue(exception.getMessage().contains("Passed ICDKMolecule has a null IAtomContainer"));
+	}
+
 }
