@@ -446,11 +446,22 @@ public class RDFManagerTest {
         IRDFStore store = rdf.createInMemoryStore(true);
         store = rdf.importFile(store, "/RDFTests/classes.ttl", "TURTLE");
         List<String> classes = rdf.allClasses(store);
-        System.out.println(classes);
         assertNotNull(classes);
         assertNotSame(0, classes.size());
         for (String clazz : classes) {
             if (clazz.equals("https://example.org/ClassOne")) return;
+        }
+    }
+
+    @Test
+    public void allPredicates() throws Exception {
+        IRDFStore store = rdf.createInMemoryStore(true);
+        store = rdf.importFile(store, "/RDFTests/classes.ttl", "TURTLE");
+        List<String> classes = rdf.allPredicates(store);
+        assertNotNull(classes);
+        assertNotSame(0, classes.size());
+        for (String clazz : classes) {
+            if (clazz.equals("http://www.w3.org/1999/02/22-rdf-syntax-ns#type")) return;
         }
     }
 }

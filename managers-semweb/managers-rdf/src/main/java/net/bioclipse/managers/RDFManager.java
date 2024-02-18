@@ -130,8 +130,7 @@ public class RDFManager {
      * @param resourceURI  subject of the triples
      * @param predicate    predicate of the triples
      * @return             List of objects (resources and literals).
-     * @throws BioclipseException
-    */
+     */
     public List<String> getForPredicate(IRDFStore store, String resourceURI, String predicate) {
         StringMatrix results = sparql(store,
             "SELECT DISTINCT ?object WHERE {" +
@@ -699,6 +698,23 @@ public class RDFManager {
             "}"
         );
         return results.getColumn("class");
+    }
+
+    /**
+     * Lists all existing predicates.
+     *
+     * @param store    the {@link IRDFStore}
+     * @return         a {@link List} with all unique predicates
+     *
+     * @throws BioclipseException when the {@link IRDFStore} could not be queried
+     */
+    public List<String> allPredicates(IRDFStore store) throws BioclipseException {
+        StringMatrix results = sparql(store,
+            "SELECT DISTINCT ?predicate WHERE {" +
+            " [] ?predicate []" +
+            "}"
+        );
+        return results.getColumn("predicate");
     }
 
 }
