@@ -14,6 +14,9 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
@@ -139,6 +142,23 @@ public class ChemspiderManager implements IBactingManager {
 
 		ICDKMolecule molecule = cdk.fromString(molstring);
 		return molecule;
+	}
+
+	/**
+	 * Loads the ChemSpider MDL molfile with the given ChemSpider ID (csid) to the given path.
+	 *
+	 * @param csid    the ChemSpider ID
+	 * @param target  filename of MDL molfile from ChemSpider to write to
+	 */
+	public String loadCompound(int csid, String target)
+	throws IOException, BioclipseException, CoreException {
+		URL url = new URL("https://www.chemspider.com/mol/" + csid);
+		Files.copy(
+			url.openConnection().getInputStream(),
+			Paths.get(workspaceRoot + target),
+			StandardCopyOption.REPLACE_EXISTING
+		);
+		return target;
 	}
 
 	@Override
