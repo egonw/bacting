@@ -132,26 +132,14 @@ public class RDFManager {
      * @return             List of objects (resources and literals).
      * @throws BioclipseException
     */
-    public List<String> getForPredicate(IRDFStore store, String resourceURI, String predicate) throws BioclipseException {
-    	try {
-			StringMatrix results = sparql(store,
-				"SELECT DISTINCT ?object WHERE {" +
-				" <" + resourceURI + "> <" + predicate + "> ?object" +
-				"}"
-			);
-			if (results.getRowCount() == 0) return Collections.emptyList();
-			return results.getColumn("object");
-		} catch (IOException exception) {
-			throw new BioclipseException(
-			    "Could not query to store: " + exception.getMessage(),
-			    exception
-			);
-		} catch (CoreException exception) {
-			throw new BioclipseException(
-				"Could not query to store: " + exception.getMessage(),
-				exception
-			);
-		}
+    public List<String> getForPredicate(IRDFStore store, String resourceURI, String predicate) {
+        StringMatrix results = sparql(store,
+            "SELECT DISTINCT ?object WHERE {" +
+            " <" + resourceURI + "> <" + predicate + "> ?object" +
+            "}"
+        );
+        if (results.getRowCount() == 0) return Collections.emptyList();
+        return results.getColumn("object");
     }
 
     /**
@@ -427,8 +415,7 @@ public class RDFManager {
      * @param queryString  the SPARQL query
      * @return             an {@link StringMatrix} object with results
      */
-    public StringMatrix sparql(IRDFStore store, String queryString) throws IOException, BioclipseException,
-    CoreException {
+    public StringMatrix sparql(IRDFStore store, String queryString) {
         if (!(store instanceof IJenaStore))
             throw new RuntimeException(
                 "Can only handle IJenaStore's for now."
@@ -706,24 +693,12 @@ public class RDFManager {
      * @throws BioclipseException when the {@link IRDFStore} could not be queried
      */
     public List<String> allClasses(IRDFStore store) throws BioclipseException {
-        try {
-			StringMatrix results = sparql(store,
-				"SELECT DISTINCT ?class WHERE {" +
-				" [] a ?class" +
-				"}"
-			);
-			return results.getColumn("class");
-		} catch (IOException exception) {
-			throw new BioclipseException(
-			    "Could not query to store: " + exception.getMessage(),
-			    exception
-			);
-		} catch (CoreException exception) {
-			throw new BioclipseException(
-				"Could not query to store: " + exception.getMessage(),
-				exception
-			);
-		}
+        StringMatrix results = sparql(store,
+            "SELECT DISTINCT ?class WHERE {" +
+            " [] a ?class" +
+            "}"
+        );
+        return results.getColumn("class");
     }
 
 }
