@@ -1,5 +1,5 @@
 /* Copyright (c) 2008       The Bioclipse Project and others
- *               2020-2021  Egon Willighagen <egon.willighagen@gmail.com>
+ *               2020-2024  Egon Willighagen <egon.willighagen@gmail.com>
  *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
@@ -37,6 +37,7 @@ import org.openscience.cdk.io.formats.CDKSourceCodeFormat;
 import org.openscience.cdk.io.formats.IChemFormat;
 import org.openscience.cdk.io.formats.SMILESFormat;
 
+import net.bioclipse.cdk.domain.CDKMolecule;
 import net.bioclipse.cdk.domain.ICDKMolecule;
 import net.bioclipse.core.business.BioclipseException;
 import net.bioclipse.core.domain.IMolecule;
@@ -530,5 +531,24 @@ public class CDKManagerTest {
         IMolecule mol = cdk.newMolecule();
         Assertions.assertNotNull(mol);
     }
+
+	@Test
+	public void testSetProperty() throws BioclipseException {
+		ICDKMolecule mol = cdk.fromSMILES("CCC");
+		assertNull(cdk.getProperty(mol, "prop"));
+		cdk.setProperty(mol, "prop", "value");
+		assertNotNull(cdk.getProperty(mol, "prop"));
+	}
+
+	@Test
+	public void testSetProperty_NullMolecule() {
+		Exception exception = assertThrows(
+			IllegalArgumentException.class, () ->
+			{
+				cdk.setProperty(new CDKMolecule(null), "prop", "value");
+			}
+		);
+		assertTrue(exception.getMessage().contains("Passed ICDKMolecule has a null IAtomContainer"));
+	}
 
 }
