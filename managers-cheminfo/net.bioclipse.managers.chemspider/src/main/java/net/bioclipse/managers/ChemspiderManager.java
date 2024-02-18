@@ -41,6 +41,7 @@ public class ChemspiderManager implements IBactingManager {
 
     private String workspaceRoot;
 
+	private BioclipseManager bioclipse;
 	private CDKManager cdk;
 
     /**
@@ -51,6 +52,7 @@ public class ChemspiderManager implements IBactingManager {
     public ChemspiderManager(String workspaceRoot) {
 		this.workspaceRoot = workspaceRoot;
 		this.cdk = new CDKManager(workspaceRoot);
+		this.bioclipse = new BioclipseManager(workspaceRoot);
 	}
 
     /**
@@ -101,29 +103,8 @@ public class ChemspiderManager implements IBactingManager {
 	 * @throws CoreException
 	 */
 	public String downloadAsString(Integer csid)
-	throws IOException, BioclipseException, CoreException {
-		StringBuffer fileContent = new StringBuffer(); 
-		try {                
-			URL url = new URL("https://www.chemspider.com/mol/" + csid);
-			BufferedReader reader = new BufferedReader(
-					new InputStreamReader(
-							url.openConnection().getInputStream()
-					)
-			);
-			String line = reader.readLine();
-			while (line != null) {
-				fileContent.append(line).append('\n');
-				line = reader.readLine();
-			}
-			reader.close();
-		} catch (PatternSyntaxException exception) {
-			exception.printStackTrace();
-			throw new BioclipseException("Invalid Pattern.", exception);
-		} catch (MalformedURLException exception) {
-			exception.printStackTrace();
-			throw new BioclipseException("Invalid URL.", exception);
-		}
-		return fileContent.toString();
+	throws BioclipseException {
+		return bioclipse.download("https://www.chemspider.com/mol/" + csid);
 	}
 
 	/**
