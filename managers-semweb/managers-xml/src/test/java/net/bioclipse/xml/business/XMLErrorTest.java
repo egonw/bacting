@@ -8,6 +8,7 @@
  * Contact: http://www.bioclipse.net/
  */package net.bioclipse.xml.business;
 
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -29,5 +30,20 @@ public class XMLErrorTest {
 		assertTrue(error.toString().contains("some message"));
 		assertTrue(error.toString().contains("3"));
 		assertTrue(error.toString().contains("7"));
+	}
+
+	@Test
+	public void testConstructorToStringWithWrongLocations() {
+		XMLError error = new XMLError("some message", 3, -1);
+		assertNotNull(error.toString());
+		assertTrue(error.toString().contains("some message"));
+		assertFalse(error.toString().contains("3"));
+		assertFalse(error.toString().contains("7"));
+
+		error = new XMLError("some message", -1, 7);
+		assertNotNull(error.toString());
+		assertTrue(error.toString().contains("some message"));
+		assertFalse(error.toString().contains("3"));
+		assertFalse(error.toString().contains("7"));
 	}
 }
