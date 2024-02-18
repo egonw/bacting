@@ -98,9 +98,7 @@ public class ChemspiderManager implements IBactingManager {
 	 *
 	 * @param csid  the ChemSpider identifiers
 	 * @return      the molecule as {@link String}
-	 * @throws IOException
-	 * @throws BioclipseException
-	 * @throws CoreException
+	 * @throws BioclipseException when there was a downloading problem
 	 */
 	public String downloadAsString(Integer csid)
 	throws BioclipseException {
