@@ -47,6 +47,7 @@ public class XMLManagerTest {
 			"/XMLTests/pom.xml"
 		);
 		ui.newFile("/XMLTests/notWellFormed.xml", "<xml>");
+		ui.newFile("/XMLTests/justWrong.xml", "<xml></cml>");
 		ui.newFile("/XMLTests/doubleNamespace.xml",
 			"<xml xmlns:ns=\"http://examples.org/\" xmlns:ns2=\"http://examples.org/\" />"
 		);
@@ -156,8 +157,20 @@ public class XMLManagerTest {
 	}
 
 	@Test
+	public void testValidate_JustWrong() throws Exception {
+		List<XMLError> errors = xml.validate("/XMLTests/justWrong.xml");
+		assertNotNull(errors);
+		assertNotSame(0, errors.size());
+	}
+
+	@Test
 	public void testIsValid() throws Exception {
 		assertTrue(xml.isValid("/XMLTests/pom.xml"));
+	}
+
+	@Test
+	public void testNotValid() throws Exception {
+		assertFalse(xml.isValid("/XMLTests/justWrong.xml"));
 	}
 
 	@Test
