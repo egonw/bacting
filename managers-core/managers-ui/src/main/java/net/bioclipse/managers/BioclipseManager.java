@@ -172,9 +172,15 @@ public class BioclipseManager implements IBactingManager {
         	 HttpResponse response = httpclient.execute(httppost);
         	 StatusLine statusLine = response.getStatusLine();
         	 int statusCode = statusLine.getStatusCode();
-        	 if (statusCode != 200) throw new BioclipseException(
-        		 "Expected HTTP 200, but got a " + statusCode + ": " + statusLine.getReasonPhrase()
-        	 );
+             if (statusCode != 200) {
+                 InputStream errorStream = response.getEntity().getContent();
+                 String errorDetails = new String(errorStream.readAllBytes(), StandardCharsets.UTF_8);
+                 errorStream.close();
+                 throw new BioclipseException(
+                     "Expected HTTP 200, but got a " + statusCode + ": " + statusLine.getReasonPhrase() +
+                     "\n" + errorDetails
+                 );
+             }
 
          	 HttpEntity responseEntity = response.getEntity();
          	 ByteArrayOutputStream buffer = new ByteArrayOutputStream();
