@@ -159,6 +159,7 @@ public class BioclipseManager implements IBactingManager {
          try {
         	 UrlEncodedFormEntity entity = new UrlEncodedFormEntity(formparams, "UTF-8");
         	 HttpPost httppost = new HttpPost(serviceURL);
+             httppost.addHeader("Accept", "application/sparql-results+xml");
         	 httppost.setEntity(entity);
              if (extraHeaders != null) {
                  for (String header : extraHeaders.keySet()) {
