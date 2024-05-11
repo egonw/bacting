@@ -120,6 +120,29 @@ public class BioclipseManagerTest {
 	}
 
 	@Test
+	public void testSparqlRemote_HeadersNull() throws BioclipseException {
+		byte[] results = bioclipse.sparqlRemote(
+			"https://sparql.wikipathways.org/sparql",
+			"SELECT * WHERE { ?s ?p ?o } LIMIT 1",
+			null
+		);
+		assertNotSame(0, results.length);
+	}
+
+	@Test
+	public void testSparqlRemote_QLever() throws BioclipseException {
+		byte[] results = bioclipse.sparqlRemote(
+			"https://qlever.cs.uni-freiburg.de/api/wikidata",
+			"PREFIX wdt: <http://www.wikidata.org/prop/direct/>\n" +
+			"SELECT DISTINCT ?chemical ?smiles WHERE {\n" +
+			"  ?chemical wdt:P233 ?smiles .\n" +
+			"} LIMIT 1",
+			null
+		);
+		assertNotSame(0, results.length);
+	}
+
+	@Test
 	public void testSparqlRemote_403() throws BioclipseException {
 		Exception exception = assertThrows(
 			BioclipseException.class, () ->

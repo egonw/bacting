@@ -12,11 +12,13 @@ package net.bioclipse.managers;
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
@@ -130,7 +132,20 @@ public class BioclipseManager implements IBactingManager {
      */
     public byte[] sparqlRemote(String serviceURL, String sparqlQueryString)
     throws BioclipseException {
+        return sparqlRemote(serviceURL, sparqlQueryString, null);
+    }
 
+    /**
+     * Queries a remote SPARQL end point without Apache Jena.
+     *
+     * @param serviceURL        the URL of the SPARQL end point
+     * @param sparqlQueryString the SPARQL query
+     * @param extraHeaders      additional, custom HTTP headers
+     * @return                  an {@link StringMatrix} object with results
+     * @throws BioclipseException when an {@link UnsupportedEncodingException} or {@link IOException} is encountered
+     */
+    public byte[] sparqlRemote(String serviceURL, String sparqlQueryString, Map<String,String> extraHeaders)
+    throws BioclipseException {
          // use Apache for doing the SPARQL query
          HttpClient httpclient = HttpClientBuilder.create()
              .useSystemProperties()
@@ -145,6 +160,15 @@ public class BioclipseManager implements IBactingManager {
         	 UrlEncodedFormEntity entity = new UrlEncodedFormEntity(formparams, "UTF-8");
         	 HttpPost httppost = new HttpPost(serviceURL);
         	 httppost.setEntity(entity);
+             if (extraHeaders != null) {
+                 for (String header : extraHeaders.keySet()) {
+                     httppost.addHeader(header, extraHeaders.get(header));
+                 }
+                 if (!extraHeaders.containsKey("User-Agent"))
+                     httppost.addHeader("User-Agent", "Bacting (https://joss.theoj.org/papers/10.21105/joss.02558)");
+             } else {
+                 httppost.addHeader("User-Agent", "Bacting (https://joss.theoj.org/papers/10.21105/joss.02558)");
+             }
         	 HttpResponse response = httpclient.execute(httppost);
         	 StatusLine statusLine = response.getStatusLine();
         	 int statusCode = statusLine.getStatusCode();
