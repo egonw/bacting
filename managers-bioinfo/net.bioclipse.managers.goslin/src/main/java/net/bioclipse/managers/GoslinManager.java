@@ -9,7 +9,7 @@
  */
 package net.bioclipse.managers;
 
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.List;
 
 import io.github.egonw.bacting.IBactingManager;
@@ -36,8 +36,12 @@ public class GoslinManager implements IBactingManager {
 	}
 
 	@Override
+	@SuppressWarnings("serial")
 	public List<String> doi() {
-		return Collections.emptyList();
+		return new ArrayList<String>() {{
+		  add("10.1021/acs.analchem.0c01690");
+		  add("10.1021/acs.analchem.1c05430");
+		}};
 	}
 
 }
