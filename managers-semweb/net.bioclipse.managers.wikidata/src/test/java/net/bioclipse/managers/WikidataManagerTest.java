@@ -104,7 +104,7 @@ public class WikidataManagerTest {
 	@Test
 	public void testGetEntityIDs_NotInWikidata() throws Exception {
 		List<InChI> inchis = new ArrayList<>();
-		inchis.add(inchi.generate(cdk.fromSMILES("CCCC[O-]")));
+		inchis.add(inchi.generate(cdk.fromSMILES("CCCCCC[O-]")));
 		Map<String,String> mappings = wikidata.getEntityIDs(inchis);
 		assertNotNull(mappings);
 		assertEquals(0, mappings.size());
@@ -199,7 +199,7 @@ public class WikidataManagerTest {
 		Exception exception = assertThrows(
 			BioclipseException.class, () ->
 			{
-				IMolecule methane = cdk.fromSMILES("CCCC[O-]");
+				IMolecule methane = cdk.fromSMILES("CCCCCC[O-]");
 				InChI inchiObj = inchi.generate(methane);
 				wikidata.getMolecule(inchiObj);
 			}
