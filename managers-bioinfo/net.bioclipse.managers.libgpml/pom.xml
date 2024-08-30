@@ -34,7 +34,13 @@
     <dependency>
       <groupId>io.github.egonw.bacting</groupId>
       <artifactId>bacting-core</artifactId>
-      <version>0.3.3</version>
+      <version>1.0.0</version>
+    </dependency>
+    <dependency>
+      <groupId>io.github.egonw.bacting</groupId>
+      <artifactId>managers-ui</artifactId>
+        <scope>test</scope>
+      <version>1.0.0</version>
     </dependency>
     <dependency>
         <groupId>org.junit.jupiter</groupId>
