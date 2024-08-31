@@ -215,6 +215,21 @@ public class WikidataManagerTest {
 	}
 
 	@Test
+	public void testGetEntityIDsForWorksOfAuthor() throws Exception {
+		List<String> entityIDs = wikidata.getEntityIDsForWorksOfAuthor("Q20895241");
+		assertNotNull(entityIDs);
+		assertTrue(entityIDs.size() > 10);
+	}
+
+	@Test
+	public void testGetDOIsForWorksOfAuthor() throws Exception {
+		List<String> entityIDs = wikidata.getDOIsForWorksOfAuthor("Q20895241");
+		assertNotNull(entityIDs);
+		assertTrue(entityIDs.size() > 10);
+		assertTrue(entityIDs.get(0).startsWith("10."));
+	}
+
+	@Test
 	public void testGetEntityIDsForType_InvalidType() throws Exception {
 		Exception exception = assertThrows(
 			BioclipseException.class, () ->

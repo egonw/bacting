@@ -210,6 +210,47 @@ public class WikidataManager implements IBactingManager {
     }
 
     /**
+     * Returns the Wikidata entity IDs for works authored by (P50) the given author.
+     *
+     * @param author identifier of the Wikidata item for the author
+     * @return       the list of Wikidata identifiers for the works
+     */
+    public List<String> getEntityIDsForWorksOfAuthor(String author) throws BioclipseException {
+    	if (!isValidQIdentifier(author)) throw new BioclipseException("You must give a valid Wikidata identifier, but got " + author + ".");
+    	String query =
+        	"PREFIX wdt: <http://www.wikidata.org/prop/direct/>"
+        	+ "SELECT DISTINCT ?entity WHERE {"
+        	+ "  ?entity wdt:P50 wd:" + author + " ."
+        	+ "}";
+    	byte[] resultRaw = bioclipse.sparqlRemote(
+       		"https://query.wikidata.org/sparql", query
+       	);
+       	IStringMatrix results = rdf.processSPARQLXML(resultRaw, query);
+       	return results.getColumn("entity");
+    }
+
+    /**
+     * Returns the Wikidata entity IDs for works authored by (P50) the given author.
+     *
+     * @param author identifier of the Wikidata item for the author
+     * @return       the list of DOIs for the works
+     */
+    public List<String> getDOIsForWorksOfAuthor(String author) throws BioclipseException {
+    	if (!isValidQIdentifier(author)) throw new BioclipseException("You must give a valid Wikidata identifier, but got " + author + ".");
+    	String query =
+        	"PREFIX wdt: <http://www.wikidata.org/prop/direct/>"
+        	+ "SELECT DISTINCT ?doi WHERE {"
+        	+ "  ?entity wdt:P50 wd:" + author + " ;"
+        	+ "  wdt:P356 ?doi ."
+        	+ "}";
+    	byte[] resultRaw = bioclipse.sparqlRemote(
+       		"https://query.wikidata.org/sparql", query
+       	);
+       	IStringMatrix results = rdf.processSPARQLXML(resultRaw, query);
+       	return results.getColumn("doi");
+    }
+
+    /**
      * Determines if an identifier is a valid Wikidata entity identifier, like Q5. 
      *
      * @param  identifier to test
