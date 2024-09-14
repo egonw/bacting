@@ -1,4 +1,4 @@
-/* Copyright (c) 2021  Egon Willighagen <egon.willighagen@gmail.com>
+/* Copyright (c) 2021-2024  Egon Willighagen <egon.willighagen@gmail.com>
  *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
@@ -224,6 +224,21 @@ public class WikidataManagerTest {
 	@Test
 	public void testGetDOIsForWorksOfAuthor() throws Exception {
 		List<String> entityIDs = wikidata.getDOIsForWorksOfAuthor("Q20895241");
+		assertNotNull(entityIDs);
+		assertTrue(entityIDs.size() > 10);
+		assertTrue(entityIDs.get(0).startsWith("10."));
+	}
+
+	@Test
+	public void testGetEntityIDsForWorksOfVenue() throws Exception {
+		List<String> entityIDs = wikidata.getEntityIDsForWorksOfVenue("Q115450084");
+		assertNotNull(entityIDs);
+		assertTrue(entityIDs.size() > 10);
+	}
+
+	@Test
+	public void testGetDOIsForWorksOfVenue() throws Exception {
+		List<String> entityIDs = wikidata.getDOIsForWorksOfVenue("Q115450084");
 		assertNotNull(entityIDs);
 		assertTrue(entityIDs.size() > 10);
 		assertTrue(entityIDs.get(0).startsWith("10."));
