@@ -58,6 +58,35 @@
       <groupId>org.pathvisio</groupId>
       <artifactId>org.pathvisio.libgpml</artifactId>
       <version>4.0.3</version>
+      <exclusions>
+        <exclusion>
+          <groupId>org.bridgedb</groupId>
+          <artifactId>org.bridgedb</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>org.bridgedb</groupId>
+          <artifactId>org.bridgedb.bio</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>org.bridgedb</groupId>
+          <artifactId>org.bridgedb.rdb</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>org.bridgedb</groupId>
+      <artifactId>org.bridgedb</artifactId>
+      <version>${bridgedb.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.bridgedb</groupId>
+      <artifactId>org.bridgedb.bio</artifactId>
+      <version>${bridgedb.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.bridgedb</groupId>
+      <artifactId>org.bridgedb.rdb</artifactId>
+      <version>${bridgedb.version}</version>
     </dependency>
   </dependencies>
 </project>
