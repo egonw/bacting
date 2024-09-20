@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Pathway xmlns="http://pathvisio.org/GPML/2013a" Name="Metapathway signal transduction" Data-Source="WikiPathways" Version="WP1546_r126396" Author="[Pieter Giesbertz, Khanspers, MaintBot, AlexanderPico, Elisa, Eweitz, RaatsS, Egonw]" Last-Modified="20230426152837" Organism="Caenorhabditis elegans">
+  <Graphics BoardWidth="935.0" BoardHeight="727.0"/>
+  <DataNode TextLabel="par-1" GraphId="a0a6e" Type="GeneProduct">
+    <Graphics CenterX="152.0" CenterY="192.0" Width="80.0" Height="20.0" ZOrder="32768" FontSize="10" Valign="Middle" />
+    <Xref Database="WormBase" ID="H39E23.1" />
+  </DataNode>

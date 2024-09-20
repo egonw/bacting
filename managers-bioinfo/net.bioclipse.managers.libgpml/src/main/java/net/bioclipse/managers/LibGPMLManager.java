@@ -10,15 +10,11 @@
 package net.bioclipse.managers;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileWriter;
-import java.io.PrintWriter;
 import java.util.Collections;
 import java.util.List;
 
 import org.pathvisio.libgpml.io.ConverterException;
 import org.pathvisio.libgpml.model.GPML2013aWriter;
-import org.pathvisio.libgpml.model.Pathway;
 import org.pathvisio.libgpml.model.PathwayModel;
 
 import io.github.egonw.bacting.IBactingManager;

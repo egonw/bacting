@@ -11,6 +11,8 @@ package net.bioclipse.managers;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -20,6 +22,8 @@ import java.util.List;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.pathvisio.libgpml.model.PathwayModel;
+
+import net.bioclipse.core.business.BioclipseException;
 
 public class LibGPMLManagerTest {
 
@@ -36,6 +40,9 @@ public class LibGPMLManagerTest {
 		InputStream stream = LibGPMLManagerTest.class.getClassLoader().getResourceAsStream("WP1546.gpml");
 		String newFile = ui.newFile("/GPMLTests/WP1546.gpml");
 		ui.append(newFile, stream);
+		stream = LibGPMLManagerTest.class.getClassLoader().getResourceAsStream("broken.gpml");
+		newFile = ui.newFile("/GPMLTests/broken.gpml");
+		ui.append(newFile, stream);
 	}
 
 	@Test
@@ -48,6 +55,30 @@ public class LibGPMLManagerTest {
 	public void testSaving() throws Exception {
 		PathwayModel pathway = gpml.loadModel("/GPMLTests/WP1546.gpml");
 		gpml.saveModelAsGPML2013a("/GPMLTests/test.gpml", pathway);
+	}
+
+	@Test
+	public void testLoading_NonExisting() throws Exception {
+		Exception exception = assertThrows(
+			BioclipseException.class, () ->
+			{
+				gpml.loadModel("/GPMLTests/WP1546_nonexisting.gpml");
+			}
+		);
+		assertNotNull(exception);
+		assertTrue(exception.getMessage().contains("No such file"));
+	}
+
+	@Test
+	public void testLoading_Broken() throws Exception {
+		Exception exception = assertThrows(
+			BioclipseException.class, () ->
+			{
+				gpml.loadModel("/GPMLTests/broken.gpml");
+			}
+		);
+		assertNotNull(exception);
+		assertTrue(exception.getMessage().contains("Error while reading GPML file"));
 	}
 
 	@Test
