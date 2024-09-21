@@ -50,6 +50,7 @@ public class WikidataManager implements IBactingManager {
      * Return true if Wikidata contains a molecule with the given InChI.
      *
      * @param inchi InChI of the molecule to check if it already exists in Wikidata
+     * @return      true, if there is a Wikidata item for the compound with the given InChI
      */
     public boolean hasMolecule(InChI inchi) throws BioclipseException {
     	if (inchi == null) throw new BioclipseException("You must give an InChI.");
@@ -69,6 +70,7 @@ public class WikidataManager implements IBactingManager {
      * Returns the Wikidata entity ID for the molecule with the given InChI.
      *
      * @param inchi InChI of the molecule to return Wikidata ID for
+     * @return      the Wikidata QID
      */
     public String getEntityID(InChI inchi) throws BioclipseException {
     	if (inchi == null) throw new BioclipseException("You must give an InChI.");
@@ -92,6 +94,7 @@ public class WikidataManager implements IBactingManager {
      * Returns the Wikidata entity IDs for the molecules with the given InChIs.
      *
      * @param inchis List of InChIs of the molecules to check if they already exists in Wikidata
+     * @return       A list of mappings with the InChIKeys and the matching Wikidata item QIDs
      */
     public Map<String,String> getEntityIDs(List<InChI> inchis) throws BioclipseException {
     	if (inchis == null) throw new BioclipseException("You must give a list of InChIs.");
@@ -122,6 +125,7 @@ public class WikidataManager implements IBactingManager {
      * when it does not exist.
      *
      * @param inchi InChI of the molecule to check if it already exists in Wikidata
+     * @return      the IMolecule for the Wikidata item matching the given InChI
      */
     public IMolecule getMolecule(InChI inchi) throws BioclipseException {
     	if (inchi == null) throw new BioclipseException("You must give an InChI.");
@@ -161,6 +165,7 @@ public class WikidataManager implements IBactingManager {
      * Returns the Wikidata entity IDs for the works with the given DOIs.
      *
      * @param dois List of DOIs of the works to check if they already exists in Wikidata
+     * @return     A list with mappings of DOIs to the matching Wikidate items
      */
     public Map<String,String> getEntityIDsForDOIs(List<String> dois) throws BioclipseException {
     	if (dois == null) throw new BioclipseException("You must give a list of DOIs.");
