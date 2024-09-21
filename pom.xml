@@ -43,7 +43,7 @@
       <junit5.excludeGroups>pubchem,chemspider</junit5.excludeGroups>
       <junit.version>5.11.0</junit.version>
 
-      <bioclipse.version>2.8.1.0</bioclipse.version>
+      <bioclipse.version>2.8.1.1</bioclipse.version>
 
       <cdk.version>2.9</cdk.version>
       <xom.version>1.3.9</xom.version>
