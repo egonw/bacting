@@ -155,6 +155,13 @@ public class WikidataManagerTest {
 	}
 
 	@Test
+	public void testGetEntityIDsForDOIs_Dataset() throws Exception {
+		Map<String,String> entityIDs = wikidata.getEntityIDsForDOIs(Arrays.asList(new String[] { "10.5281/ZENODO.7368209" }));
+		assertNotNull(entityIDs);
+		assertEquals(1, entityIDs.size());
+	}
+
+	@Test
 	public void testGetEntityIDsForDOIs_Null() throws Exception {
 		Exception exception = assertThrows(
 			BioclipseException.class, () ->
@@ -170,6 +177,13 @@ public class WikidataManagerTest {
 		String entityID = wikidata.getEntityID("10.1186/S13321-023-00780-2");
 		assertNotNull(entityID);
 		assertTrue(entityID.startsWith("http://www.wikidata.org/entity/Q"));
+	}
+
+	@Test
+	public void testGetEntityID_Dataset() throws Exception {
+		String entityID = wikidata.getEntityID("10.5281/ZENODO.7368209");
+		assertNotNull(entityID);
+		assertEquals("http://www.wikidata.org/entity/Q115470140", entityID);
 	}
 
 	@Test
