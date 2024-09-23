@@ -4,7 +4,7 @@
   <parent>
     <artifactId>managers-core</artifactId>
     <groupId>io.github.egonw.bacting</groupId>
-    <version>1.0.2-SNAPSHOT</version>
+    <version>1.0.2</version>
   </parent>
 
   <artifactId>managers-ui</artifactId>
@@ -35,7 +35,7 @@
     <dependency>
       <groupId>io.github.egonw.bacting</groupId>
       <artifactId>bacting-core</artifactId>
-      <version>1.0.2-SNAPSHOT</version>
+      <version>1.0.2</version>
     </dependency>
     <dependency>
       <groupId>io.github.egonw.bacting</groupId>
