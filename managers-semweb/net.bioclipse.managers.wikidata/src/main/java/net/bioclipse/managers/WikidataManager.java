@@ -286,12 +286,12 @@ public class WikidataManager implements IBactingManager {
 			"https://query-scholarly.wikidata.org/sparql", query
 		);
 		IStringMatrix results = rdf.processSPARQLXML(resultRaw, query);
-		dois = results.getColumn("doi");
+		if (results.getRowCount() > 0) dois.addAll(results.getColumn("doi"));
 		resultRaw = bioclipse.sparqlRemote(
     		"https://query-main.wikidata.org/sparql", query
     	);
     	results = rdf.processSPARQLXML(resultRaw, query);
-    	dois.addAll(results.getColumn("doi"));
+    	if (results.getRowCount() > 0) dois.addAll(results.getColumn("doi"));
     	return dois;
     }
 
