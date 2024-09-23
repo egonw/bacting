@@ -256,12 +256,12 @@ public class WikidataManager implements IBactingManager {
 			"https://query-scholarly.wikidata.org/sparql", query
 		);
 		IStringMatrix results = rdf.processSPARQLXML(resultRaw, query);
-		entities = results.getColumn("entity");
+		if (results.getRowCount() > 0) entities.addAll(results.getColumn("entity"));
 		resultRaw = bioclipse.sparqlRemote(
     		"https://query-main.wikidata.org/sparql", query
     	);
     	results = rdf.processSPARQLXML(resultRaw, query);
-    	entities.addAll(results.getColumn("entity"));
+    	if (results.getRowCount() > 0) entities.addAll(results.getColumn("entity"));
     	return entities;
     }
 
@@ -315,12 +315,12 @@ public class WikidataManager implements IBactingManager {
 			"https://query-scholarly.wikidata.org/sparql", query
 		);
 		IStringMatrix results = rdf.processSPARQLXML(resultRaw, query);
-		entities = results.getColumn("entity");
+		if (results.getRowCount() > 0) entities.addAll(results.getColumn("entity"));
 		resultRaw = bioclipse.sparqlRemote(
     		"https://query-main.wikidata.org/sparql", query
     	);
     	results = rdf.processSPARQLXML(resultRaw, query);
-    	entities.addAll(results.getColumn("entity"));
+    	if (results.getRowCount() > 0) entities.addAll(results.getColumn("entity"));
     	return entities;
     }
 
@@ -345,12 +345,12 @@ public class WikidataManager implements IBactingManager {
 			"https://query-scholarly.wikidata.org/sparql", query
 		);
 		IStringMatrix results = rdf.processSPARQLXML(resultRaw, query);
-		dois = results.getColumn("doi");
+		if (results.getRowCount() > 0) dois.addAll(results.getColumn("doi"));
 		resultRaw = bioclipse.sparqlRemote(
     		"https://query-main.wikidata.org/sparql", query
     	);
     	results = rdf.processSPARQLXML(resultRaw, query);
-    	dois.addAll(results.getColumn("doi"));
+    	if (results.getRowCount() > 0) dois.addAll(results.getColumn("doi"));
     	return dois;
     }
 
