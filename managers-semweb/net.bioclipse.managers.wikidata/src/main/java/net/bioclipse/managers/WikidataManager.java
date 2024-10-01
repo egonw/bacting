@@ -355,6 +355,65 @@ public class WikidataManager implements IBactingManager {
     }
 
     /**
+     * Returns the Wikidata entity IDs for works the given topic as main subject (P921).
+     *
+     * @param venue  identifier of the Wikidata item for the topic
+     * @return       the list of Wikidata identifiers for the works
+     */
+    public List<String> getEntityIDsForWorksForTopic(String venue) throws BioclipseException {
+    	if (!isValidQIdentifier(venue)) throw new BioclipseException("You must give a valid Wikidata identifier, but got " + venue + ".");
+    	String query =
+        	"PREFIX wdt: <http://www.wikidata.org/prop/direct/>"
+        	+ "SELECT DISTINCT ?entity WHERE {"
+        	+ "  ?entity wdt:P921 wd:" + venue + " ."
+        	+ "}";
+		// handle the split Wikidata SPARQL endpoints, as a DOI can be for a scholarly article (first call)
+		// and for other types, like datasets (second call)
+    	List<String> entities = new ArrayList<>();
+		byte[] resultRaw = bioclipse.sparqlRemote(
+			"https://query-scholarly.wikidata.org/sparql", query
+		);
+		IStringMatrix results = rdf.processSPARQLXML(resultRaw, query);
+		if (results.getRowCount() > 0) entities.addAll(results.getColumn("entity"));
+		resultRaw = bioclipse.sparqlRemote(
+    		"https://query-main.wikidata.org/sparql", query
+    	);
+    	results = rdf.processSPARQLXML(resultRaw, query);
+    	if (results.getRowCount() > 0) entities.addAll(results.getColumn("entity"));
+    	return entities;
+    }
+
+    /**
+     * Returns the DOIs for works the given topic as main subject (P921).
+     *
+     * @param venue  identifier of the Wikidata item for the topic
+     * @return       the list of Wikidata identifiers for the works
+     */
+    public List<String> getDOIsForWorksForTopic(String venue) throws BioclipseException {
+    	if (!isValidQIdentifier(venue)) throw new BioclipseException("You must give a valid Wikidata identifier, but got " + venue + ".");
+    	String query =
+        	"PREFIX wdt: <http://www.wikidata.org/prop/direct/>"
+        	+ "SELECT DISTINCT ?doi WHERE {"
+        	+ "  ?entity wdt:P921 wd:" + venue + " ;"
+        	+ "  wdt:P356 ?doi ."
+        	+ "}";
+		// handle the split Wikidata SPARQL endpoints, as a DOI can be for a scholarly article (first call)
+		// and for other types, like datasets (second call)
+    	List<String> dois = new ArrayList<>();
+		byte[] resultRaw = bioclipse.sparqlRemote(
+			"https://query-scholarly.wikidata.org/sparql", query
+		);
+		IStringMatrix results = rdf.processSPARQLXML(resultRaw, query);
+		if (results.getRowCount() > 0) dois.addAll(results.getColumn("doi"));
+		resultRaw = bioclipse.sparqlRemote(
+    		"https://query-main.wikidata.org/sparql", query
+    	);
+    	results = rdf.processSPARQLXML(resultRaw, query);
+    	if (results.getRowCount() > 0) dois.addAll(results.getColumn("doi"));
+    	return dois;
+    }
+
+    /**
      * Determines if an identifier is a valid Wikidata entity identifier, like Q5. 
      *
      * @param  identifier to test
