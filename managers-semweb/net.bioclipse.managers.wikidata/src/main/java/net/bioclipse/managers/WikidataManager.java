@@ -357,15 +357,15 @@ public class WikidataManager implements IBactingManager {
     /**
      * Returns the Wikidata entity IDs for works the given topic as main subject (P921).
      *
-     * @param venue  identifier of the Wikidata item for the topic
+     * @param topic  identifier of the Wikidata item for the topic
      * @return       the list of Wikidata identifiers for the works
      */
-    public List<String> getEntityIDsForWorksForTopic(String venue) throws BioclipseException {
-    	if (!isValidQIdentifier(venue)) throw new BioclipseException("You must give a valid Wikidata identifier, but got " + venue + ".");
+    public List<String> getEntityIDsForWorksForTopic(String topic) throws BioclipseException {
+    	if (!isValidQIdentifier(topic)) throw new BioclipseException("You must give a valid Wikidata identifier, but got " + topic + ".");
     	String query =
         	"PREFIX wdt: <http://www.wikidata.org/prop/direct/>"
         	+ "SELECT DISTINCT ?entity WHERE {"
-        	+ "  ?entity wdt:P921 wd:" + venue + " ."
+        	+ "  ?entity wdt:P921 wd:" + topic + " ."
         	+ "}";
 		// handle the split Wikidata SPARQL endpoints, as a DOI can be for a scholarly article (first call)
 		// and for other types, like datasets (second call)
@@ -386,15 +386,15 @@ public class WikidataManager implements IBactingManager {
     /**
      * Returns the DOIs for works the given topic as main subject (P921).
      *
-     * @param venue  identifier of the Wikidata item for the topic
+     * @param topic  identifier of the Wikidata item for the topic
      * @return       the list of Wikidata identifiers for the works
      */
-    public List<String> getDOIsForWorksForTopic(String venue) throws BioclipseException {
-    	if (!isValidQIdentifier(venue)) throw new BioclipseException("You must give a valid Wikidata identifier, but got " + venue + ".");
+    public List<String> getDOIsForWorksForTopic(String topic) throws BioclipseException {
+    	if (!isValidQIdentifier(topic)) throw new BioclipseException("You must give a valid Wikidata identifier, but got " + topic + ".");
     	String query =
         	"PREFIX wdt: <http://www.wikidata.org/prop/direct/>"
         	+ "SELECT DISTINCT ?doi WHERE {"
-        	+ "  ?entity wdt:P921 wd:" + venue + " ;"
+        	+ "  ?entity wdt:P921 wd:" + topic + " ;"
         	+ "  wdt:P356 ?doi ."
         	+ "}";
 		// handle the split Wikidata SPARQL endpoints, as a DOI can be for a scholarly article (first call)
