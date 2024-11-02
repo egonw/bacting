@@ -43,12 +43,12 @@
       <junit5.excludeGroups>pubchem,chemspider</junit5.excludeGroups>
       <junit.version>5.11.0</junit.version>
 
-      <bioclipse.version>2.8.1.2</bioclipse.version>
+      <bioclipse.version>2.8.1.3-SNAPSHOT</bioclipse.version>
 
       <cdk.version>2.9</cdk.version>
       <xom.version>1.3.9</xom.version>
       <biojava.version>1.9.7</biojava.version>
-      <jena.version>4.10.0</jena.version>
+      <jena.version>5.2.0</jena.version>
       <bridgedb.version>3.1.3</bridgedb.version>
       <derby.version>10.15.2.0</derby.version>
       <httpclient.version>4.5.14</httpclient.version>

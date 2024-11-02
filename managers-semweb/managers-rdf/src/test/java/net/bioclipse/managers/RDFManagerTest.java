@@ -108,7 +108,7 @@ public class RDFManagerTest {
 		IRDFStore store = rdf.createInMemoryStore(true);
 		assertNotNull(store);
 		String turtle = rdf.asTurtle(store);
-		assertTrue(turtle.contains("prefix"));
+		assertTrue(turtle.contains("PREFIX"));
 		Assertions.assertThrows(Exception.class, () -> {
 			rdf.asTurtle(new Store());
 		});
@@ -223,7 +223,7 @@ public class RDFManagerTest {
 			"https://example.org/object"
 		);
 		String turtle = rdf.asTurtle(store);
-		assertTrue(turtle.contains("prefix"));
+		assertTrue(turtle.contains("PREFIX"));
 		assertTrue(turtle.contains("example.org"));
 		Assertions.assertThrows(Exception.class, () -> {
 			rdf.addObjectProperty(new Store(),
@@ -245,7 +245,7 @@ public class RDFManagerTest {
 		);
 		rdf.addPrefix(store, "ex", "https://example.org/");
 		String turtle = rdf.asTurtle(store);
-		assertTrue(turtle.contains("prefix ex:"));
+		assertTrue(turtle.contains("PREFIX ex:"));
 		assertTrue(turtle.contains("ex:subject"));
 		Assertions.assertThrows(Exception.class, () -> {
 			rdf.addObjectProperty(new Store(),
@@ -267,7 +267,7 @@ public class RDFManagerTest {
 		);
 		rdf.addPrefix(store, "ex", "https://example.org/");
 		String turtle = rdf.asTurtle(store);
-		assertTrue(turtle.contains("prefix ex:"));
+		assertTrue(turtle.contains("PREFIX ex:"));
 		assertTrue(turtle.contains("\"Object\""));
 		assertFalse(turtle.contains("ex:Object"));
 		Assertions.assertThrows(Exception.class, () -> {
@@ -290,7 +290,7 @@ public class RDFManagerTest {
 		);
 		rdf.addPrefix(store, "ex", "https://example.org/");
 		String turtle = rdf.asTurtle(store);
-		assertTrue(turtle.contains("prefix ex:"));
+		assertTrue(turtle.contains("PREFIX ex:"));
 		assertTrue(turtle.contains("\"Object\""));
 		assertFalse(turtle.contains("ex:Object"));
 		assertTrue(turtle.contains("^^<xsd:string>"));
@@ -314,7 +314,7 @@ public class RDFManagerTest {
 		);
 		rdf.addPrefix(store, "ex", "https://example.org/");
 		String turtle = rdf.asTurtle(store);
-		assertTrue(turtle.contains("prefix ex:"));
+		assertTrue(turtle.contains("PREFIX ex:"));
 		assertTrue(turtle.contains("\"Object\""));
 		assertFalse(turtle.contains("ex:Object"));
 		assertTrue(turtle.contains("@en"));
