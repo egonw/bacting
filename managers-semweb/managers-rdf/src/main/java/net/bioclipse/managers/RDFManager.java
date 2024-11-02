@@ -11,9 +11,12 @@ package net.bioclipse.managers;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.UnknownHostException;
@@ -40,9 +43,9 @@ import org.apache.jena.shared.NoReaderForLangException;
 import org.apache.jena.shared.PrefixMapping;
 import org.apache.jena.shared.SyntaxError;
 import org.apache.jena.shared.impl.PrefixMappingImpl;
-import org.apache.jena.shex.Shex;
 import org.apache.jena.shex.ShapeMap;
 import org.apache.jena.shex.ShapeMap.Builder;
+import org.apache.jena.shex.Shex;
 import org.apache.jena.shex.ShexReport;
 import org.apache.jena.shex.ShexSchema;
 import org.apache.jena.shex.ShexValidator;
@@ -699,6 +702,35 @@ public class RDFManager {
         );
         return results.getColumn("class");
     }
+
+    public String saveRDF(IRDFStore store, String file, String type)
+    	throws BioclipseException {
+    	if (type == null && !"RDF/XML-ABBREV".equals(type) &&
+    			!"N-TRIPLE".equals(type) &&
+    			!"N3".equals(type))
+    		throw new BioclipseException("Can only save RDF/XML-ABBREV, N3, " +
+    				"and N-TRIPLE.");
+
+    	File outputFile = new File(workspaceRoot + file);
+    	if (outputFile.exists()) {
+    		throw new BioclipseException("File already exists!");
+    	}
+
+    	try {
+    		if (store instanceof IJenaStore) {
+        		OutputStream output = new FileOutputStream(outputFile);
+    			Model model = ((IJenaStore)store).getModel();
+    			model.write(output, type);
+    			output.close();
+    		} else {
+    			throw new BioclipseException("Only supporting IJenaStore!");
+    		}
+    	} catch (IOException e) {
+    		throw new BioclipseException("Error while writing RDF.", e);
+    	}
+
+    	return file;
+    };
 
     /**
      * Lists all existing predicates.
