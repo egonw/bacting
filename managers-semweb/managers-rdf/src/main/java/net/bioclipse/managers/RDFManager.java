@@ -30,15 +30,19 @@ import java.util.Set;
 import org.apache.jena.graph.Graph;
 import org.apache.jena.graph.NodeFactory;
 import org.apache.jena.graph.Triple;
+import org.apache.jena.query.Dataset;
 import org.apache.jena.query.Query;
 import org.apache.jena.query.QueryExecution;
 import org.apache.jena.query.QueryExecutionFactory;
 import org.apache.jena.query.QueryFactory;
+import org.apache.jena.query.ReadWrite;
 import org.apache.jena.query.ResultSet;
 import org.apache.jena.query.ResultSetFactory;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.Property;
 import org.apache.jena.rdf.model.Resource;
+import org.apache.jena.riot.Lang;
+import org.apache.jena.riot.RDFDataMgr;
 import org.apache.jena.shared.NoReaderForLangException;
 import org.apache.jena.shared.PrefixMapping;
 import org.apache.jena.shared.SyntaxError;
@@ -58,6 +62,7 @@ import net.bioclipse.core.business.BioclipseException;
 import net.bioclipse.core.domain.IStringMatrix;
 import net.bioclipse.core.domain.StringMatrix;
 import net.bioclipse.rdf.StringMatrixHelper;
+import net.bioclipse.rdf.business.IJenaDatasetStore;
 import net.bioclipse.rdf.business.IJenaStore;
 import net.bioclipse.rdf.business.IRDFStore;
 import net.bioclipse.rdf.business.JenaModel;
@@ -449,8 +454,18 @@ public class RDFManager {
             throw new RuntimeException(
                 "Can only handle IJenaStore's for now."
             );
-        Model model = ((IJenaStore)store).getModel();
-        return model.size();
+
+        long size = 0;
+        if (store instanceof IJenaDatasetStore) {
+        	Dataset dataset = ((IJenaDatasetStore)store).getDataset();
+        	if (dataset.isInTransaction()) dataset.end();
+        	dataset.begin(ReadWrite.READ);
+        	size = ((IJenaStore)store).getModel().size();
+        	dataset.end();
+        } else {
+        	size = ((IJenaStore)store).getModel().size();
+        }
+        return size;
     }
 
     /**
@@ -492,20 +507,33 @@ public class RDFManager {
                 "Can only handle IJenaStore's for now."
             );
         
-        Model model = ((IJenaStore)store).getModel();
-        try {
-        	model.read(stream, "", format);
-        } catch (SyntaxError error) {
-        	throw new BioclipseException(
-        		"File format is not correct.",
-        		error
-        	);
-        } catch (NoReaderForLangException exception) {
-        	throw new BioclipseException(
-            	"Unknown file format. Supported are \"RDF/XML\", " +
-            	"\"N-TRIPLE\", \"TURTLE\" and \"N3\".",
-            	exception
-        	);
+        if ("TRIG".equals(format)) {
+           if (store instanceof IJenaDatasetStore) {
+               IJenaDatasetStore datasetStore = (IJenaDatasetStore)store;
+               Dataset dataset = datasetStore.getDataset();
+               dataset.begin(ReadWrite.WRITE);
+               RDFDataMgr.read(dataset, stream, Lang.TRIG);
+               dataset.commit();
+           } else {
+               throw new BioclipseException(
+                   "TRIG files can only be loaded into an IJenaDatasetStore."
+               );
+           }
+        } else {
+           Model model = ((IJenaStore)store).getModel();
+           try {
+               model.read(stream, "", format);
+           } catch (SyntaxError error) {
+               throw new BioclipseException(
+                   "File format is not correct.", error
+               );
+           } catch (NoReaderForLangException exception) {
+               throw new BioclipseException(
+                   "Unknown file format. Supported are \"RDF/XML\", " +
+                   "\"N-TRIPLE\", \"TURTLE\" and \"N3\".",
+                   exception
+               );
+           }
         }
         return store;
     }
@@ -719,6 +747,9 @@ public class RDFManager {
     	try {
     		if (store instanceof IJenaStore) {
         		OutputStream output = new FileOutputStream(outputFile);
+                if (store instanceof IJenaDatasetStore) {
+                    ((IJenaDatasetStore)store).getDataset().begin(ReadWrite.READ);
+                }
     			Model model = ((IJenaStore)store).getModel();
     			model.write(output, type);
     			output.close();
