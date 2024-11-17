@@ -9,41 +9,57 @@
 Bacting := acting as the Bioclipse TNG (The Next Generation)
 
 Bacting is an open-source platform for chemo- and bioinformatics based on [Bioclipse](https://scholia.toolforge.org/topic/Q1769726)
-that defines a number of common domain objects and wraps common functionality, providing a toolkit independent, scriptable solution to
+that defines a number of common domain objects and wraps common functionality, providing a toolkit-independent, scriptable solution to
 handle data from the life sciences. Like Bioclipse, Bacting is written in the Java language, making use in Java-derived
 languages like [Groovy](https://en.wikipedia.org/wiki/Apache_Groovy) easy, but also accessible to Python. Deposition of the Bacting package on
 [Maven Central](https://search.maven.org/search?q=g:%22io.github.egonw.bacting%22%20AND%20a:%22bacting%22) allows it
 to be easily used in Groovy scripts with `@Grab` instructions.
 
-## How to cite
+## How to Cite
 
 If you use this software, please cite the article in JOSS:
 
 [![DOI](https://joss.theoj.org/papers/10.21105/joss.02558/status.svg)](https://doi.org/10.21105/joss.02558)
 
-# Install
+## Prerequisites
+
+This project is built based on Java and supports Java versions 11, 17, and 19. Ensure you have the following installed before proceeding:
+
+- [Maven](https://www.google.nl/search?q=install+maven)
+- Java Runtime Environment
+
+## Installation Steps
+
+### Option 1: On demand Installation
 
 For the below use cases, Bacting is actually installed on demand. In Groovy this is done with
 `@Grab` and in Python with `from pybacting import cdk` (see [pybacting](https://github.com/cthoyt/pybacting))
-or `scyjava.config`. This section explains how Bacting can be installed from
-the source code.
+or `scyjava.config`.
 
-## From the source code
+### Option 2: Manual Installation
 
-First, you need a working [Maven installation](https://www.google.nl/search?q=install+maven) and the code is tested with
-Java 11, 17, and 19, and can be installed with:
+To install Bacting from the source code:
 
 ```shell
 mvn clean install -Dgpg.skip -Dmaven.javadoc.skip=true
 ```
 
-## Making releases
+### Verification
+
+To verify the successful installation, run:
+
+```shell
+mvn clean test
+```
+
+## Making a release
 
 Before making a release, update the version number in this `README.md` and in `CITATION.cff`.
 
 Releases are created by the release manager and requires permission to submit the release to Maven Central
 (using an approved Sonatype ([oss.sonatype.org](http://oss.sonatype.org/)) account).
 If these requirements are fulfilled then the following commands to the job:
+
 
 ```shell
 export MAVEN_OPTS="--add-opens=java.base/java.util=ALL-UNNAMED --add-opens=java.base/java.lang.reflect=ALL-UNNAMED --add-opens=java.base/java.text=ALL-UNNAMED --add-opens=java.desktop/java.awt.font=ALL-UNNAMED"
@@ -52,29 +68,11 @@ git commit -m "New release" -a
 mvn deploy -P release
 ```
 
-### Making snapshots
 
-```shell
-mvn versions:set -DnewVersion=1.0.4-SNAPSHOT
-mvn deploy
-```
 
-### Updating the JavaDoc
+## Usage
 
-After the release is avaiable on Maven Central, the [JavaDoc](https://egonw.github.io/bacting-api/)
-needs to be updated. The JavaDoc is generated with the below command, and the results are stored
-in the `target/site/apidocs/` folder:
-
-```shell
-mvn clean javadoc:javadoc javadoc:aggregate
-```
-
-That created content needs to be copied into the `docs/` folder of
-[this git repository](https://github.com/egonw/bacting-api/).
-
-# Usage
-
-## Groovy
+### Groovy
 
 It can be used in [Groovy](https://en.wikipedia.org/wiki/Apache_Groovy) by including the
 Bacting managers you need. The following example tells Groovy to download the `CDKManager`
@@ -91,15 +89,20 @@ def cdk = new net.bioclipse.managers.CDKManager(workspaceRoot);
 println cdk.fromSMILES("COC")
 ```
 
-## Python
+### Python
 
 Bacting can also be used in Python 3.7 with [pybacting](https://github.com/cthoyt/pybacting) and
 [scyjava](https://github.com/scijava/scyjava).
 
-### Pybacting
+#### Using Pybacting
 
-Pybacting can be installed with `pip install pybacting` (or `pip3`, depending on your platform).
-The above code example looks like:
+Install using pip:
+
+```shell
+pip install pybacting
+```
+
+Example:
 
 ```python
 from pybacting import cdk
@@ -107,18 +110,20 @@ from pybacting import cdk
 print(cdk.fromSMILES("COC"))
 ```
 
-Pybacting uses a specific Bacting version, so check the [website](https://github.com/cthoyt/pybacting)
-to see which Bacting version you are using.
+#### Using Scyjava
 
-### Scyjava
+Install Scyjava:
 
-Scyjava can be installed with `pip install scyjava` (or `pip3`, depending on your platform).
-The code example looks like:
+```shell
+pip install scyjava
+```
+
+Example:
 
 ```python
 from scyjava import config, jimport
-config.add_endpoints('io.github.egonw.bacting:managers-cdk:1.0.3')
 
+config.add_endpoints('io.github.egonw.bacting:managers-cdk:1.0.3')
 workspaceRoot = "."
 cdkClass = jimport("net.bioclipse.managers.CDKManager")
 cdk = cdkClass(workspaceRoot)
@@ -126,9 +131,9 @@ cdk = cdkClass(workspaceRoot)
 print(cdk.fromSMILES("COC"))
 ```
 
-# Code examples
+## Code Examples
 
-Full code examples can be found in the following sources:
+Detailed examples can be found in the following sources:
 
 * Open Notebooks for Wikidata, including:
   * [script that compares a SMILES string with Wikidata, and creates QuickStatements for missing information](https://github.com/egonw/ons-wikidata/blob/master/Wikidata/createWDitemsFromSMILES.groovy)
@@ -144,33 +149,24 @@ Full code examples can be found in the following sources:
   * [ParseIUPACName.groovy](https://bioclipse.github.io/bioclipse.scripting/code/ParseIUPACName.code.html)
   * [ChemSpiderResolve.groovy](https://bioclipse.github.io/bioclipse.scripting/code/ChemSpiderResolve.code.html)
 
-## API Coverage
 
-For the time being, the coverage of the original API is *incomplete*.
-Particularly, manager functionality around graphical UX
-in the original Bioclipse may never be implemented. Each Bacting release will implement more APIs and
-the release notes will mention which managers and which methods have been added.
-An overview of the supports APIs can be found in [this overview](https://github.com/egonw/bacting/projects/2).
+## External Documents
 
-For a description of the API, I refer to the book
-[A lot of Bioclipse Scripting Language examples](https://bioclipse.github.io/bioclipse.scripting/) that
-Jonathan and I compiled. However, a [JavaDoc API](https://egonw.github.io/bacting-api/) is also available.
+- [Bioclipse Scripting Language Examples](https://bioclipse.github.io/bioclipse.scripting/)
+- [JavaDoc API](https://egonw.github.io/bacting-api/)
 
-All Bacting scripts will be backwards compatible with Bioclipse. If you want to install Bioclipse
-and see its wonderful UX in actions, [download Bioclipse 2.6.2 here](https://sourceforge.net/projects/bioclipse/files/bioclipse2/bioclipse2.6.2/).
+## Version History
 
-## Using SNAPSHOT versions
+For changes and API updates, refer to [GitHub Projects](https://github.com/egonw/bacting/projects/2).
 
-You may need to occassionally delete the
-modules cached by Groovy, by doing something like, to remove earlier SNAPSHOT versions:
+## Help and Support
 
-```shell
-\rm -Rf ~/.groovy/grapes/io.github.egonw.bacting/
-```
+Refer to the [GitHub repository issues](https://github.com/egonw/bacting/issues) for FAQs and support.
 
-# Copyright and authors
+## Copyright and Authors
 
 Code in this repository contains mostly code that originated from Bioclipse
 and the headers of the individual source code files describe who contributed to that code of that class, but unfortunately this code
 ownership is not always clear. I refer to the various [Bioclipse code repositories](https://github.com/bioclipse)
 for the git history for detailed information.
+
