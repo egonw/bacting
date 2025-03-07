@@ -1,4 +1,4 @@
-/* Copyright (c) 2010,2020  Egon Willighagen <egon.willighagen@gmail.com>
+/* Copyright (c) 2010,2020,2024  Egon Willighagen <egon.willighagen@gmail.com>
  *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
@@ -27,6 +27,7 @@ import uk.ac.cam.ch.wwmm.opsin.OpsinResult.OPSIN_RESULT_STATUS;
 public class OpsinManager implements IBactingManager {
 
 	private CDKManager cdk;
+	private NameToStructure nameToStructure;
 
 	/**
      * Creates a new {@link OpsinManager}.
@@ -58,16 +59,7 @@ public class OpsinManager implements IBactingManager {
 	 */
 	public String parseIUPACNameAsCML(String iupacName) 
 	              throws BioclipseException {
-		NameToStructure nameToStructure;
-		try {
-			nameToStructure = NameToStructure.getInstance();
-		} catch (NameToStructureException e) {
-			throw new BioclipseException(
-				"Error while loading OPSIN: " + e.getMessage(),
-				e
-			);
-		}
-        OpsinResult result = nameToStructure.parseChemicalName(iupacName);
+        OpsinResult result = getNameToStructureInstance().parseChemicalName(iupacName);
         if (result.getStatus() == OPSIN_RESULT_STATUS.SUCCESS) {
         	return result.getCml();
         }
@@ -75,6 +67,20 @@ public class OpsinManager implements IBactingManager {
         	"Could not parse the IUPAC name (" + iupacName + "), because: " +
         	result.getMessage()
         );
+	}
+
+	private NameToStructure getNameToStructureInstance() throws BioclipseException {
+		if (this.nameToStructure == null) {
+			try {
+				this.nameToStructure = NameToStructure.getInstance();
+			} catch (NameToStructureException e) {
+				throw new BioclipseException(
+					"Error while loading OPSIN: " + e.getMessage(),
+					e
+				);
+			}
+		}
+		return this.nameToStructure;
 	}
 
 	/**
@@ -86,16 +92,7 @@ public class OpsinManager implements IBactingManager {
 	 */
     public String parseIUPACNameAsSMILES(String iupacName) 
                   throws BioclipseException {
-    	NameToStructure nameToStructure;
-		try {
-			nameToStructure = NameToStructure.getInstance();
-		} catch (NameToStructureException e) {
-			throw new BioclipseException(
-				"Error while loading OPSIN: " + e.getMessage(),
-				e
-			);
-		}
-        OpsinResult result = nameToStructure.parseChemicalName(iupacName);
+        OpsinResult result = getNameToStructureInstance().parseChemicalName(iupacName);
         if (result.getStatus() == OPSIN_RESULT_STATUS.SUCCESS) {
         	return result.getSmiles();
         }
