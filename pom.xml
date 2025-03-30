@@ -59,7 +59,7 @@
       <json.version>20250107</json.version>
       <slf4j.version>2.0.17</slf4j.version>
       <log4j.version>2.24.3</log4j.version>
-      <cmlxom.version>4.10</cmlxom.version>
+      <cmlxom.version>4.11</cmlxom.version>
       <guava.version>33.4.0-jre</guava.version>
       <opsin.version>2.8.0</opsin.version>
       <jnainchi.version>1.3.1</jnainchi.version>
