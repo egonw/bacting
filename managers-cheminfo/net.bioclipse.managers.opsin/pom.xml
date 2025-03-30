@@ -54,6 +54,10 @@
           <groupId>com.fasterxml.woodstox</groupId>
           <artifactId>woodstox-core</artifactId>
         </exclusion>
+        <exclusion>
+          <groupId>commons-io</groupId>
+          <artifactId>commons-io</artifactId>
+        </exclusion>
       </exclusions>
     </dependency>
     <dependency>
@@ -72,6 +76,11 @@
         <artifactId>junit-jupiter-engine</artifactId>
         <scope>test</scope>
         <version>${junit.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>commons-io</groupId>
+      <artifactId>commons-io</artifactId>
+      <version>${commonsio.version}</version>
     </dependency>
   </dependencies>
 </project>

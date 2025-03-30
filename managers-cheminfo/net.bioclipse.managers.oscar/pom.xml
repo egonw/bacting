@@ -53,6 +53,10 @@
           <groupId>uk.ac.cam.ch.opsin</groupId>
           <artifactId>opsin-inchi</artifactId>
         </exclusion>
+        <exclusion>
+          <groupId>commons-io</groupId>
+          <artifactId>commons-io</artifactId>
+        </exclusion>
       </exclusions>
     </dependency>
     <dependency>
@@ -126,5 +130,10 @@
       <artifactId>woodstox-core</artifactId>
       <version>${woodstox.version}</version>
     </dependency>
-    </dependencies>
+    <dependency>
+      <groupId>commons-io</groupId>
+      <artifactId>commons-io</artifactId>
+      <version>${commonsio.version}</version>
+    </dependency>
+  </dependencies>
 </project>
