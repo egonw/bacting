@@ -101,6 +101,17 @@
       <groupId>uk.ac.cam.ch.opsin</groupId>
       <artifactId>opsin-inchi</artifactId>
       <version>${opsin.version}</version>
+      <exclusions>
+        <exclusion>
+          <groupId>io.github.dan2097</groupId>
+          <artifactId>jna-inchi-core</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>io.github.dan2097</groupId>
+      <artifactId>jna-inchi-core</artifactId>
+      <version>${jnainchi.version}</version>
     </dependency>
   </dependencies>
 </project>
