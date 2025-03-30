@@ -106,6 +106,14 @@
           <groupId>io.github.dan2097</groupId>
           <artifactId>jna-inchi-core</artifactId>
         </exclusion>
+        <exclusion>
+          <groupId>com.fasterxml.woodstox</groupId>
+          <artifactId>woodstox-core</artifactId>
+        </exclusion>
+        <exclusion> 
+          <groupId>commons-io</groupId>
+          <artifactId>commons-io</artifactId>
+        </exclusion>
       </exclusions>
     </dependency>
     <dependency>
@@ -113,5 +121,10 @@
       <artifactId>jna-inchi-core</artifactId>
       <version>${jnainchi.version}</version>
     </dependency>
-  </dependencies>
+    <dependency>
+      <groupId>com.fasterxml.woodstox</groupId>
+      <artifactId>woodstox-core</artifactId>
+      <version>${woodstox.version}</version>
+    </dependency>
+    </dependencies>
 </project>
