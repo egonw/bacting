@@ -15,6 +15,7 @@ import static org.junit.jupiter.api.Assertions.assertSame;
 import java.util.List;
 
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
 import net.bioclipse.core.business.BioclipseException;
@@ -30,12 +31,14 @@ public class MwmblManagerTest {
 	}
 
 	@Test
+	@Tag("mwmbl")
 	public void testSearch() throws BioclipseException {
 		List<String> foundPages = mwmbl.search("acetic acid");
 		assertNotNull(foundPages);
 	}
 
 	@Test
+	@Tag("mwmbl")
 	public void testDOIs() {
 		List<String> dois = mwmbl.doi();
 		assertNotNull(dois);
@@ -43,6 +46,7 @@ public class MwmblManagerTest {
 	}
 
 	@Test
+	@Tag("mwmbl")
 	public void testManagerName() {
 		assertSame("mwmbl", mwmbl.getManagerName());
 	}
