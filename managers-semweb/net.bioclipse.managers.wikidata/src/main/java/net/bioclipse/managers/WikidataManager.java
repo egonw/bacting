@@ -414,6 +414,51 @@ public class WikidataManager implements IBactingManager {
     }
 
     /**
+     * Returns the DOIs for works by people attending an event.
+     *
+     * @param event  identifier of the Wikidata item for the event
+     * @return       the list of Wikidata identifiers for the works
+     */
+    public List<String> getDOIsForWorksForPeopleAtEvent(String event) throws BioclipseException {
+    	if (!isValidQIdentifier(event)) throw new BioclipseException("You must give a valid Wikidata identifier, but got " + event + ".");
+    	String query =
+        	"PREFIX wdt: <http://www.wikidata.org/prop/direct/>\n"
+        	+ "PREFIX target: <http://www.wikidata.org/entity/Q133457282>\n"
+        	+ "\n"
+        	+ "SELECT DISTINCT ?doi WHERE {\n"
+        	+ "  { target: wdt:P823 ?person . }\n"
+        	+ "  UNION { ?presentation wdt:P823 ?person; wdt:P5072 target: }\n"
+        	+ "  UNION { target: wdt:P664 ?person }\n"
+        	+ "  UNION { ?person wdt:P1344 | ^wdt:P710 target: }\n"
+        	+ "  UNION { ?person ^wdt:P98 / wdt:P4745 target: }\n"
+        	+ "  UNION {\n"
+        	+ "    SERVICE wdsubgraph:scholarly_articles {\n"
+        	+ "      ?person ^wdt:P50 / wdt:P1433 ?proceedings .\n"
+        	+ "    }\n"
+        	+ "    ?proceedings wdt:P4745 target: }\n"
+        	+ "  UNION {\n"
+        	+ "    ?person ^wdt:P50 / wdt:P1433 ?proceedings .\n"
+        	+ "    ?proceedings wdt:P4745 target: }\n"
+        	+ "  UNION { target: wdt:P5804 ?person . }\n"
+        	+ "  {\n"
+        	+ "    SERVICE wdsubgraph:scholarly_articles {\n"
+        	+ "      ?person ^wdt:P50 / wdt:P356 ?doi .\n"
+        	+ "    } }\n"
+        	+ "  UNION {\n"
+        	+ "    ?person ^wdt:P50 / wdt:P356 ?doi .\n"
+        	+ "  }\n"
+        	+ "}\n"
+        	+ "";
+    	List<String> dois = new ArrayList<>();
+		byte[] resultRaw = bioclipse.sparqlRemote(
+			"https://query.wikidata.org/sparql", query
+		);
+		IStringMatrix results = rdf.processSPARQLXML(resultRaw, query);
+		if (results.getRowCount() > 0) dois.addAll(results.getColumn("doi"));
+    	return dois;
+    }
+
+    /**
      * Determines if an identifier is a valid Wikidata entity identifier, like Q5. 
      *
      * @param  identifier to test
