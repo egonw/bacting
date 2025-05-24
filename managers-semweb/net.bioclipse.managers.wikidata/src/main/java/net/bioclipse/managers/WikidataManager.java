@@ -422,7 +422,7 @@ public class WikidataManager implements IBactingManager {
     public List<String> getDOIsForWorksForPeopleAtEvent(String event) throws BioclipseException {
     	if (!isValidQIdentifier(event)) throw new BioclipseException("You must give a valid Wikidata identifier, but got " + event + ".");
     	String query =
-        	"PREFIX wdt: <http://www.wikidata.org/prop/direct/>"
+        	"PREFIX wdt: <http://www.wikidata.org/prop/direct/>\n"
         	+ "PREFIX target: <http://www.wikidata.org/entity/Q133457282>\n"
         	+ "\n"
         	+ "SELECT DISTINCT ?doi WHERE {\n"
@@ -431,23 +431,30 @@ public class WikidataManager implements IBactingManager {
         	+ "  UNION { target: wdt:P664 ?person }\n"
         	+ "  UNION { ?person wdt:P1344 | ^wdt:P710 target: }\n"
         	+ "  UNION { ?person ^wdt:P98 / wdt:P4745 target: }\n"
-        	+ "  UNION { ?person ^wdt:P50 / wdt:P1433 / wdt:P4745 target: }\n"
+        	+ "  UNION {\n"
+        	+ "    SERVICE wdsubgraph:scholarly_articles {\n"
+        	+ "      ?person ^wdt:P50 / wdt:P1433 ?proceedings .\n"
+        	+ "    }\n"
+        	+ "    ?proceedings wdt:P4745 target: }\n"
+        	+ "  UNION {\n"
+        	+ "    ?person ^wdt:P50 / wdt:P1433 ?proceedings .\n"
+        	+ "    ?proceedings wdt:P4745 target: }\n"
         	+ "  UNION { target: wdt:P5804 ?person . }\n"
-        	+ "  ?person ^wdt:P50 / wdt:P356 ?doi .\n"
-        	+ "}";
-		// handle the split Wikidata SPARQL endpoints, as a DOI can be for a scholarly article (first call)
-		// and for other types, like datasets (second call)
+        	+ "  {\n"
+        	+ "    SERVICE wdsubgraph:scholarly_articles {\n"
+        	+ "      ?person ^wdt:P50 / wdt:P356 ?doi .\n"
+        	+ "    } }\n"
+        	+ "  UNION {\n"
+        	+ "    ?person ^wdt:P50 / wdt:P356 ?doi .\n"
+        	+ "  }\n"
+        	+ "}\n"
+        	+ "";
     	List<String> dois = new ArrayList<>();
 		byte[] resultRaw = bioclipse.sparqlRemote(
-			"https://query-scholarly.wikidata.org/sparql", query
+			"https://query.wikidata.org/sparql", query
 		);
 		IStringMatrix results = rdf.processSPARQLXML(resultRaw, query);
 		if (results.getRowCount() > 0) dois.addAll(results.getColumn("doi"));
-		resultRaw = bioclipse.sparqlRemote(
-    		"https://query-main.wikidata.org/sparql", query
-    	);
-    	results = rdf.processSPARQLXML(resultRaw, query);
-    	if (results.getRowCount() > 0) dois.addAll(results.getColumn("doi"));
     	return dois;
     }
 
