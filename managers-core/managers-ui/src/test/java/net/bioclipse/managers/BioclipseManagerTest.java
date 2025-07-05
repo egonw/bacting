@@ -23,6 +23,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import net.bioclipse.core.business.BioclipseException;
@@ -142,7 +143,7 @@ public class BioclipseManagerTest {
 		assertNotSame(0, results.length);
 	}
 
-	@Test
+	@Disabled("see https://github.com/aaronpowell/httpstatus/issues/165")
 	public void testSparqlRemote_403() throws BioclipseException {
 		Exception exception = assertThrows(
 			BioclipseException.class, () ->
@@ -254,7 +255,7 @@ public class BioclipseManagerTest {
 		assertTrue(exception.getMessage().contains("unknown protocol: xxx"));
 	}
 
-	@Test
+	@Disabled("see https://github.com/aaronpowell/httpstatus/issues/165")
 	public void testDownloadAsFile403() throws BioclipseException {
 		Exception exception = assertThrows(
 			BioclipseException.class, () ->
