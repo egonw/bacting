@@ -274,6 +274,52 @@ public class WikidataManagerTest {
 	}
 
 	@Test
+	public void getDOIsForWorksForTopic_InvalidQID() throws Exception {
+		Exception exception = assertThrows(
+			BioclipseException.class, () ->
+			{
+				wikidata.getDOIsForWorksForTopic(null);
+			}
+		);
+		assertTrue(exception.getMessage().contains("You must give a valid Wikidata identifier"));
+
+		exception = assertThrows(
+			BioclipseException.class, () ->
+			{
+				wikidata.getDOIsForWorksForTopic("P234");
+			}
+		);
+		assertTrue(exception.getMessage().contains("You must give a valid Wikidata identifier"));
+	}
+
+	@Test
+	public void getDOIsForWorksForPeopleAtEvent() throws Exception {
+		List<String> entityIDs = wikidata.getDOIsForWorksForPeopleAtEvent("Q135408981");
+		assertNotNull(entityIDs);
+		assertTrue(entityIDs.size() > 10);
+		assertTrue(entityIDs.get(0).startsWith("10."));
+	}
+
+	@Test
+	public void getDOIsForWorksForPeopleAtEvent_InvalidQID() throws Exception {
+		Exception exception = assertThrows(
+			BioclipseException.class, () ->
+			{
+				wikidata.getDOIsForWorksForPeopleAtEvent(null);
+			}
+		);
+		assertTrue(exception.getMessage().contains("You must give a valid Wikidata identifier"));
+
+		exception = assertThrows(
+			BioclipseException.class, () ->
+			{
+				wikidata.getDOIsForWorksForPeopleAtEvent("P234");
+			}
+		);
+		assertTrue(exception.getMessage().contains("You must give a valid Wikidata identifier"));
+	}
+
+	@Test
 	public void testGetEntityIDsForType_InvalidType() throws Exception {
 		Exception exception = assertThrows(
 			BioclipseException.class, () ->
