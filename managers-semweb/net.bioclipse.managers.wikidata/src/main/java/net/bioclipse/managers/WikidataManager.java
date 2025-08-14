@@ -151,7 +151,7 @@ public class WikidataManager implements IBactingManager {
         );
         IStringMatrix results = rdf.processSPARQLXML(resultRaw, hasWorkByDOI);
         byte[] resultRaw2 = bioclipse.sparqlRemote(
-            "https://query-main.wikidata.org/sparql", hasWorkByDOI
+            "https://query.wikidata.org/sparql", hasWorkByDOI
         );
         IStringMatrix results2 = rdf.processSPARQLXML(resultRaw2, hasWorkByDOI);
         if (results.getRowCount() + results2.getRowCount() == 0)
@@ -198,7 +198,7 @@ public class WikidataManager implements IBactingManager {
     			mappings.put(doiMappings.get(results.get(i, "doi")), results.get(i, "work"));
     		}
     		resultRaw = bioclipse.sparqlRemote(
-        		"https://query-main.wikidata.org/sparql", query
+        		"https://query.wikidata.org/sparql", query
         	);
         	results = rdf.processSPARQLXML(resultRaw, query);
         	for (int i=1; i<=results.getRowCount(); i++) {
@@ -229,7 +229,7 @@ public class WikidataManager implements IBactingManager {
 		IStringMatrix results = rdf.processSPARQLXML(resultRaw, query);
 		if (results.getRowCount() > 0) entities.addAll(results.getColumn("entity"));
 		resultRaw = bioclipse.sparqlRemote(
-    		"https://query-main.wikidata.org/sparql", query
+    		"https://query.wikidata.org/sparql", query
     	);
     	results = rdf.processSPARQLXML(resultRaw, query);
     	if (results.getRowCount() > 0) entities.addAll(results.getColumn("entity"));
@@ -258,7 +258,7 @@ public class WikidataManager implements IBactingManager {
 		IStringMatrix results = rdf.processSPARQLXML(resultRaw, query);
 		if (results.getRowCount() > 0) entities.addAll(results.getColumn("entity"));
 		resultRaw = bioclipse.sparqlRemote(
-    		"https://query-main.wikidata.org/sparql", query
+    		"https://query.wikidata.org/sparql", query
     	);
     	results = rdf.processSPARQLXML(resultRaw, query);
     	if (results.getRowCount() > 0) entities.addAll(results.getColumn("entity"));
@@ -288,7 +288,7 @@ public class WikidataManager implements IBactingManager {
 		IStringMatrix results = rdf.processSPARQLXML(resultRaw, query);
 		if (results.getRowCount() > 0) dois.addAll(results.getColumn("doi"));
 		resultRaw = bioclipse.sparqlRemote(
-    		"https://query-main.wikidata.org/sparql", query
+    		"https://query.wikidata.org/sparql", query
     	);
     	results = rdf.processSPARQLXML(resultRaw, query);
     	if (results.getRowCount() > 0) dois.addAll(results.getColumn("doi"));
@@ -317,7 +317,7 @@ public class WikidataManager implements IBactingManager {
 		IStringMatrix results = rdf.processSPARQLXML(resultRaw, query);
 		if (results.getRowCount() > 0) entities.addAll(results.getColumn("entity"));
 		resultRaw = bioclipse.sparqlRemote(
-    		"https://query-main.wikidata.org/sparql", query
+    		"https://query.wikidata.org/sparql", query
     	);
     	results = rdf.processSPARQLXML(resultRaw, query);
     	if (results.getRowCount() > 0) entities.addAll(results.getColumn("entity"));
@@ -347,7 +347,7 @@ public class WikidataManager implements IBactingManager {
 		IStringMatrix results = rdf.processSPARQLXML(resultRaw, query);
 		if (results.getRowCount() > 0) dois.addAll(results.getColumn("doi"));
 		resultRaw = bioclipse.sparqlRemote(
-    		"https://query-main.wikidata.org/sparql", query
+    		"https://query.wikidata.org/sparql", query
     	);
     	results = rdf.processSPARQLXML(resultRaw, query);
     	if (results.getRowCount() > 0) dois.addAll(results.getColumn("doi"));
@@ -376,7 +376,7 @@ public class WikidataManager implements IBactingManager {
 		IStringMatrix results = rdf.processSPARQLXML(resultRaw, query);
 		if (results.getRowCount() > 0) entities.addAll(results.getColumn("entity"));
 		resultRaw = bioclipse.sparqlRemote(
-    		"https://query-main.wikidata.org/sparql", query
+    		"https://query.wikidata.org/sparql", query
     	);
     	results = rdf.processSPARQLXML(resultRaw, query);
     	if (results.getRowCount() > 0) entities.addAll(results.getColumn("entity"));
@@ -406,7 +406,7 @@ public class WikidataManager implements IBactingManager {
 		IStringMatrix results = rdf.processSPARQLXML(resultRaw, query);
 		if (results.getRowCount() > 0) dois.addAll(results.getColumn("doi"));
 		resultRaw = bioclipse.sparqlRemote(
-    		"https://query-main.wikidata.org/sparql", query
+    		"https://query.wikidata.org/sparql", query
     	);
     	results = rdf.processSPARQLXML(resultRaw, query);
     	if (results.getRowCount() > 0) dois.addAll(results.getColumn("doi"));
