@@ -19,6 +19,9 @@ import uk.ac.cam.ch.wwmm.opsin.NameToStructure;
 import uk.ac.cam.ch.wwmm.opsin.NameToStructureException;
 import uk.ac.cam.ch.wwmm.opsin.OpsinResult;
 import uk.ac.cam.ch.wwmm.opsin.OpsinResult.OPSIN_RESULT_STATUS;
+import uk.ac.cam.ch.wwmm.opsin.ParseRulesResults;
+import uk.ac.cam.ch.wwmm.opsin.ParseTokens;
+import uk.ac.cam.ch.wwmm.opsin.ParsingException;
 
 /**
  * Bioclipse manager that wraps OPSIN functionality for processing
@@ -102,6 +105,39 @@ public class OpsinManager implements IBactingManager {
         );
     }
 
+	/**
+	 * Parses a IUPAC name into a molecule.
+	 *
+	 * @param iupacName the IUPAC name
+	 * @return          a {@link List} of {@link ParseTokens}
+	 * @throws BioclipseException
+	 */
+    public List<String> parseIUPACNameAsTokens(String iupacName)
+    		throws BioclipseException {
+    	try {
+    		ParseRulesResults results = NameToStructure.getOpsinParser().getParses(iupacName);
+    		String uninterpretable = results.getUninterpretableName();
+    		if (uninterpretable != null && !uninterpretable.isEmpty())
+    			throw new BioclipseException("Could not interpret the IUPAC name: " + uninterpretable);
+    		String unparsable = results.getUnparseableName();
+    		if (unparsable != null && !unparsable.isEmpty())
+    			throw new BioclipseException("Could not parse the IUPAC name: " + unparsable);
+
+    		List<ParseTokens> interpretations = results.getParseTokensList();
+			if (interpretations.isEmpty()) throw new BioclipseException("No tokens found");
+
+			List<String> tokens = new ArrayList<>();
+			for (String token : interpretations.iterator().next().getTokens()) {
+				if (!token.isEmpty()) tokens.add(token);
+			}
+			return tokens;
+		} catch (ParsingException e) {
+			throw new BioclipseException(
+				"Could not parse the IUPAC name: " + e.getMessage(), e
+			);
+		}
+    }
+    
 	@Override
 	public String getManagerName() {
 		return "opsin";

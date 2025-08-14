@@ -9,6 +9,7 @@
  */
 package net.bioclipse.managers;
 
+import static org.junit.Assert.assertNotSame;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -67,6 +68,26 @@ public class OpsinManagerTest {
 			}
 		);
 		assertTrue(exception.getMessage().contains("Could not parse"));
+	}
+
+	@Test
+	public void testParseIUPACNameAsTokens_Bad() throws Exception {
+		Exception exception = assertThrows(
+			BioclipseException.class, () ->
+			{
+				opsin.parseIUPACNameAsTokens("brexit");
+			}
+		);
+		assertTrue(exception.getMessage().contains("Could not interpret"));
+	}
+
+	@Test
+	public void testParseIUPACNameAsTokens() throws Exception {
+		List<String> tokens = opsin.parseIUPACNameAsTokens("2-methylmethane");
+		for (String token : tokens) {
+			System.out.println("Token: " + token);
+		}
+		assertNotSame(0, tokens.size());
 	}
 
 	@Test
