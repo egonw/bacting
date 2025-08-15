@@ -146,17 +146,19 @@ public class OpsinManager implements IBactingManager {
 	 * to yield a possible new IUPAC name (including the original name).
 	 * 
 	 * For example:
-	 * <code>
+	 * <pre>
+     * {@code
 	 *   List<List<String>> options = new ArrayList<>()
 	 *   options.add( [ "meth", "eth", "prop", "but", "pent" ] )
 	 *   options.add( [ "(R,S)-", "(S,R)-", "(R,R)-", "(S,S)-" ] )
-	 * </code>
+	 * }
+	 * </pre>
 	 *
 	 * @param iupacName  the IUPAC name
 	 * @param variations the IUPAC name
 	 * @param validate   if true, then use {@link #parseIUPACName(String)} to only return valid names
 	 * @return           a {@link List} of new IUPAC names
-	 * @throws BioclipseException
+	 * @throws BioclipseException thrown when the name parsing failed
 	 */
     public List<String> createVariations(String iupacName, List<List<String>> variations, boolean validate)
     		throws BioclipseException {
