@@ -1,4 +1,4 @@
-/* Copyright (c) 2010,2020,2024  Egon Willighagen <egon.willighagen@gmail.com>
+/* Copyright (c) 2010,2020,2024-2025  Egon Willighagen <egon.willighagen@gmail.com>
  *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
@@ -11,6 +11,8 @@ package net.bioclipse.managers;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 import io.github.egonw.bacting.IBactingManager;
 import net.bioclipse.cdk.domain.ICDKMolecule;
@@ -106,7 +108,7 @@ public class OpsinManager implements IBactingManager {
     }
 
 	/**
-	 * Parses a IUPAC name into a molecule.
+	 * Parses a IUPAC name into tokens.
 	 *
 	 * @param iupacName the IUPAC name
 	 * @return          a {@link List} of {@link ParseTokens}
@@ -137,7 +139,86 @@ public class OpsinManager implements IBactingManager {
 			);
 		}
     }
-    
+
+	/**
+	 * Parses a IUPAC name and generated variations based on the given substitution collections.
+	 * The variations is a list of lists, where each list of a group of tokens that can be replaced
+	 * to yield a possible new IUPAC name (including the original name).
+	 * 
+	 * For example:
+	 * <code>
+	 *   List<List<String>> options = new ArrayList<>()
+	 *   options.add( [ "meth", "eth", "prop", "but", "pent" ] )
+	 *   options.add( [ "(R,S)-", "(S,R)-", "(R,R)-", "(S,S)-" ] )
+	 * </code>
+	 *
+	 * @param iupacName  the IUPAC name
+	 * @param variations the IUPAC name
+	 * @param validate   if true, then use {@link #parseIUPACName(String)} to only return valid names
+	 * @return           a {@link List} of new IUPAC names
+	 * @throws BioclipseException
+	 */
+    public List<String> createVariations(String iupacName, List<List<String>> variations, boolean validate)
+    		throws BioclipseException {
+    	Set<String> collectedNames = ConcurrentHashMap.newKeySet();
+    	collectedNames.add(iupacName);
+    	//print "name: $name"
+    	List<String> tokens = parseIUPACNameAsTokens(iupacName);
+    	//println " -> tokens: $tokens"
+    	Set<StringBuffer> newNames = ConcurrentHashMap.newKeySet();
+    	newNames.add(new StringBuffer());
+    	for (String token : tokens) {
+    		// println "new token: " + token + ", names = " + newNames.size()
+    		List<String> matchingOptions = getOptions(variations, token);
+    		if (matchingOptions == null) {
+    			for (StringBuffer newName : newNames) {
+    				newName.append(token);
+    				//println "new: " + newName
+    			}
+    		} else {
+    			//println "variations found: " + matchingOptions
+    			Set<StringBuffer> newNewNames = ConcurrentHashMap.newKeySet();
+    			for (StringBuffer newName : newNames) { // iterate of the last names
+    				String oldNameStr = newName.toString();
+    				for (String tokenOption : matchingOptions) {
+    					if (tokenOption.equals(token)) {
+    						newName.append(token); // should happen only once, extend the existing name
+    						//println "token match: " + newName
+    					} else {
+    						StringBuffer newNewName = new StringBuffer(oldNameStr).append(tokenOption);
+    						newNewNames.add(newNewName);
+    						//println "new token  : " + newNewName
+    					}
+    				}
+    			}
+    			newNames.addAll(newNewNames); // add all new names to the working list
+    			//println "new new name: " + newNewNames.size()
+    			//println "new name count: " + newNames.size()
+    		}
+    		//println "new name count: " + newNames.size()
+    	}
+    	for (StringBuffer newName : newNames) {
+    		collectedNames.add(newName.toString());
+    	}
+    	List<String> validNames = new ArrayList<>();
+    	for (String collectedName : collectedNames) {
+    	    try {
+    	        if (validate) parseIUPACNameAsSMILES(collectedName);
+    	        validNames.add(collectedName);
+    	    } catch (Exception e) {
+    	        // ignore, not valid
+    	    }
+    	}
+    	return validNames;
+    }
+
+    private List<String> getOptions(List<List<String>> options, String token) {
+    	for (List<String> option : options) {
+    		if (option.contains(token)) return option;
+    	}
+    	return null;
+    }
+    	
 	@Override
 	public String getManagerName() {
 		return "opsin";

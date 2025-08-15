@@ -16,6 +16,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.nio.file.Files;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.jupiter.api.BeforeAll;
@@ -84,10 +85,34 @@ public class OpsinManagerTest {
 	@Test
 	public void testParseIUPACNameAsTokens() throws Exception {
 		List<String> tokens = opsin.parseIUPACNameAsTokens("2-methylmethane");
-		for (String token : tokens) {
-			System.out.println("Token: " + token);
-		}
 		assertNotSame(0, tokens.size());
+	}
+
+	@Test
+	public void testCreateVariations() throws Exception {
+		List<List<String>> variations = new ArrayList<>();
+		List<String> alkanes = new ArrayList<>();
+		alkanes.add("meth");
+		alkanes.add("eth");
+		alkanes.add("prop");
+		variations.add(alkanes);
+
+		List<String> newNames = opsin.createVariations("2-methylpropane", variations, false);
+		assertSame(9, newNames.size());
+	}
+
+	@Test
+	public void testCreateVariations2() throws Exception {
+		List<List<String>> variations = new ArrayList<>();
+		List<String> alkanes = new ArrayList<>();
+		alkanes.add("meth");
+		alkanes.add("eth");
+		alkanes.add("prop");
+		variations.add(alkanes);
+
+		List<String> newNames = opsin.createVariations("2-propanol", variations, true);
+		System.out.println(newNames);
+		assertSame(2, newNames.size());
 	}
 
 	@Test
