@@ -132,7 +132,6 @@ public class OpsinManagerTest {
 		variations.add(alkanes);
 
 		List<String> newNames = opsin.createVariations("2-propanol", variations, true);
-		System.out.println(newNames);
 		assertSame(2, newNames.size());
 	}
 
