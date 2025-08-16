@@ -76,7 +76,7 @@ public class OpsinManagerTest {
 		Exception exception = assertThrows(
 			BioclipseException.class, () ->
 			{
-				opsin.parseIUPACNameAsTokens("brexit");
+				opsin.parseIUPACNameAsTokens("10,10-bis(4-pyridinylmethyl)-9(10H)-anthracenone dihydrochloride");
 			}
 		);
 		assertTrue(exception.getMessage().contains("Could not interpret"));
