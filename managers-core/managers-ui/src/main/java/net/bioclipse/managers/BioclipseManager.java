@@ -18,6 +18,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -29,17 +30,14 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.NameValuePair;
-import org.apache.http.StatusLine;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.config.CookieSpecs;
-import org.apache.http.client.config.RequestConfig;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.impl.client.HttpClientBuilder;
-import org.apache.http.message.BasicNameValuePair;
+import org.apache.hc.client5.http.classic.methods.HttpPost;
+import org.apache.hc.client5.http.entity.UrlEncodedFormEntity;
+import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
+import org.apache.hc.client5.http.impl.classic.CloseableHttpResponse;
+import org.apache.hc.client5.http.impl.classic.HttpClients;
+import org.apache.hc.core5.http.HttpEntity;
+import org.apache.hc.core5.http.NameValuePair;
+import org.apache.hc.core5.http.message.BasicNameValuePair;
 
 import io.github.egonw.bacting.IBactingManager;
 import net.bioclipse.core.business.BioclipseException;
@@ -146,18 +144,13 @@ public class BioclipseManager implements IBactingManager {
      */
     public byte[] sparqlRemote(String serviceURL, String sparqlQueryString, Map<String,String> extraHeaders)
     throws BioclipseException {
-         // use Apache for doing the SPARQL query
-         HttpClient httpclient = HttpClientBuilder.create()
-             .useSystemProperties()
-             .disableAutomaticRetries()
-             .setDefaultRequestConfig(RequestConfig.custom().setCookieSpec(CookieSpecs.STANDARD).build())
-             .build();
-
-         // Set credentials on the client
+    	 // use Apache for doing the SPARQL query
+ 
+    	// Set credentials on the client
          List<NameValuePair> formparams = new ArrayList<NameValuePair>();
          formparams.add(new BasicNameValuePair("query", sparqlQueryString));
          try {
-        	 UrlEncodedFormEntity entity = new UrlEncodedFormEntity(formparams, "UTF-8");
+        	 UrlEncodedFormEntity entity = new UrlEncodedFormEntity(formparams, Charset.forName("UTF-8"));
         	 HttpPost httppost = new HttpPost(serviceURL);
              httppost.addHeader("Accept", "application/sparql-results+xml");
         	 httppost.setEntity(entity);
@@ -170,15 +163,15 @@ public class BioclipseManager implements IBactingManager {
              } else {
                  httppost.addHeader("User-Agent", "Bacting (https://joss.theoj.org/papers/10.21105/joss.02558)");
              }
-        	 HttpResponse response = httpclient.execute(httppost);
-        	 StatusLine statusLine = response.getStatusLine();
-        	 int statusCode = statusLine.getStatusCode();
+             CloseableHttpClient httpclient = HttpClients.createDefault();
+             CloseableHttpResponse response = httpclient.execute(httppost);
+        	 int statusCode = response.getCode();
              if (statusCode != 200) {
                  InputStream errorStream = response.getEntity().getContent();
                  String errorDetails = new String(errorStream.readAllBytes(), StandardCharsets.UTF_8);
                  errorStream.close();
                  throw new BioclipseException(
-                     "Expected HTTP 200, but got a " + statusCode + ": " + statusLine.getReasonPhrase() +
+                     "Expected HTTP 200, but got a " + statusCode + ": " + response.getReasonPhrase() +
                      "\n" + errorDetails
                  );
              }

@@ -20,14 +20,11 @@ import java.util.Collections;
 import java.util.List;
 import java.util.regex.PatternSyntaxException;
 
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.StatusLine;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.config.CookieSpecs;
-import org.apache.http.client.config.RequestConfig;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.HttpClientBuilder;
+import org.apache.hc.client5.http.classic.methods.HttpGet;
+import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
+import org.apache.hc.client5.http.impl.classic.CloseableHttpResponse;
+import org.apache.hc.client5.http.impl.classic.HttpClients;
+import org.apache.hc.core5.http.HttpEntity;
 import org.eclipse.core.runtime.CoreException;
 import org.openscience.cdk.io.formats.IChemFormat;
 
@@ -171,11 +168,6 @@ public class PubChemManager implements IBactingManager {
 
     private String downloadAsString(String URL, String accepts)
             throws IOException, BioclipseException, CoreException {
-        HttpClient client = HttpClientBuilder.create()
-            .useSystemProperties()
-            .disableAutomaticRetries()
-            .setDefaultRequestConfig(RequestConfig.custom().setCookieSpec(CookieSpecs.STANDARD).build())
-            .build();
         String fileContent = "";
         try {
             HttpGet method = new HttpGet(URL);
@@ -183,12 +175,12 @@ public class PubChemManager implements IBactingManager {
 				method.addHeader("Accept", accepts);
 				method.addHeader("Content-Type", accepts);
 			}
-			HttpResponse response = client.execute(method);
-			StatusLine statusLine = response.getStatusLine();
-			int statusCode = statusLine.getStatusCode();
+			CloseableHttpClient httpclient = HttpClients.createDefault();
+			CloseableHttpResponse response = httpclient.execute(method);
+			int statusCode = response.getCode();
 			if (statusCode != 200) throw new BioclipseException(
-					"Expected HTTP 200, but got a " + statusCode + ": " + statusLine.getReasonPhrase()
-					);
+				"Expected HTTP 200, but got a " + statusCode + ": " + response.getReasonPhrase()
+			);
 
 			HttpEntity responseEntity = response.getEntity();
 			ByteArrayOutputStream buffer = new ByteArrayOutputStream();
