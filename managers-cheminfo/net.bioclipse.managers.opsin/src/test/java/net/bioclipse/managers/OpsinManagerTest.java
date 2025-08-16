@@ -10,6 +10,7 @@
 package net.bioclipse.managers;
 
 import static org.junit.Assert.assertNotSame;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -17,6 +18,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.nio.file.Files;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.junit.jupiter.api.BeforeAll;
@@ -101,6 +103,25 @@ public class OpsinManagerTest {
 		assertSame(9, newNames.size());
 	}
 
+	@Test
+	public void testParseIUPACNameAsTokens_VeryLongInput() throws Exception {
+		List<List<String>> variations = new ArrayList<>();
+		variations.add( Arrays.asList("meth", "eth", "prop", "but", "pent") );
+		variations.add( Arrays.asList("(R,S)-", "(S,R)-", "(R,R)-", "(S,S)-") );
+		variations.add( Arrays.asList("ane", "ene") );
+		variations.add( Arrays.asList("iodide", "bromide", "fluoride", "chloride") );
+		variations.add( Arrays.asList("hydroxy", "methoxy", "ethoxy") );
+
+		String input = "1-[(2R)-2-[(3aR,5R,6S,6aR)-2,2-Dimethyl-6-(prop-2-en-1-yloxy)-tetrahydro-2H-furo[2,3-d][1,3]dioxol-5-yl]-2-(methoxymethoxy)ethyl]-4-({[(3aR,5R,6S,6aR)-5-[(1R)-2-[(tert-butyldimethylsilyl)oxy]-1-(prop-2-en-1-yloxy)ethyl]-2,2-dimethyl-tetrahydro-2H-furo[2,3-d][1,3]dioxol-6-yl]oxy}methyl)-1H-1,2,3-triazole"; 
+		List<String> names = opsin.createVariations(input, variations, false);
+
+		assertTrue(names.size() > 5000); // 5000 is set as the max; but this also tests it completes
+		assertEquals( // make sure the full token list is used
+			names.get(1003).substring(names.get(1003).length() - 7),
+			input.substring(input.length() - 7)
+		);
+	}
+	
 	@Test
 	public void testCreateVariations2() throws Exception {
 		List<List<String>> variations = new ArrayList<>();
