@@ -136,6 +136,34 @@ public class OpsinManagerTest {
 	}
 
 	@Test
+	public void testCountPotentialVariations() throws Exception {
+		List<List<String>> variations = new ArrayList<>();
+		List<String> alkanes = new ArrayList<>();
+		alkanes.add("meth");
+		alkanes.add("eth");
+		alkanes.add("prop");
+		variations.add(alkanes);
+
+		int count = opsin.countPotentialVariations("2-methylpropane", variations);
+		assertEquals(9, count);
+	}
+
+	@Test
+	public void testCountPotentialVariations2() throws Exception {
+		List<List<String>> variations = new ArrayList<>();
+		variations.add( Arrays.asList("meth", "eth", "prop", "but", "pent") );
+		variations.add( Arrays.asList("(R,S)-", "(S,R)-", "(R,R)-", "(S,S)-") );
+		variations.add( Arrays.asList("ane", "ene") );
+		variations.add( Arrays.asList("iodide", "bromide", "fluoride", "chloride") );
+		variations.add( Arrays.asList("hydroxy", "methoxy", "ethoxy") );
+
+		String input = "1-[(2R)-2-[(3aR,5R,6S,6aR)-2,2-Dimethyl-6-(prop-2-en-1-yloxy)-tetrahydro-2H-furo[2,3-d][1,3]dioxol-5-yl]-2-(methoxymethoxy)ethyl]-4-({[(3aR,5R,6S,6aR)-5-[(1R)-2-[(tert-butyldimethylsilyl)oxy]-1-(prop-2-en-1-yloxy)ethyl]-2,2-dimethyl-tetrahydro-2H-furo[2,3-d][1,3]dioxol-6-yl]oxy}methyl)-1H-1,2,3-triazole";
+
+		int count = opsin.countPotentialVariations(input, variations);
+		assertEquals(1953125, count);
+	}
+
+	@Test
 	public void testDOIs() {
 		List<String> dois = opsin.doi();
 		assertNotNull(dois);
