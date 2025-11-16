@@ -201,41 +201,41 @@ public class BioclipseManagerTest {
 		Map<String,String> headers = new HashMap<>();
 		headers.put("User-Agent", "Bacting (https://joss.theoj.org/papers/10.21105/joss.02558)");
 		String results = bioclipse.download(
-			"https://wikidata.org/entity/Q5",
+			"https://wikidata.org/entity/Q55",
 			"text/n3", headers
 		);
-		assertTrue(results.contains("Q5"));
+		assertTrue(results.contains("Q55"));
 		assertTrue(results.contains("rdfs:label"));
 	}
 
 	@Test
 	public void testDownload_WithHeaders() throws BioclipseException {
 		String results = bioclipse.download(
-			"https://wikidata.org/entity/Q5",
+			"https://wikidata.org/entity/Q555",
 			"text/n3", new HashMap<>()
 		);
-		assertTrue(results.contains("Q5"));
+		assertTrue(results.contains("Q555"));
 		assertTrue(results.contains("rdfs:label"));
 	}
 
 	@Test
 	public void testDownloadAsFile() throws BioclipseException {
 		String results = bioclipse.downloadAsFile(
-			"https://wikidata.org/wiki/Q5",
-			"/Download/test.html"
+			"https://egonw.github.io/",
+			"/Download/homepage.html"
 		);
-		assertTrue(results.equals("/Download/test.html"));
+		assertTrue(results.equals("/Download/homepage.html"));
 		// should also test the file content
 	}
 
 	@Test
 	public void testDownloadAsFile2() throws BioclipseException {
 		String results = bioclipse.downloadAsFile(
-			"https://wikidata.org/wiki/Q5",
-			"text/n3",
-			"/Download/test.n3"
+			"https://egonw.github.io/journal-guidances-template/code/JEG000002.ttl",
+			"text/turtle",
+			"/Download/JEG000002.ttl"
 		);
-		assertTrue(results.equals("/Download/test.n3"));
+		assertTrue(results.equals("/Download/JEG000002.ttl"));
 		// should also test the file content
 	}
 
