@@ -34,6 +34,8 @@ public class WikidataManager implements IBactingManager {
 	static BioclipseManager bioclipse;
 
 	private String workspaceRoot;
+	private String endpoint = null;
+	private String scholarlyEndpoint = null;
 
 	/**
      * Creates a new {@link WikidataManager}.
@@ -41,7 +43,20 @@ public class WikidataManager implements IBactingManager {
      * @param workspaceRoot location of the workspace, e.g. "."
      */
     public WikidataManager(String workspaceRoot) {
+    	this(workspaceRoot, "https://query.wikidata.org/sparql");
+    	this.scholarlyEndpoint = "https://query-scholarly.wikidata.org/sparql";
+	}
+
+	/**
+     * Creates a new {@link WikidataManager}.
+     *
+     * @param workspaceRoot location of the workspace, e.g. "."
+     * @param sparqlEndpoint location of the Wikidata SPARQL endpoint
+     */
+    public WikidataManager(String workspaceRoot, String sparqlEndpoint) {
 		this.workspaceRoot = workspaceRoot;
+		this.endpoint = sparqlEndpoint;
+		this.scholarlyEndpoint = null;
 		rdf = new RDFManager(workspaceRoot);
 		bioclipse = new BioclipseManager(workspaceRoot);
 	}
@@ -59,9 +74,7 @@ public class WikidataManager implements IBactingManager {
     	   	+ "SELECT ?compound WHERE {"
     	    + "  ?compound wdt:P235 \"" + inchi.getKey() + "\" ."
     	    + "}";
-    	byte[] resultRaw = bioclipse.sparqlRemote(
-    		"https://query.wikidata.org/sparql", hasMoleculeByInChI
-    	);
+    	byte[] resultRaw = bioclipse.sparqlRemote(this.endpoint, hasMoleculeByInChI);
     	IStringMatrix results = rdf.processSPARQLXML(resultRaw, hasMoleculeByInChI);
     	return (results.getRowCount() > 0);
     }
@@ -79,9 +92,7 @@ public class WikidataManager implements IBactingManager {
         	+ "SELECT ?compound WHERE {"
         	+ "  ?compound wdt:P235  \"" + inchi.getKey() + "\" ."
         	+ "}";
-    	byte[] resultRaw = bioclipse.sparqlRemote(
-       		"https://query.wikidata.org/sparql", hasMoleculeByInChI
-       	);
+    	byte[] resultRaw = bioclipse.sparqlRemote(this.endpoint, hasMoleculeByInChI);
        	IStringMatrix results = rdf.processSPARQLXML(resultRaw, hasMoleculeByInChI);
     	if (results.getRowCount() == 0)
     		throw new BioclipseException("No molecule in Wikidata with the InChI: " + inchi);
@@ -109,9 +120,7 @@ public class WikidataManager implements IBactingManager {
         	+ values
         	+ "  ?compound wdt:P235 ?inchikey ."
         	+ "}";
-    	byte[] resultRaw = bioclipse.sparqlRemote(
-       		"https://query.wikidata.org/sparql", query
-       	);
+    	byte[] resultRaw = bioclipse.sparqlRemote(this.endpoint, query);
        	IStringMatrix results = rdf.processSPARQLXML(resultRaw, query);
     	Map<String,String> mappings = new HashMap<>();
     	for (int i=0; i<results.getRowCount(); i++) {
@@ -146,15 +155,14 @@ public class WikidataManager implements IBactingManager {
             + "SELECT ?work WHERE {"
             + "  ?work wdt:P356  \"" + doi + "\" ."
             + "}";
-        byte[] resultRaw = bioclipse.sparqlRemote(
-          	"https://query-scholarly.wikidata.org/sparql", hasWorkByDOI
-        );
-        IStringMatrix results = rdf.processSPARQLXML(resultRaw, hasWorkByDOI);
-        byte[] resultRaw2 = bioclipse.sparqlRemote(
-            "https://query.wikidata.org/sparql", hasWorkByDOI
-        );
+    	IStringMatrix results = null;
+    	if (scholarlyEndpoint != null) {
+            byte[] resultRaw = bioclipse.sparqlRemote(scholarlyEndpoint, hasWorkByDOI);
+            results = rdf.processSPARQLXML(resultRaw, hasWorkByDOI);
+    	}
+        byte[] resultRaw2 = bioclipse.sparqlRemote(this.endpoint, hasWorkByDOI);
         IStringMatrix results2 = rdf.processSPARQLXML(resultRaw2, hasWorkByDOI);
-        if (results.getRowCount() + results2.getRowCount() == 0)
+        if ((results == null ? 0 : results.getRowCount()) + results2.getRowCount() == 0)
         	throw new BioclipseException("No work in Wikidata with the DOI: " + doi);
         if (results.getRowCount() + results2.getRowCount() > 1)
         	throw new BioclipseException("Too many works in Wikidata with the DOI: " + doi);
@@ -183,24 +191,22 @@ public class WikidataManager implements IBactingManager {
     		}
     		values += " }\n";
     		String query =
-    				"PREFIX wdt: <http://www.wikidata.org/prop/direct/>"
-    						+ "SELECT ?doi ?work WHERE {"
-    						+ values
-    						+ "  ?work wdt:P356 ?doi ."
-    						+ "}";
+    			"PREFIX wdt: <http://www.wikidata.org/prop/direct/>"
+    			+ "SELECT ?doi ?work WHERE {"
+    			+ values
+    			+ "  ?work wdt:P356 ?doi ."
+    			+ "}";
     		// handle the split Wikidata SPARQL endpoints, as a DOI can be for a scholarly article (first call)
     		// and for other types, like datasets (second call)
-    		byte[] resultRaw = bioclipse.sparqlRemote(
-    			"https://query-scholarly.wikidata.org/sparql", query
-    		);
-    		IStringMatrix results = rdf.processSPARQLXML(resultRaw, query);
-    		for (int i=1; i<=results.getRowCount(); i++) {
-    			mappings.put(doiMappings.get(results.get(i, "doi")), results.get(i, "work"));
+    		if (scholarlyEndpoint != null) {
+    		    byte[] resultRaw = bioclipse.sparqlRemote(scholarlyEndpoint, query);
+    		    IStringMatrix results = rdf.processSPARQLXML(resultRaw, query);
+    		    for (int i=1; i<=results.getRowCount(); i++) {
+    			    mappings.put(doiMappings.get(results.get(i, "doi")), results.get(i, "work"));
+    		    }
     		}
-    		resultRaw = bioclipse.sparqlRemote(
-        		"https://query.wikidata.org/sparql", query
-        	);
-        	results = rdf.processSPARQLXML(resultRaw, query);
+    		byte[] resultRaw = bioclipse.sparqlRemote(this.endpoint, query);
+    		IStringMatrix results = rdf.processSPARQLXML(resultRaw, query);
         	for (int i=1; i<=results.getRowCount(); i++) {
         		mappings.put(doiMappings.get(results.get(i, "doi")), results.get(i, "work"));
         	}
@@ -216,22 +222,21 @@ public class WikidataManager implements IBactingManager {
     public List<String> getEntityIDsForType(String type) throws BioclipseException {
     	if (!isValidQIdentifier(type)) throw new BioclipseException("You must give a valid Wikidata identifier, but got " + type + ".");
     	String query =
-        	"PREFIX wdt: <http://www.wikidata.org/prop/direct/>"
+    		"PREFIX wd: <http://www.wikidata.org/entity/>\n"
+    		+ "PREFIX wdt: <http://www.wikidata.org/prop/direct/>\n"
         	+ "SELECT DISTINCT ?entity WHERE {"
         	+ "  ?entity wdt:P31 wd:" + type + " ."
         	+ "}";
 		// handle the split Wikidata SPARQL endpoints, as a DOI can be for a scholarly article (first call)
 		// and for other types, like datasets (second call)
     	List<String> entities = new ArrayList<>();
-		byte[] resultRaw = bioclipse.sparqlRemote(
-			"https://query-scholarly.wikidata.org/sparql", query
-		);
+    	if (scholarlyEndpoint != null) { 
+    		byte[] resultRaw = bioclipse.sparqlRemote(scholarlyEndpoint, query);
+    		IStringMatrix results = rdf.processSPARQLXML(resultRaw, query);
+    		if (results.getRowCount() > 0) entities.addAll(results.getColumn("entity"));
+    	}
+		byte[] resultRaw = bioclipse.sparqlRemote(this.endpoint, query);
 		IStringMatrix results = rdf.processSPARQLXML(resultRaw, query);
-		if (results.getRowCount() > 0) entities.addAll(results.getColumn("entity"));
-		resultRaw = bioclipse.sparqlRemote(
-    		"https://query.wikidata.org/sparql", query
-    	);
-    	results = rdf.processSPARQLXML(resultRaw, query);
     	if (results.getRowCount() > 0) entities.addAll(results.getColumn("entity"));
     	return entities;
     }
@@ -245,22 +250,21 @@ public class WikidataManager implements IBactingManager {
     public List<String> getEntityIDsForWorksOfAuthor(String author) throws BioclipseException {
     	if (!isValidQIdentifier(author)) throw new BioclipseException("You must give a valid Wikidata identifier, but got " + author + ".");
     	String query =
-        	"PREFIX wdt: <http://www.wikidata.org/prop/direct/>"
+    		"PREFIX wd: <http://www.wikidata.org/entity/>\n"
+    		+ "PREFIX wdt: <http://www.wikidata.org/prop/direct/>\n"
         	+ "SELECT DISTINCT ?entity WHERE {"
         	+ "  ?entity wdt:P50 wd:" + author + " ."
         	+ "}";
 		// handle the split Wikidata SPARQL endpoints, as a DOI can be for a scholarly article (first call)
 		// and for other types, like datasets (second call)
     	List<String> entities = new ArrayList<>();
-		byte[] resultRaw = bioclipse.sparqlRemote(
-			"https://query-scholarly.wikidata.org/sparql", query
-		);
-		IStringMatrix results = rdf.processSPARQLXML(resultRaw, query);
-		if (results.getRowCount() > 0) entities.addAll(results.getColumn("entity"));
-		resultRaw = bioclipse.sparqlRemote(
-    		"https://query.wikidata.org/sparql", query
-    	);
-    	results = rdf.processSPARQLXML(resultRaw, query);
+    	if (scholarlyEndpoint != null) { 
+    		byte[] resultRaw = bioclipse.sparqlRemote(scholarlyEndpoint, query);
+    		IStringMatrix results = rdf.processSPARQLXML(resultRaw, query);
+    		if (results.getRowCount() > 0) entities.addAll(results.getColumn("entity"));
+    	}
+		byte[] resultRaw = bioclipse.sparqlRemote(this.endpoint, query);
+    	IStringMatrix results = rdf.processSPARQLXML(resultRaw, query);
     	if (results.getRowCount() > 0) entities.addAll(results.getColumn("entity"));
     	return entities;
     }
@@ -274,7 +278,8 @@ public class WikidataManager implements IBactingManager {
     public List<String> getDOIsForWorksOfAuthor(String author) throws BioclipseException {
     	if (!isValidQIdentifier(author)) throw new BioclipseException("You must give a valid Wikidata identifier, but got " + author + ".");
     	String query =
-        	"PREFIX wdt: <http://www.wikidata.org/prop/direct/>"
+    		"PREFIX wd: <http://www.wikidata.org/entity/>\n"
+    		+ "PREFIX wdt: <http://www.wikidata.org/prop/direct/>\n"
         	+ "SELECT DISTINCT ?doi WHERE {"
         	+ "  ?entity wdt:P50 wd:" + author + " ;"
         	+ "  wdt:P356 ?doi ."
@@ -282,15 +287,13 @@ public class WikidataManager implements IBactingManager {
 		// handle the split Wikidata SPARQL endpoints, as a DOI can be for a scholarly article (first call)
 		// and for other types, like datasets (second call)
     	List<String> dois = new ArrayList<>();
-		byte[] resultRaw = bioclipse.sparqlRemote(
-			"https://query-scholarly.wikidata.org/sparql", query
-		);
-		IStringMatrix results = rdf.processSPARQLXML(resultRaw, query);
-		if (results.getRowCount() > 0) dois.addAll(results.getColumn("doi"));
-		resultRaw = bioclipse.sparqlRemote(
-    		"https://query.wikidata.org/sparql", query
-    	);
-    	results = rdf.processSPARQLXML(resultRaw, query);
+    	if (scholarlyEndpoint != null) { 
+    		byte[] resultRaw = bioclipse.sparqlRemote(scholarlyEndpoint, query);
+    		IStringMatrix results = rdf.processSPARQLXML(resultRaw, query);
+    		if (results.getRowCount() > 0) dois.addAll(results.getColumn("doi"));
+    	}
+		byte[] resultRaw = bioclipse.sparqlRemote(this.endpoint, query);
+    	IStringMatrix results = rdf.processSPARQLXML(resultRaw, query);
     	if (results.getRowCount() > 0) dois.addAll(results.getColumn("doi"));
     	return dois;
     }
@@ -304,22 +307,21 @@ public class WikidataManager implements IBactingManager {
     public List<String> getEntityIDsForWorksOfVenue(String venue) throws BioclipseException {
     	if (!isValidQIdentifier(venue)) throw new BioclipseException("You must give a valid Wikidata identifier, but got " + venue + ".");
     	String query =
-        	"PREFIX wdt: <http://www.wikidata.org/prop/direct/>"
+    		"PREFIX wd: <http://www.wikidata.org/entity/>\n"
+    		+ "PREFIX wdt: <http://www.wikidata.org/prop/direct/>\n"
         	+ "SELECT DISTINCT ?entity WHERE {"
         	+ "  ?entity wdt:P1433 wd:" + venue + " ."
         	+ "}";
 		// handle the split Wikidata SPARQL endpoints, as a DOI can be for a scholarly article (first call)
 		// and for other types, like datasets (second call)
     	List<String> entities = new ArrayList<>();
-		byte[] resultRaw = bioclipse.sparqlRemote(
-			"https://query-scholarly.wikidata.org/sparql", query
-		);
-		IStringMatrix results = rdf.processSPARQLXML(resultRaw, query);
-		if (results.getRowCount() > 0) entities.addAll(results.getColumn("entity"));
-		resultRaw = bioclipse.sparqlRemote(
-    		"https://query.wikidata.org/sparql", query
-    	);
-    	results = rdf.processSPARQLXML(resultRaw, query);
+    	if (scholarlyEndpoint != null) { 
+    		byte[] resultRaw = bioclipse.sparqlRemote(scholarlyEndpoint, query);
+    		IStringMatrix results = rdf.processSPARQLXML(resultRaw, query);
+    		if (results.getRowCount() > 0) entities.addAll(results.getColumn("entity"));
+    	}
+		byte[] resultRaw = bioclipse.sparqlRemote(this.endpoint, query);
+    	IStringMatrix results = rdf.processSPARQLXML(resultRaw, query);
     	if (results.getRowCount() > 0) entities.addAll(results.getColumn("entity"));
     	return entities;
     }
@@ -333,7 +335,8 @@ public class WikidataManager implements IBactingManager {
     public List<String> getDOIsForWorksOfVenue(String venue) throws BioclipseException {
     	if (!isValidQIdentifier(venue)) throw new BioclipseException("You must give a valid Wikidata identifier, but got " + venue + ".");
     	String query =
-        	"PREFIX wdt: <http://www.wikidata.org/prop/direct/>"
+    		"PREFIX wd: <http://www.wikidata.org/entity/>\n"
+    		+ "PREFIX wdt: <http://www.wikidata.org/prop/direct/>\n"
         	+ "SELECT DISTINCT ?doi WHERE {"
         	+ "  ?entity wdt:P1433 wd:" + venue + " ;"
         	+ "  wdt:P356 ?doi ."
@@ -341,15 +344,13 @@ public class WikidataManager implements IBactingManager {
 		// handle the split Wikidata SPARQL endpoints, as a DOI can be for a scholarly article (first call)
 		// and for other types, like datasets (second call)
     	List<String> dois = new ArrayList<>();
-		byte[] resultRaw = bioclipse.sparqlRemote(
-			"https://query-scholarly.wikidata.org/sparql", query
-		);
-		IStringMatrix results = rdf.processSPARQLXML(resultRaw, query);
-		if (results.getRowCount() > 0) dois.addAll(results.getColumn("doi"));
-		resultRaw = bioclipse.sparqlRemote(
-    		"https://query.wikidata.org/sparql", query
-    	);
-    	results = rdf.processSPARQLXML(resultRaw, query);
+    	if (scholarlyEndpoint != null) { 
+    		byte[] resultRaw = bioclipse.sparqlRemote(scholarlyEndpoint, query);
+    		IStringMatrix results = rdf.processSPARQLXML(resultRaw, query);
+    		if (results.getRowCount() > 0) dois.addAll(results.getColumn("doi"));
+    	}
+		byte[] resultRaw = bioclipse.sparqlRemote(this.endpoint, query);
+    	IStringMatrix results = rdf.processSPARQLXML(resultRaw, query);
     	if (results.getRowCount() > 0) dois.addAll(results.getColumn("doi"));
     	return dois;
     }
@@ -363,22 +364,21 @@ public class WikidataManager implements IBactingManager {
     public List<String> getEntityIDsForWorksForTopic(String topic) throws BioclipseException {
     	if (!isValidQIdentifier(topic)) throw new BioclipseException("You must give a valid Wikidata identifier, but got " + topic + ".");
     	String query =
-        	"PREFIX wdt: <http://www.wikidata.org/prop/direct/>"
+           	"PREFIX wd: <http://www.wikidata.org/entity/>\n"
+           	+ "PREFIX wdt: <http://www.wikidata.org/prop/direct/>\n"
         	+ "SELECT DISTINCT ?entity WHERE {"
         	+ "  ?entity wdt:P921 wd:" + topic + " ."
         	+ "}";
 		// handle the split Wikidata SPARQL endpoints, as a DOI can be for a scholarly article (first call)
 		// and for other types, like datasets (second call)
     	List<String> entities = new ArrayList<>();
-		byte[] resultRaw = bioclipse.sparqlRemote(
-			"https://query-scholarly.wikidata.org/sparql", query
-		);
-		IStringMatrix results = rdf.processSPARQLXML(resultRaw, query);
-		if (results.getRowCount() > 0) entities.addAll(results.getColumn("entity"));
-		resultRaw = bioclipse.sparqlRemote(
-    		"https://query.wikidata.org/sparql", query
-    	);
-    	results = rdf.processSPARQLXML(resultRaw, query);
+    	if (scholarlyEndpoint != null) { 
+    		byte[] resultRaw = bioclipse.sparqlRemote(scholarlyEndpoint, query);
+    		IStringMatrix results = rdf.processSPARQLXML(resultRaw, query);
+    		if (results.getRowCount() > 0) entities.addAll(results.getColumn("entity"));
+    	}
+		byte[] resultRaw = bioclipse.sparqlRemote(this.endpoint, query);
+    	IStringMatrix results = rdf.processSPARQLXML(resultRaw, query);
     	if (results.getRowCount() > 0) entities.addAll(results.getColumn("entity"));
     	return entities;
     }
@@ -392,7 +392,8 @@ public class WikidataManager implements IBactingManager {
     public List<String> getDOIsForWorksForTopic(String topic) throws BioclipseException {
     	if (!isValidQIdentifier(topic)) throw new BioclipseException("You must give a valid Wikidata identifier, but got " + topic + ".");
     	String query =
-        	"PREFIX wdt: <http://www.wikidata.org/prop/direct/>"
+        	"PREFIX wd: <http://www.wikidata.org/entity/>\n"
+        	+ "PREFIX wdt: <http://www.wikidata.org/prop/direct/>\n"
         	+ "SELECT DISTINCT ?doi WHERE {"
         	+ "  ?entity wdt:P921 wd:" + topic + " ;"
         	+ "  wdt:P356 ?doi ."
@@ -400,15 +401,13 @@ public class WikidataManager implements IBactingManager {
 		// handle the split Wikidata SPARQL endpoints, as a DOI can be for a scholarly article (first call)
 		// and for other types, like datasets (second call)
     	List<String> dois = new ArrayList<>();
-		byte[] resultRaw = bioclipse.sparqlRemote(
-			"https://query-scholarly.wikidata.org/sparql", query
-		);
-		IStringMatrix results = rdf.processSPARQLXML(resultRaw, query);
-		if (results.getRowCount() > 0) dois.addAll(results.getColumn("doi"));
-		resultRaw = bioclipse.sparqlRemote(
-    		"https://query.wikidata.org/sparql", query
-    	);
-    	results = rdf.processSPARQLXML(resultRaw, query);
+    	if (scholarlyEndpoint != null) { 
+    		byte[] resultRaw = bioclipse.sparqlRemote(scholarlyEndpoint, query);
+    		IStringMatrix results = rdf.processSPARQLXML(resultRaw, query);
+    		if (results.getRowCount() > 0) dois.addAll(results.getColumn("doi"));
+    	}
+		byte[] resultRaw = bioclipse.sparqlRemote(this.endpoint, query);
+    	IStringMatrix results = rdf.processSPARQLXML(resultRaw, query);
     	if (results.getRowCount() > 0) dois.addAll(results.getColumn("doi"));
     	return dois;
     }
@@ -450,9 +449,7 @@ public class WikidataManager implements IBactingManager {
         	+ "}\n"
         	+ "";
     	List<String> dois = new ArrayList<>();
-		byte[] resultRaw = bioclipse.sparqlRemote(
-			"https://query.wikidata.org/sparql", query
-		);
+		byte[] resultRaw = bioclipse.sparqlRemote(this.endpoint, query);
 		IStringMatrix results = rdf.processSPARQLXML(resultRaw, query);
 		if (results.getRowCount() > 0) dois.addAll(results.getColumn("doi"));
     	return dois;
