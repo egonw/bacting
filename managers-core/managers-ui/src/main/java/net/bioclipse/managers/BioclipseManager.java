@@ -10,7 +10,6 @@
 package net.bioclipse.managers;
 
 import java.io.BufferedReader;
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -33,10 +32,9 @@ import java.util.regex.Pattern;
 import org.apache.hc.client5.http.classic.methods.HttpPost;
 import org.apache.hc.client5.http.entity.UrlEncodedFormEntity;
 import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
-import org.apache.hc.client5.http.impl.classic.CloseableHttpResponse;
-import org.apache.hc.client5.http.impl.classic.HttpClients;
-import org.apache.hc.core5.http.HttpEntity;
+import org.apache.hc.client5.http.impl.classic.HttpClientBuilder;
 import org.apache.hc.core5.http.NameValuePair;
+import org.apache.hc.core5.http.io.entity.EntityUtils;
 import org.apache.hc.core5.http.message.BasicNameValuePair;
 
 import io.github.egonw.bacting.IBactingManager;
@@ -144,43 +142,44 @@ public class BioclipseManager implements IBactingManager {
      */
     public byte[] sparqlRemote(String serviceURL, String sparqlQueryString, Map<String,String> extraHeaders)
     throws BioclipseException {
-    	 // use Apache for doing the SPARQL query
+        // use Apache for doing the SPARQL query
  
-    	// Set credentials on the client
-         List<NameValuePair> formparams = new ArrayList<NameValuePair>();
-         formparams.add(new BasicNameValuePair("query", sparqlQueryString));
-         try {
-        	 UrlEncodedFormEntity entity = new UrlEncodedFormEntity(formparams, Charset.forName("UTF-8"));
-        	 HttpPost httppost = new HttpPost(serviceURL);
-             httppost.addHeader("Accept", "application/sparql-results+xml");
-        	 httppost.setEntity(entity);
-             if (extraHeaders != null) {
-                 for (String header : extraHeaders.keySet()) {
-                     httppost.addHeader(header, extraHeaders.get(header));
+        // Set credentials on the client
+        List<NameValuePair> formparams = new ArrayList<NameValuePair>();
+        formparams.add(new BasicNameValuePair("query", sparqlQueryString));
+        try {
+            UrlEncodedFormEntity entity = new UrlEncodedFormEntity(formparams, Charset.forName("UTF-8"));
+            HttpPost httppost = new HttpPost(serviceURL);
+            httppost.addHeader("Accept", "application/sparql-results+xml");
+            httppost.setEntity(entity);
+            if (extraHeaders != null) {
+                for (String header : extraHeaders.keySet()) {
+                    httppost.addHeader(header, extraHeaders.get(header));
+                }
+                if (!extraHeaders.containsKey("User-Agent"))
+                    httppost.addHeader("User-Agent", "Bacting (https://joss.theoj.org/papers/10.21105/joss.02558)");
+            } else {
+                httppost.addHeader("User-Agent", "Bacting (https://joss.theoj.org/papers/10.21105/joss.02558)");
+            }
+            CloseableHttpClient httpclient = HttpClientBuilder.create().build();
+            byte[] responeString = httpclient.execute(httppost,
+                response -> {
+                    int statusCode = response.getCode();
+                    if (statusCode == 200) {
+                        String bodyAsString = EntityUtils.toString(response.getEntity());
+                        return bodyAsString.getBytes();
+                    } else {
+                        InputStream errorStream = response.getEntity().getContent();
+                        String errorDetails = new String(errorStream.readAllBytes(), StandardCharsets.UTF_8);
+                        errorStream.close();
+                        throw new IOException(
+                            "Expected HTTP 200, but got a " + statusCode + ": " + response.getReasonPhrase() +
+                            "\n" + errorDetails
+                        );
+                    }
                  }
-                 if (!extraHeaders.containsKey("User-Agent"))
-                     httppost.addHeader("User-Agent", "Bacting (https://joss.theoj.org/papers/10.21105/joss.02558)");
-             } else {
-                 httppost.addHeader("User-Agent", "Bacting (https://joss.theoj.org/papers/10.21105/joss.02558)");
-             }
-             CloseableHttpClient httpclient = HttpClients.createDefault();
-             CloseableHttpResponse response = httpclient.execute(httppost);
-        	 int statusCode = response.getCode();
-             if (statusCode != 200) {
-                 InputStream errorStream = response.getEntity().getContent();
-                 String errorDetails = new String(errorStream.readAllBytes(), StandardCharsets.UTF_8);
-                 errorStream.close();
-                 throw new BioclipseException(
-                     "Expected HTTP 200, but got a " + statusCode + ": " + response.getReasonPhrase() +
-                     "\n" + errorDetails
-                 );
-             }
-
-         	 HttpEntity responseEntity = response.getEntity();
-         	 ByteArrayOutputStream buffer = new ByteArrayOutputStream();
-        	 responseEntity.writeTo(buffer);
-        	 buffer.flush();
-        	 return buffer.toByteArray();
+             );
+             return responeString;
          } catch (UnsupportedEncodingException exception) {
         	 throw new BioclipseException(
                  "Error while creating the SPARQL query: " + exception.getMessage(), exception
