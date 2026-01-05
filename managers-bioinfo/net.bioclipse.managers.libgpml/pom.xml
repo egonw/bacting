@@ -57,7 +57,7 @@
     <dependency>
       <groupId>org.pathvisio</groupId>
       <artifactId>org.pathvisio.libgpml</artifactId>
-      <version>4.0.3</version>
+      <version>4.0.4</version>
       <exclusions>
         <exclusion>
           <groupId>org.bridgedb</groupId>

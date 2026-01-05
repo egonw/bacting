@@ -45,6 +45,16 @@ public class WikidataManagerTest {
 		inchi = new InChIManager(workspaceRoot);
 	}
 
+	@Test void testSecondConstructor() throws Exception {
+		WikidataManager wikidata2 = new WikidataManager(workspaceRoot, "https://qlever.dev/api/wikidata");
+		List<InChI> inchis = new ArrayList<>();
+		inchis.add(inchi.generate(cdk.fromSMILES("C")));
+		inchis.add(inchi.generate(cdk.fromSMILES("CCO")));
+		Map<String,String> mappings = wikidata2.getEntityIDs(inchis);
+		assertNotNull(mappings);
+		assertEquals(2, mappings.size());
+	}
+
 	@Test
 	public void testHasMethane() throws Exception {
 		IMolecule methane = cdk.fromSMILES("C");
