@@ -31,7 +31,7 @@ the source code.
 ## From the source code
 
 First, you need a working [Maven installation](https://www.google.nl/search?q=install+maven) and the code is tested with
-Java 11, 17, and 19, and can be installed with:
+Java 17, 21, and 25 and can be installed with:
 
 ```shell
 mvn clean install -Dgpg.skip -Dmaven.javadoc.skip=true
