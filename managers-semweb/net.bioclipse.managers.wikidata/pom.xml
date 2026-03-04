@@ -9,7 +9,7 @@
 
   <artifactId>net.bioclipse.managers.wikidata</artifactId>
   <packaging>jar</packaging>
-  <name>net.bioclipse.managers.wikidata</name>
+  <name>managers-wikidata</name>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
