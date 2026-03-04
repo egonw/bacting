@@ -23,6 +23,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
 import net.bioclipse.cdk.domain.ICDKMolecule;
@@ -45,7 +46,9 @@ public class WikidataManagerTest {
 		inchi = new InChIManager(workspaceRoot);
 	}
 
-	@Test void testSecondConstructor() throws Exception {
+	@Test
+	@Tag("qlever")
+	void testSecondConstructor() throws Exception {
 		WikidataManager wikidata2 = new WikidataManager(workspaceRoot, "https://qlever.dev/api/wikidata");
 		List<InChI> inchis = new ArrayList<>();
 		inchis.add(inchi.generate(cdk.fromSMILES("C")));
@@ -56,6 +59,7 @@ public class WikidataManagerTest {
 	}
 
 	@Test
+	@Tag("qlever")
 	public void testHasMethane() throws Exception {
 		IMolecule methane = cdk.fromSMILES("C");
 		InChI inchiObj = inchi.generate(methane);
@@ -63,6 +67,7 @@ public class WikidataManagerTest {
 	}
 
 	@Test
+	@Tag("qlever")
 	public void testHasVeryLongAlkane() throws Exception {
 		IMolecule methane = cdk.fromSMILES("CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC");
 		InChI inchiObj = inchi.generate(methane);
@@ -70,6 +75,7 @@ public class WikidataManagerTest {
 	}
 
 	@Test
+	@Tag("qlever")
 	public void testNull() {
 		Exception exception = assertThrows(
 			BioclipseException.class, () ->
@@ -95,6 +101,7 @@ public class WikidataManagerTest {
 	}
 
 	@Test
+	@Tag("qlever")
 	public void testGetEntityID() throws Exception {
 		IMolecule methane = cdk.fromSMILES("C");
 		InChI inchiObj = inchi.generate(methane);
@@ -102,7 +109,8 @@ public class WikidataManagerTest {
 	}
 
 	@Test
-	public void testGetEntityIDs() throws Exception {
+	@Tag("qlever")
+    public void testGetEntityIDs() throws Exception {
 		List<InChI> inchis = new ArrayList<>();
 		inchis.add(inchi.generate(cdk.fromSMILES("C")));
 		inchis.add(inchi.generate(cdk.fromSMILES("CCO")));
@@ -112,6 +120,7 @@ public class WikidataManagerTest {
 	}
 
 	@Test
+	@Tag("qlever")
 	public void testGetEntityIDs_NotInWikidata() throws Exception {
 		List<InChI> inchis = new ArrayList<>();
 		inchis.add(inchi.generate(cdk.fromSMILES("CCCCCC[O-]")));
@@ -132,6 +141,7 @@ public class WikidataManagerTest {
 	}
 
 	@Test
+	@Tag("qlever")
 	public void testGetMolecule() throws Exception {
 		IMolecule methane = cdk.fromSMILES("C");
 		InChI inchiObj = inchi.generate(methane);
@@ -158,6 +168,7 @@ public class WikidataManagerTest {
 	}
 
 	@Test
+	@Tag("qlever")
 	public void testGetEntityIDsForDOIs() throws Exception {
 		Map<String,String> entityIDs = wikidata.getEntityIDsForDOIs(Arrays.asList(new String[] { "10.1186/S13321-023-00780-2" }));
 		assertNotNull(entityIDs);
@@ -165,6 +176,7 @@ public class WikidataManagerTest {
 	}
 
 	@Test
+	@Tag("qlever")
 	public void testGetEntityIDsForDOIs_Dataset() throws Exception {
 		Map<String,String> entityIDs = wikidata.getEntityIDsForDOIs(Arrays.asList(new String[] { "10.5281/ZENODO.7368209" }));
 		assertNotNull(entityIDs);
@@ -183,6 +195,7 @@ public class WikidataManagerTest {
 	}
 
 	@Test
+	@Tag("qlever")
 	public void testGetEntityID_DOI() throws Exception {
 		String entityID = wikidata.getEntityID("10.1186/S13321-023-00780-2");
 		assertNotNull(entityID);
@@ -190,6 +203,7 @@ public class WikidataManagerTest {
 	}
 
 	@Test
+	@Tag("qlever")
 	public void testGetEntityID_Dataset() throws Exception {
 		String entityID = wikidata.getEntityID("10.5281/ZENODO.7368209");
 		assertNotNull(entityID);
@@ -197,6 +211,7 @@ public class WikidataManagerTest {
 	}
 
 	@Test
+	@Tag("qlever")
 	public void testGetEntityID_NonExistingDOI() throws Exception {
 		Exception exception = assertThrows(
 			BioclipseException.class, () ->
@@ -219,6 +234,7 @@ public class WikidataManagerTest {
 	}
 
 	@Test
+	@Tag("qlever")
 	public void testNotInWikidata() {
 		Exception exception = assertThrows(
 			BioclipseException.class, () ->
@@ -232,6 +248,7 @@ public class WikidataManagerTest {
 	}
 
 	@Test
+	@Tag("qlever")
 	public void testGetEntityIDsForType() throws Exception {
 		List<String> entityIDs = wikidata.getEntityIDsForType("Q7316896");
 		assertNotNull(entityIDs);
@@ -239,6 +256,7 @@ public class WikidataManagerTest {
 	}
 
 	@Test
+	@Tag("qlever")
 	public void testGetEntityIDsForWorksOfAuthor() throws Exception {
 		List<String> entityIDs = wikidata.getEntityIDsForWorksOfAuthor("Q20895241");
 		assertNotNull(entityIDs);
@@ -246,6 +264,7 @@ public class WikidataManagerTest {
 	}
 
 	@Test
+	@Tag("qlever")
 	public void testGetDOIsForWorksOfAuthor() throws Exception {
 		List<String> entityIDs = wikidata.getDOIsForWorksOfAuthor("Q20895241");
 		assertNotNull(entityIDs);
@@ -254,6 +273,7 @@ public class WikidataManagerTest {
 	}
 
 	@Test
+	@Tag("qlever")
 	public void testGetEntityIDsForWorksOfVenue() throws Exception {
 		List<String> entityIDs = wikidata.getEntityIDsForWorksOfVenue("Q115450084");
 		assertNotNull(entityIDs);
@@ -261,6 +281,7 @@ public class WikidataManagerTest {
 	}
 
 	@Test
+	@Tag("qlever")
 	public void testGetDOIsForWorksOfVenue() throws Exception {
 		List<String> entityIDs = wikidata.getDOIsForWorksOfVenue("Q115450084");
 		assertNotNull(entityIDs);
@@ -269,6 +290,7 @@ public class WikidataManagerTest {
 	}
 
 	@Test
+	@Tag("qlever")
 	public void testGetEntityIDsForWorksForTopic() throws Exception {
 		List<String> entityIDs = wikidata.getEntityIDsForWorksForTopic("Q2383032");
 		assertNotNull(entityIDs);
@@ -276,6 +298,7 @@ public class WikidataManagerTest {
 	}
 
 	@Test
+	@Tag("qlever")
 	public void testGetDOIsForWorksForTopic() throws Exception {
 		List<String> entityIDs = wikidata.getDOIsForWorksForTopic("Q2383032");
 		assertNotNull(entityIDs);
@@ -303,6 +326,7 @@ public class WikidataManagerTest {
 	}
 
 	@Test
+	@Tag("qlever")
 	public void getDOIsForWorksForPeopleAtEvent() throws Exception {
 		List<String> entityIDs = wikidata.getDOIsForWorksForPeopleAtEvent("Q135408981");
 		assertNotNull(entityIDs);

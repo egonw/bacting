@@ -23,6 +23,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
 import net.bioclipse.core.business.BioclipseException;
@@ -130,6 +131,7 @@ public class BioclipseManagerTest {
 	}
 
 	@Test
+	@Tag("qlever")
 	public void testSparqlRemote_QLever() throws BioclipseException {
 		byte[] results = bioclipse.sparqlRemote(
 			"https://qlever.cs.uni-freiburg.de/api/wikidata",
