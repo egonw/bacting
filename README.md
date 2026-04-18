@@ -47,7 +47,7 @@ If these requirements are fulfilled then the following commands to the job:
 
 ```shell
 export MAVEN_OPTS="--add-opens=java.base/java.util=ALL-UNNAMED --add-opens=java.base/java.lang.reflect=ALL-UNNAMED --add-opens=java.base/java.text=ALL-UNNAMED --add-opens=java.desktop/java.awt.font=ALL-UNNAMED"
-mvn versions:set -DnewVersion=1.0.10
+mvn versions:set -DnewVersion=1.0.11
 git commit -m "New release" -a
 mvn deploy -P release
 ```
@@ -83,7 +83,7 @@ itself), and then converts a [SMILES](https://en.wikipedia.org/wiki/Simplified_m
 string to a Bioclipse `IMolecule` data object:
 
 ```groovy
-@Grab(group='io.github.egonw.bacting', module='managers-cdk', version='1.0.10')
+@Grab(group='io.github.egonw.bacting', module='managers-cdk', version='1.0.11')
 
 workspaceRoot = "."
 def cdk = new net.bioclipse.managers.CDKManager(workspaceRoot);
@@ -117,7 +117,7 @@ The code example looks like:
 
 ```python
 from scyjava import config, jimport
-config.add_endpoints('io.github.egonw.bacting:managers-cdk:1.0.10')
+config.add_endpoints('io.github.egonw.bacting:managers-cdk:1.0.11')
 
 workspaceRoot = "."
 cdkClass = jimport("net.bioclipse.managers.CDKManager")
