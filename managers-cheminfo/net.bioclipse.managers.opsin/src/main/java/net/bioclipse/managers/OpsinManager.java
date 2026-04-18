@@ -49,7 +49,7 @@ public class OpsinManager implements IBactingManager {
 	 *
 	 * @param iupacName the IUPAC name
 	 * @return          the molecule as {@link ICDKMolecule}
-	 * @throws BioclipseException
+	 * @throws BioclipseException when the IUPAC name could not be parsed
 	 */
 	public ICDKMolecule parseIUPACName(String iupacName) 
 	                    throws BioclipseException {
@@ -61,7 +61,7 @@ public class OpsinManager implements IBactingManager {
 	 *
 	 * @param iupacName the IUPAC name
 	 * @return          the molecule as CML string
-	 * @throws BioclipseException
+	 * @throws BioclipseException when the IUPAC name could not be parsed
 	 */
 	public String parseIUPACNameAsCML(String iupacName) 
 	              throws BioclipseException {
@@ -94,7 +94,7 @@ public class OpsinManager implements IBactingManager {
 	 *
 	 * @param iupacName the IUPAC name
 	 * @return          the molecule as SMILES string
-	 * @throws BioclipseException
+	 * @throws BioclipseException when the IUPAC name could not be parsed
 	 */
     public String parseIUPACNameAsSMILES(String iupacName) 
                   throws BioclipseException {
@@ -113,7 +113,7 @@ public class OpsinManager implements IBactingManager {
 	 *
 	 * @param iupacName the IUPAC name
 	 * @return          a {@link List} of {@link ParseTokens}
-	 * @throws BioclipseException
+	 * @throws BioclipseException when the IUPAC name could not be parsed
 	 */
     public List<String> parseIUPACNameAsTokens(String iupacName)
     		throws BioclipseException {
