@@ -41,7 +41,7 @@
       <maven.compiler.version>3.15.0</maven.compiler.version>
       <maven.shade.version>3.6.2</maven.shade.version>
       <junit5.excludeGroups>pubchem,chemspider,mwmbl,qlever</junit5.excludeGroups>
-      <junit.version>5.13.3</junit.version>
+      <junit.version>6.1.0-M1</junit.version>
 
       <bioclipse.version>2.8.2.0</bioclipse.version>
 
@@ -57,10 +57,10 @@
       <commonslogging.version>1.3.6</commonslogging.version>
       <xerces.version>2.12.2</xerces.version>
       <json.version>20251224</json.version>
-      <slf4j.version>2.0.17</slf4j.version>
+      <slf4j.version>2.1.0-alpha1</slf4j.version>
       <log4j.version>2.25.4</log4j.version>
       <cmlxom.version>4.16</cmlxom.version>
-      <guava.version>33.5.0-jre</guava.version>
+      <guava.version>33.6.0-jre</guava.version>
       <opsin.version>2.9.0</opsin.version>
       <jnainchi.version>1.3.1</jnainchi.version>
       <woodstox.version>7.1.1</woodstox.version>
