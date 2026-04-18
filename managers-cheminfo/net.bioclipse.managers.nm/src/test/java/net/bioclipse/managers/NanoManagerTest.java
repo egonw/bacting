@@ -1,4 +1,4 @@
-/* Copyright (c) 2020-2022  Egon Willighagen <egon.willighagen@gmail.com>
+/* Copyright (c) 2020-2026  Egon Willighagen <egon.willighagen@gmail.com>
  *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
@@ -9,10 +9,10 @@
  */
 package net.bioclipse.managers;
 
-import static org.junit.Assert.assertNotSame;
-import static org.junit.Assert.assertNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNotSame;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -22,7 +22,6 @@ import java.util.List;
 import java.util.Set;
 
 import org.eclipse.core.resources.IResource;
-import org.junit.Assert;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
@@ -51,14 +50,14 @@ public class NanoManagerTest {
 	@Test
 	public void testNewMaterial() throws BioclipseException {
 		IMaterial material = nm.newMaterial();
-		Assert.assertNotNull(material);
+		assertNotNull(material);
 		assertNull(material.getType());
 	}
 
 	@Test
 	public void testNewMaterialWithType() throws BioclipseException {
 		IMaterial material = nm.newMaterial("metal oxide");
-		Assert.assertNotNull(material);
+		assertNotNull(material);
 		assertSame(MaterialType.METALOXIDE, material.getType());
 	}
 
@@ -83,14 +82,14 @@ public class NanoManagerTest {
 	@Test
 	public void testNewMaterialWithComposition() throws BioclipseException {
 		IMaterial material = nm.newMaterial("metal oxide", "TiO2");
-		Assert.assertNotNull(material);
+		assertNotNull(material);
 		assertSame(MaterialType.METALOXIDE, material.getType());
 	}
 	
 	@Test
 	public void testListMaterialTypes() throws Exception {
 		Set<String> types = nm.listMaterialTypes();
-		Assert.assertNotNull(types);
+		assertNotNull(types);
 		assertNotSame(0, types.size());
 	}
 
