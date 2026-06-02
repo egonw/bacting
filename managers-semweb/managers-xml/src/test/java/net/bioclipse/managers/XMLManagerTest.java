@@ -147,6 +147,15 @@ public class XMLManagerTest {
 	}
 
 	@Test
+	public void testReadString2() throws Exception {
+		bioclipse.downloadAsFile(
+			"https://raw.githubusercontent.com/hechth/bgruening-galaxytools/af4af8ee47fcc26703aa1dcae04fa30fa051a458/chemicaltoolbox/opsin/test-data/opsin_results.cml",
+			"/XMLTests/opsin_results.cml"
+		);
+		xml.isValid("/XMLTests/opsin_results.cml");
+	}
+
+	@Test
 	public void testIsNotWellFormed() throws Exception {
 		boolean isWellFormed = xml.isWellFormed("/XMLTests/notWellFormed.xml");
 		assertFalse(isWellFormed);
