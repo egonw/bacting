@@ -48,7 +48,7 @@
       <cdk.version>2.12</cdk.version>
       <xom.version>1.4.5</xom.version>
       <biojava.version>1.9.7</biojava.version>
-      <jena.version>6.0.0</jena.version>
+      <jena.version>6.1.0</jena.version>
       <bridgedb.version>3.1.4</bridgedb.version>
       <derby.version>10.15.2.0</derby.version>
       <httpclient.version>5.6.1</httpclient.version>
