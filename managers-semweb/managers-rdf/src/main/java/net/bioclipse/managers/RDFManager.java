@@ -108,6 +108,15 @@ public class RDFManager {
     }
 
     /**
+     * Creates a triple store that is fully stored on disk.
+     *
+     * @return a triple store as {@link IRDFStore} object
+     */
+    public IRDFStore createStore() {
+    	return new TDBModel();
+    }
+
+    /**
      * Creates an ontology triple store that is fully stored in memory.
      *
      * @return a triple store as {@link IRDFStore} object
