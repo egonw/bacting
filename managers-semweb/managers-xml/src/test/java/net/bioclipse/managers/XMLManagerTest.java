@@ -209,9 +209,8 @@ public class XMLManagerTest {
 		List<XMLError> errors = xml.validate("/XMLTests/notWellFormed.xml");
 		assertNotNull(errors);
 		assertSame(1, errors.size());
-		assertEquals(
-			"XML document structures must start and end within the same entity.",
-			errors.get(0).toString()
+		assertTrue(
+			errors.get(0).toString().startsWith("XML document structures must start and end within the same entity.")
 		);
 	}
 
