@@ -52,7 +52,7 @@
       <bridgedb.version>3.1.6</bridgedb.version>
       <derby.version>10.15.2.0</derby.version>
       <httpclient.version>5.6.2</httpclient.version>
-      <jqudt.version>1.5.2</jqudt.version>
+      <jqudt.version>1.5.3</jqudt.version>
       <commonsio.version>2.22.0</commonsio.version>
       <commonslogging.version>1.4.0</commonslogging.version>
       <xerces.version>2.12.2</xerces.version>
