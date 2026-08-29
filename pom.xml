@@ -45,7 +45,7 @@
 
       <bioclipse.version>2.8.2.1</bioclipse.version>
 
-      <cdk.version>2.12</cdk.version>
+      <cdk.version>2.13</cdk.version>
       <xom.version>1.4.6</xom.version>
       <biojava.version>1.9.7</biojava.version>
       <jena.version>6.1.0</jena.version>
