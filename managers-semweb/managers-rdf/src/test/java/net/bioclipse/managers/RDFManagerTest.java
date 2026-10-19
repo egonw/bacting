@@ -287,6 +287,26 @@ public class RDFManagerTest {
 	}
 
 	@Test
+	public void testRemoveResource() throws Exception {
+		IRDFStore store = rdf.createInMemoryStore(true);
+		assertNotNull(store);
+		rdf.addDataProperty(store,
+			"https://example.org/subject",
+			"https://example.org/predicate",
+			"Object"
+		);
+		rdf.addObjectProperty(store,
+				"https://example.org/subject2",
+				"https://example.org/predicate2",
+				"https://example.org/subject"
+			);
+		long sizeBefore = rdf.size(store);
+		rdf.removeResource(store, "https://example.org/subject");
+		long sizeAfter = rdf.size(store);
+		assertEquals(2, sizeBefore-sizeAfter, "Exactly two triples should be removed");
+	}
+
+	@Test
 	public void testAddTypedDataProperty() throws Exception {
 		IRDFStore store = rdf.createInMemoryStore(true);
 		assertNotNull(store);

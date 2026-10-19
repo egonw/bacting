@@ -40,6 +40,7 @@ import org.apache.jena.query.ResultSet;
 import org.apache.jena.query.ResultSetFactory;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.Property;
+import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.riot.Lang;
 import org.apache.jena.riot.RDFDataMgr;
@@ -322,6 +323,23 @@ public class RDFManager {
         Resource subjectRes = model.createResource(subject);
         Property propertyRes = model.createProperty(property);
         model.add(subjectRes, propertyRes, value);
+    }
+
+    /**
+     * Removes all triples where the given resource is the subject or object.
+     *
+     * @param store    the {@link IRDFStore} store where the triple is added
+     * @param resource the {@link Resource} to remove 
+     * @throws BioclipseException
+     */
+    public void removeResource(IRDFStore store, String resource) throws BioclipseException {
+    	if (!(store instanceof IJenaStore))
+            throw new RuntimeException(
+                "Can only handle IJenaStore's for now."
+            );
+        Model model = ((IJenaStore)store).getModel();
+        model.remove(model.listStatements(model.createResource(resource), (Property)null, (RDFNode)null));
+        model.remove(model.listStatements((Resource)null, (Property)null, model.createResource(resource)));
     }
 
     /**
