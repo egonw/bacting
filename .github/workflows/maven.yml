@@ -40,7 +40,7 @@ jobs:
         distribution: temurin
         java-version: 21
     - name: Build with Maven
-      run: mvn clean install -Dgpg.skip -Dmaven.javadoc.skip=true -Dmaven.test.failure.ignore=true -Djunit5.excludeGroups=
+      run: mvn clean install -Dgpg.skip -Dmaven.javadoc.skip=true -Dmaven.test.failure.ignore=true
     - name: Publish Test Report
       id: report
       uses: mikepenz/action-junit-report@v6
