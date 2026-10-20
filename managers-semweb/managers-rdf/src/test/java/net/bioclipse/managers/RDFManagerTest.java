@@ -304,6 +304,12 @@ public class RDFManagerTest {
 		rdf.removeResource(store, "https://example.org/subject");
 		long sizeAfter = rdf.size(store);
 		assertEquals(2, sizeBefore-sizeAfter, "Exactly two triples should be removed");
+
+		Assertions.assertThrows(Exception.class, () -> {
+			rdf.removeResource(new Store(),
+				"https://example.org/subject"
+			);
+		});
 	}
 
 	@Test
